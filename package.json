@@ -1,0 +1,39 @@
+{
+  "name": "@blue0206/members-only-shared-types",
+  "version": "1.0.0",
+  "description": "Shared TypeScript types and schemas for Members Only project.",
+  "keywords": [
+    "typescript",
+    "shared",
+    "zod",
+    "dto",
+    "members-only"
+  ],
+  "homepage": "https://github.com/blue0206/members-only-shared-types#readme",
+  "bugs": {
+    "url": "https://github.com/blue0206/members-only-shared-types/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blue0206/members-only-shared-types.git"
+  },
+  "license": "ISC",
+  "author": "Aayush Rai",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3",
+    "zod": "^3.24.2"
+  }
+}
