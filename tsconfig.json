@@ -1,0 +1,35 @@
+{
+    "compilerOptions": {
+        // Essential library build options.
+        "declaration": true,
+        "declarationMap": true,
+        "sourceMap": true,
+        "outDir": "./dist",
+        "rootDir": "./src",
+        // Module system and target.
+        "module": "NodeNext",
+        "target": "ES2022",
+        "lib": ["ES2022"],
+        // Strictness
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "forceConsistentCasingInFileNames": true,
+        // Interoperability
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        // Module Resolution
+        "moduleResolution": "nodenext",
+        // JSON Modules
+        "resolveJsonModule": true,
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}
