@@ -59,5 +59,13 @@ export const LoginResponseSchema = z
 // DTO
 export type LoginResponseDto = z.infer<typeof LoginResponseSchema>;
 
+// No need for Logout Request/Response schema and Refresh Response schema as
+// they only require headers, specifically, the cookie header carrying refreshToken.
+
 // REFRESH RESPONSE
-export const RefreshResponseSchema = z.object({});
+// Schema
+export const RefreshResponseSchema = z.object({
+  accessToken: z.string(),
+});
+// DTO
+export type RefreshResponseDto = z.infer<typeof RefreshResponseSchema>;
