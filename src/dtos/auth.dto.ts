@@ -52,3 +52,18 @@ export const LoginRequestSchema = z.object({
 });
 // DTO
 export type LoginRequestDto = z.infer<typeof LoginRequestSchema>;
+
+// LOGIN RESPONSE
+// Schema
+export const LoginResponseSchema = z.object({
+  id: z.number(),
+  username: z.string(),
+  firstname: z.string(),
+  middlename: z.string().optional(),
+  lastname: z.string().optional(),
+  avatar: z.string().url().optional(),
+  refreshToken: z.string(),
+  accessToken: z.string(),
+});
+// DTO
+export type LoginResponseDto = z.infer<typeof LoginResponseSchema>;
