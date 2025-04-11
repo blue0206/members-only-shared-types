@@ -1,4 +1,10 @@
 // Export all auth zod-schemas
-export { RegisterRequestSchema } from "./dtos/auth.dto.js";
+export {
+  RegisterRequestSchema,
+  RegisterResponseSchema,
+} from "./dtos/auth.dto.js";
 // Export all auth DTOs
-export type { RegisterRequestDTO } from "./dtos/auth.dto.js";
+export type {
+  RegisterRequestDTO,
+  RegisterResponseDTO,
+} from "./dtos/auth.dto.js";

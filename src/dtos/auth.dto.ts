@@ -1,6 +1,7 @@
 import { z } from "zod";
 
-// Registration Request Schema
+// REGISTER REQUEST
+// Schema
 export const RegisterRequestSchema = z.object({
   username: z.string().regex(/^[a-zA-Z0-9_]+$/),
   firstname: z.string().regex(/^[a-zA-Z]+$/),
@@ -20,5 +21,20 @@ export const RegisterRequestSchema = z.object({
     ),
   avatar: z.string().url().optional(),
 });
-// Registration Request DTO
+// DTO
 export type RegisterRequestDTO = z.infer<typeof RegisterRequestSchema>;
+
+// REGISTER RESPONSE
+// Schema
+export const RegisterResponseSchema = z.object({
+  id: z.number(),
+  username: z.string(),
+  firstname: z.string(),
+  middlename: z.string().optional(),
+  lastname: z.string().optional(),
+  avatar: z.string().url().optional(),
+  refreshToken: z.string(),
+  accessToken: z.string(),
+});
+// DTO
+export type RegisterResponseDTO = z.infer<typeof RegisterResponseSchema>;
