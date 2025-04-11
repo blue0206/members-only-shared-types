@@ -12,3 +12,5 @@ export type {
   LoginRequestDto,
   LoginResponseDto,
 } from "./dtos/auth.dto.js";
+// Export enums
+export { Role } from "./enums/roles.enum.js";
