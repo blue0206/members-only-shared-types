@@ -6,9 +6,9 @@ export const UserSchema = z.object({
   id: z.number(),
   username: z.string(),
   firstname: z.string(),
-  middlename: z.string().optional(),
-  lastname: z.string().optional(),
-  avatar: z.string().url().optional(),
+  middlename: z.string().nullish(),
+  lastname: z.string().nullish(),
+  avatar: z.string().url().nullish(),
   role: z.nativeEnum(Role),
 });
 // User DTO
