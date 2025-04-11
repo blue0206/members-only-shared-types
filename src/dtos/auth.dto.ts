@@ -29,7 +29,6 @@ export type RegisterRequestDto = z.infer<typeof RegisterRequestSchema>;
 // Schema
 export const RegisterResponseSchema = z
   .object({
-    refreshToken: z.string(),
     accessToken: z.string(),
   })
   .merge(UserSchema);
@@ -54,9 +53,11 @@ export type LoginRequestDto = z.infer<typeof LoginRequestSchema>;
 // Schema
 export const LoginResponseSchema = z
   .object({
-    refreshToken: z.string(),
     accessToken: z.string(),
   })
   .merge(UserSchema);
 // DTO
 export type LoginResponseDto = z.infer<typeof LoginResponseSchema>;
+
+// REFRESH RESPONSE
+export const RefreshResponseSchema = z.object({});
