@@ -22,7 +22,7 @@ export const RegisterRequestSchema = z.object({
   avatar: z.string().url().optional(),
 });
 // DTO
-export type RegisterRequestDTO = z.infer<typeof RegisterRequestSchema>;
+export type RegisterRequestDto = z.infer<typeof RegisterRequestSchema>;
 
 // REGISTER RESPONSE
 // Schema
@@ -37,4 +37,18 @@ export const RegisterResponseSchema = z.object({
   accessToken: z.string(),
 });
 // DTO
-export type RegisterResponseDTO = z.infer<typeof RegisterResponseSchema>;
+export type RegisterResponseDto = z.infer<typeof RegisterResponseSchema>;
+
+// LOGIN REQUEST
+// Schema
+export const LoginRequestSchema = z.object({
+  username: z.string().regex(/^[a-zA-Z0-9_]+$/),
+  password: z
+    .string()
+    .min(8)
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+    ),
+});
+// DTO
+export type LoginRequestDto = z.infer<typeof LoginRequestSchema>;

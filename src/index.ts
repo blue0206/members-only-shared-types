@@ -2,9 +2,11 @@
 export {
   RegisterRequestSchema,
   RegisterResponseSchema,
+  LoginRequestSchema,
 } from "./dtos/auth.dto.js";
 // Export all auth DTOs
 export type {
-  RegisterRequestDTO,
-  RegisterResponseDTO,
+  RegisterRequestDto,
+  RegisterResponseDto,
+  LoginRequestDto,
 } from "./dtos/auth.dto.js";
