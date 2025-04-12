@@ -23,7 +23,7 @@ export { UserSchema } from "./dtos/user.dto.js";
 export type { UserDto } from "./dtos/user.dto.js";
 
 // Export API Error and Response interfaces.
-export type { ApiErrorPayload } from "./api/base.js";
+export type { ApiErrorPayload, ApiResponseError } from "./api/base.js";
 
 // Export error codes and type.
 export { ErrorCodes } from "./api/error-codes.js";
