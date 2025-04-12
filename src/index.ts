@@ -27,6 +27,7 @@ export type {
   ApiErrorPayload,
   ApiResponseError,
   ApiResponseSuccess,
+  ApiResponse,
 } from "./api/base.js";
 
 // Export error codes and type.

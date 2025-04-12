@@ -22,3 +22,8 @@ export interface ApiResponseSuccess<DataType> {
   data: DataType;
   requestId: string;
 }
+
+// Type for Api Response.
+export type ApiResponse<DataType> =
+  | ApiResponseError
+  | ApiResponseSuccess<DataType>;
