@@ -14,3 +14,11 @@ export interface ApiResponseError {
   error: ApiErrorPayload;
   requestId: string;
 }
+
+// Interface for successful Api Response.
+export interface ApiResponseSuccess<DataType> {
+  success: true;
+  statusCode: number;
+  data: DataType;
+  requestId: string;
+}
