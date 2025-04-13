@@ -1,6 +1,6 @@
 {
   "name": "@blue0206/members-only-shared-types",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Shared TypeScript types and schemas for Members Only project.",
   "keywords": [
     "typescript",
