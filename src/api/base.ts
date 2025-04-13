@@ -12,7 +12,7 @@ export interface ApiErrorPayload {
 export interface ApiResponseError {
   success: false;
   error: ApiErrorPayload;
-  requestId: string;
+  requestId?: string;
 }
 
 // Interface for successful Api Response.
