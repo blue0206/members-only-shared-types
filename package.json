@@ -1,49 +1,49 @@
 {
-  "name": "@blue0206/members-only-shared-types",
-  "version": "0.5.1",
-  "description": "Shared TypeScript types and schemas for Members Only project.",
-  "keywords": [
-    "typescript",
-    "shared",
-    "zod",
-    "dto",
-    "members-only"
-  ],
-  "homepage": "https://github.com/blue0206/members-only-shared-types#readme",
-  "bugs": {
-    "url": "https://github.com/blue0206/members-only-shared-types/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/blue0206/members-only-shared-types.git"
-  },
-  "license": "ISC",
-  "author": "Aayush Rai",
-  "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "tsc",
-    "prepublishOnly": "npm run build",
-    "lint": "eslint . --ext .ts",
-    "lint:fix": "eslint . --ext .ts --fix"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.24.0",
-    "eslint": "^9.24.0",
-    "eslint-config-prettier": "^10.1.2",
-    "eslint-plugin-prettier": "^5.2.6",
-    "prettier": "3.5.3",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.29.1"
-  },
-  "dependencies": {
-    "zod": "^3.24.2"
-  }
+    "name": "@blue0206/members-only-shared-types",
+    "version": "0.6.0",
+    "description": "Shared TypeScript types and schemas for Members Only project.",
+    "keywords": [
+        "typescript",
+        "shared",
+        "zod",
+        "dto",
+        "members-only"
+    ],
+    "homepage": "https://github.com/blue0206/members-only-shared-types#readme",
+    "bugs": {
+        "url": "https://github.com/blue0206/members-only-shared-types/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/blue0206/members-only-shared-types.git"
+    },
+    "license": "ISC",
+    "author": "Aayush Rai",
+    "type": "module",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "tsc",
+        "prepublishOnly": "npm run build",
+        "lint": "eslint . --ext .ts",
+        "lint:fix": "eslint . --ext .ts --fix"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.24.0",
+        "eslint": "^9.24.0",
+        "eslint-config-prettier": "^10.1.2",
+        "eslint-plugin-prettier": "^5.2.6",
+        "prettier": "3.5.3",
+        "typescript": "^5.8.3",
+        "typescript-eslint": "^8.29.1"
+    },
+    "dependencies": {
+        "zod": "^3.24.2"
+    }
 }
