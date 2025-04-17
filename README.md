@@ -46,6 +46,7 @@ By using this shared package, we ensure that changes to API data structures are 
       - [Refresh User's Tokens](#refresh-users-tokens)
     - [Errors](#errors)
       - [Prisma and Database Errors](#prisma-and-database-errors)
+      - [JWT Verification Errors](#jwt-verification-errors)
 
 ---
 
@@ -204,5 +205,18 @@ By using this shared package, we ensure that changes to API data structures are 
   | 503 | `DATABASE_CONNECTION_ERROR` | "Database connection error." | `{ /* Prisma error details */ }` | This is a generic error for all instances of `PrismaClientInitializationError`. |
   
   These errors are handled using an error-handling wrapper around database calls. See [prismaErrorHandler](https://github.com/blue0206/members-only-backend/blob/main/src/core/utils/prismaErrorHandler.ts) for implementation.
+
+---
+
+#### JWT Verification Errors
+
+  | Status Code | Error Code | Message | Details | Remarks |
+  |-------------|------------|---------|---------|---------|
+  | 401 | `EXPIRED_TOKEN` | "The token has expired." | - | - |
+  | 401 | `INVALID_TOKEN` | "Token verification failed." | - | - |
+  | 401 | `INVALID_TOKEN` | "Failed to authenticate token." | - | This is a generic error thrown when an error not an instance of `JsonWebTokenError` occurs during token verification. |
+  | 500 | `INTERNAL_SERVER_ERROR` | "Internal server error processing token." | - | This is a generic error thrown when the verified and decoded token fails parsing against Zod schema. |
+
+  These errors are handled using an error-handling wrapper around JWT verification calls. See [jwtErrorHandler](https://github.com/blue0206/members-only-backend/blob/main/src/core/utils/jwtErrorHandler.ts) for implementation.
 
 ---
