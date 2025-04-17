@@ -5,6 +5,24 @@
 
 Shared TypeScript types, Zod schemas, and API definitions for the "Members Only" project. This package ensures type safety and a consistent API contract between the frontend and backend repositories.
 
+## Table of Contents
+- [@blue0206/members-only-shared-types](#blue0206members-only-shared-types)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Purpose \& Usage](#purpose--usage)
+  - [Core Contents](#core-contents)
+  - [API Documentation](#api-documentation)
+    - [Authentication (`/api/v1/auth`)](#authentication-apiv1auth)
+      - [Register User](#register-user)
+      - [Login User](#login-user)
+      - [Logout User](#logout-user)
+      - [Refresh User's Tokens](#refresh-users-tokens)
+    - [Errors](#errors)
+      - [Prisma and Database Errors](#prisma-and-database-errors)
+      - [JWT Verification Errors](#jwt-verification-errors)
+      - [CSRF Verification Errors](#csrf-verification-errors)
+
+
 ## Installation
 
 ```bash
@@ -32,23 +50,6 @@ By using this shared package, we ensure that changes to API data structures are 
 
 ## API Documentation
 
-### Table of Contents
-- [@blue0206/members-only-shared-types](#blue0206members-only-shared-types)
-  - [Installation](#installation)
-  - [Purpose \& Usage](#purpose--usage)
-  - [Core Contents](#core-contents)
-  - [API Documentation](#api-documentation)
-    - [Table of Contents](#table-of-contents)
-    - [Authentication (`/api/v1/auth`)](#authentication-apiv1auth)
-      - [Register User](#register-user)
-      - [Login User](#login-user)
-      - [Logout User](#logout-user)
-      - [Refresh User's Tokens](#refresh-users-tokens)
-    - [Errors](#errors)
-      - [Prisma and Database Errors](#prisma-and-database-errors)
-      - [JWT Verification Errors](#jwt-verification-errors)
-      - [CSRF Verification Errors](#csrf-verification-errors)
-
 ---
 
 ### Authentication (`/api/v1/auth`)
@@ -75,13 +76,13 @@ By using this shared package, we ensure that changes to API data structures are 
         ```jsonc
         // Example Success Response Body
         {
-          "success": "true",
+          "success": true,
           "data": { // Matches RegisterResponseDto / LoginResponseDto
             "user": { // Matches UserDto
               "id": 5,
               "firstname": "Blue",
               "username": "blue0206",
-              "avatar": "null",
+              "avatar": null,
               "role": "USER"
             },
             "accessToken": "eyignavtfkscfky..." // JWT Access Token
@@ -137,7 +138,7 @@ By using this shared package, we ensure that changes to API data structures are 
 *   **Endpoint:** `DELETE /api/v1/auth/logout`
 *   **Description:** Invalidates the current session's refresh token on the server.
 *   **Request Cookies:** Requires a valid `refreshToken` HttpOnly cookie to be sent by the browser, and a `csrf-token` cookie for passing CSRF verification checks.
-*   **Request Headers**: Requires a valid `access token` in `Authorization` header prefix by "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
+*   **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
 *   **Request Body:** None.
 *   **Success Response:** `204 No Content`
     *   **Headers:** `Set-Cookie` headers to *clear* the `refreshToken` and `csrf-token` cookies.
