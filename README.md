@@ -47,6 +47,7 @@ By using this shared package, we ensure that changes to API data structures are 
     - [Errors](#errors)
       - [Prisma and Database Errors](#prisma-and-database-errors)
       - [JWT Verification Errors](#jwt-verification-errors)
+      - [CSRF Verification Errors](#csrf-verification-errors)
 
 ---
 
@@ -218,5 +219,15 @@ By using this shared package, we ensure that changes to API data structures are 
   | 500 | `INTERNAL_SERVER_ERROR` | "Internal server error processing token." | - | This is a generic error thrown when the verified and decoded token fails parsing against Zod schema. |
 
   These errors are handled using an error-handling wrapper around JWT verification calls. See [jwtErrorHandler](https://github.com/blue0206/members-only-backend/blob/main/src/core/utils/jwtErrorHandler.ts) for implementation.
+
+---
+
+#### CSRF Verification Errors
+
+  | Status Code | Error Code | Message | Description |
+  |-------------|------------|---------|-------------|
+  | 403 | `MISSING_CSRF_HEADER` | "CSRF token missing." | This error is thrown when CSRF token is not passed via `x-csrf-token` header. |
+  | 403 | `MISSING_CSRF_COOKIE` | "CSRF token missing." | This error is thrown when CSRF token is not passed via `csrf-token` cookie. |
+  | 403 | `CSRF_TOKEN_MISMATCH` | "CSRF token mismatch." | This error is thrown when the CSRF token passed via `x-csrf-token` header does not match the one in `csrf-token` cookie. |
 
 ---
