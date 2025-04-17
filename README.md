@@ -5,6 +5,24 @@
 
 Shared TypeScript types, Zod schemas, and API definitions for the "Members Only" project. This package ensures type safety and a consistent API contract between the frontend and backend repositories.
 
+## Table of Contents
+- [@blue0206/members-only-shared-types](#blue0206members-only-shared-types)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Purpose \& Usage](#purpose--usage)
+  - [Core Contents](#core-contents)
+  - [API Documentation](#api-documentation)
+    - [Authentication (`/api/v1/auth`)](#authentication-apiv1auth)
+      - [Register User](#register-user)
+      - [Login User](#login-user)
+      - [Logout User](#logout-user)
+      - [Refresh User's Tokens](#refresh-users-tokens)
+    - [Errors](#errors)
+      - [Prisma and Database Errors](#prisma-and-database-errors)
+      - [JWT Verification Errors](#jwt-verification-errors)
+      - [CSRF Verification Errors](#csrf-verification-errors)
+
+
 ## Installation
 
 ```bash
@@ -31,23 +49,6 @@ By using this shared package, we ensure that changes to API data structures are 
 *   `index.ts`: Re-exports all public schemas, types, interfaces, enums, and constants.
 
 ## API Documentation
-
-### Table of Contents
-- [@blue0206/members-only-shared-types](#blue0206members-only-shared-types)
-  - [Installation](#installation)
-  - [Purpose \& Usage](#purpose--usage)
-  - [Core Contents](#core-contents)
-  - [API Documentation](#api-documentation)
-    - [Table of Contents](#table-of-contents)
-    - [Authentication (`/api/v1/auth`)](#authentication-apiv1auth)
-      - [Register User](#register-user)
-      - [Login User](#login-user)
-      - [Logout User](#logout-user)
-      - [Refresh User's Tokens](#refresh-users-tokens)
-    - [Errors](#errors)
-      - [Prisma and Database Errors](#prisma-and-database-errors)
-      - [JWT Verification Errors](#jwt-verification-errors)
-      - [CSRF Verification Errors](#csrf-verification-errors)
 
 ---
 
