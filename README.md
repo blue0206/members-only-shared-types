@@ -44,6 +44,8 @@ By using this shared package, we ensure that changes to API data structures are 
       - [Login User](#login-user)
       - [Logout User](#logout-user)
       - [Refresh User's Tokens](#refresh-users-tokens)
+    - [Errors](#errors)
+      - [Prisma and Database Errors](#prisma-and-database-errors)
 
 ---
 
@@ -178,5 +180,29 @@ By using this shared package, we ensure that changes to API data structures are 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
     - See [CSRF Verification Errors](#csrf-verification-errors) for error response on failed CSRF token verification.
+
+---
+
+### Errors
+
+#### Prisma and Database Errors
+
+  | Status Code | Error Code | Message | Details | Remarks |
+  | ----------- | ---------- | ------- | ------- | ------- |
+  | 400 | `VALUE_TOO_LONG` | "Value too long for the field(s): {field name}" | - | - |
+  | 400 | `INVALID_VALUE` | "Invalid value provided for the field: {field name}." | - | - |
+  | 400 | `FOREIGN_KEY_VIOLATION` | "Foreign key constraint failed on the field: {field name}" | - | - |
+  | 400 | `REQUIRED_CONSTRAINT_VIOLATION` | "Missing required argument." | - | - |
+  | 400 | `REQUIRED_CONSTRAINT_VIOLATION` | "Required relation violation." | - | - |
+  | 400 | `RANGE_ERROR` | "Value out of range." | - | - |
+  | 400 | `DATABASE_VALIDATION_ERROR` | "Database validation failed. Invalid data provided to query." | `{ /* Prisma error details */ }` | This is a generic error for all instances of `PrismaClientValidationError`. |
+  | 404 | `NOT_FOUND` | "The record does not exist." | - | - |
+  | 409 | `UNIQUE_CONSTRAINT_VIOLATION` | "Value already exists for unique field: {field name}." | - | - |
+  | 500 | `DATABASE_ERROR` | "Database request failed (Code: {prisma error code})." | `{ /* Prisma error details */ }` | This is a generic error for the remaining instances of `PrismaClientKnownRequestError` not handled by switch-statement. |
+  | 500 | `DATABASE_ERROR` | "Unknown database error occurred." | `{ /* Prisma error details */ }` | This is a generic error for all instances of `PrismaClientUnknownRequestError`. |
+  | 500 | `INTERNAL_SERVER_ERROR` | "Internal database engine error." | `{ /* Prisma error details */ }` | This is a generic error for all instances of `PrismaClientRustPanicError`. |
+  | 503 | `DATABASE_CONNECTION_ERROR` | "Database connection error." | `{ /* Prisma error details */ }` | This is a generic error for all instances of `PrismaClientInitializationError`. |
+  
+  These errors are handled using an error-handling wrapper around database calls. See [prismaErrorHandler](https://github.com/blue0206/members-only-backend/blob/main/src/core/utils/prismaErrorHandler.ts) for implementation.
 
 ---
