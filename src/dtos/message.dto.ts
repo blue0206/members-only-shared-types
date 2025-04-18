@@ -50,3 +50,11 @@ export const EditMessageRequestSchema = z.object({
 });
 // Request DTO
 export type EditMessageRequestDto = z.infer<typeof EditMessageRequestSchema>;
+
+// DELETE MESSAGE
+// Request Schema
+export const DeleteMessageRequestSchema = z.object({
+    messageId: z.number(),
+});
+// Request DTO
+export type DeleteMessageRequestDto = z.infer<typeof DeleteMessageRequestSchema>;
