@@ -81,3 +81,10 @@ export const RoleUpdateRequestParamsSchema = z.object({
 export type RoleUpdateRequestParamsDto = z.infer<
     typeof RoleUpdateRequestParamsSchema
 >;
+// Response Schema
+export const RoleUpdateResponseSchema = UserSchema.pick({
+    id: true,
+    role: true,
+});
+// Response DTO
+export type RoleUpdateResponseDto = z.infer<typeof RoleUpdateResponseSchema>;
