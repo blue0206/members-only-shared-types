@@ -58,3 +58,12 @@ export const DeleteUserRequestParamsSchema = z.object({
 export type DeleteUserRequestParamsDto = z.infer<
     typeof DeleteUserRequestParamsSchema
 >;
+
+// RESET PASSWORD
+// Request Schema
+export const ResetPasswordRequestSchema = z.object({
+    oldPassword: RegisterRequestSchema.shape.password,
+    newPassword: RegisterRequestSchema.shape.password,
+});
+// Request DTO
+export type ResetPasswordRequestDto = z.infer<typeof ResetPasswordRequestSchema>;
