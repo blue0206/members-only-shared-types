@@ -57,6 +57,10 @@ export const EditMessageRequestSchema = z.object({
 });
 // Request DTO
 export type EditMessageRequestDto = z.infer<typeof EditMessageRequestSchema>;
+// Response Schema (Only members and admin can edit their messages.)
+export const EditMessageResponseSchema = GetMessagesResponseSchema;
+// Response DTO
+export type EditMessageResponseDto = z.infer<typeof EditMessageResponseSchema>;
 
 // DELETE MESSAGE
 // Request Schema
