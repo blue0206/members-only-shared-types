@@ -20,6 +20,7 @@ Shared TypeScript types, Zod schemas, and API definitions for the "Members Only"
     - [Users (`/api/v1/users`)](#users-apiv1users)
       - [Get Messages](#get-messages)
       - [Edit User (Update Profile Details)](#edit-user-update-profile-details)
+      - [Delete User](#delete-user)
     - [Errors](#errors)
       - [Prisma and Database Errors](#prisma-and-database-errors)
       - [JWT Verification Errors](#jwt-verification-errors)
@@ -269,6 +270,27 @@ By using this shared package, we ensure that changes to API data structures are 
 
     | Status Code | Error Code | Message | Details | Description |
     |-------------|------------|---------|---------|-------------|
+    
+
+---
+
+#### Delete User
+
+*   **Endpoint:** `DELETE /api/v1/users/:username`
+*   **Description:** Delete a user's account. Note that users can only delete their own account unless they are "Admin".
+*   **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
+*   **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
+*   **Request Body:** None.
+*   **Request Parameters:**
+    *   `username` - The username of the user to delete.
+    *   **Schema:** See [`DeleteUserRequestParamsSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/user.dto.ts)
+*   **Success Response:** `204 No Content`
+    *   **Headers:** None.
+    *   **Body:** None.
+*   **Error Responses:** (Matches `ApiResponseError`)
+
+    | Status Code | Error Code | Message | Details | Description |
+    | ----------- | ---------- | ------- | ------- | ----------- |
     
 
 ---
