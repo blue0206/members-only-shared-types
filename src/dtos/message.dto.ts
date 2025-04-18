@@ -38,3 +38,15 @@ export const CreateMessageRequestSchema = z.object({
 });
 // Request DTO
 export type CreateMessageRequestDto = z.infer<typeof CreateMessageRequestSchema>;
+
+// EDIT MESSAGE
+// Request Schema
+export const EditMessageRequestSchema = z.object({
+    messageId: z.number(),
+    newMessage: z
+        .string()
+        .min(1, { message: 'The message cannot be empty.' })
+        .max(1100, { message: 'The message is too long.' }),
+});
+// Request DTO
+export type EditMessageRequestDto = z.infer<typeof EditMessageRequestSchema>;
