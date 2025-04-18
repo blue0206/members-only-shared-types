@@ -24,6 +24,7 @@ export {
     RoleUpdateRequestParamsSchema,
     GetUserMessagesResponseSchema,
     ResetPasswordRequestSchema,
+    RoleUpdateResponseSchema,
 } from './dtos/user.dto.js';
 // Export all user DTOs
 export type {
@@ -34,6 +35,7 @@ export type {
     RoleUpdateRequestParamsDto,
     GetUserMessagesResponseDto,
     ResetPasswordRequestDto,
+    RoleUpdateResponseDto,
 } from './dtos/user.dto.js';
 
 // Export all message zod-schemas.
