@@ -49,14 +49,19 @@ export type CreateMessageResponseDto = z.infer<typeof CreateMessageResponseSchem
 // EDIT MESSAGE
 // Request Schema
 export const EditMessageRequestSchema = z.object({
-    messageId: z.number(),
     newMessage: z
         .string()
         .min(1, { message: 'The message cannot be empty.' })
         .max(1100, { message: 'The message is too long.' }),
 });
+export const EditMessageRequestParamsSchema = z.object({
+    messageId: z.number(),
+});
 // Request DTO
 export type EditMessageRequestDto = z.infer<typeof EditMessageRequestSchema>;
+export type EditMessageRequestParamsDto = z.infer<
+    typeof EditMessageRequestParamsSchema
+>;
 // Response Schema (Only members and admin can edit their messages.)
 export const EditMessageResponseSchema = GetMessagesResponseSchema;
 // Response DTO
