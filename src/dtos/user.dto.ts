@@ -48,6 +48,10 @@ export const EditUserRequestSchema = z
     );
 // Request DTO
 export type EditUserRequestDto = z.infer<typeof EditUserRequestSchema>;
+// Response Schema
+export const EditUserResponseSchema = UserSchema;
+// Response DTO
+export type EditUserResponseDto = z.infer<typeof EditUserResponseSchema>;
 
 // DELETE USER
 // Request Schema
