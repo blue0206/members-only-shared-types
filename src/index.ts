@@ -41,17 +41,21 @@ export type {
 // Export all message zod-schemas.
 export {
     CreateMessageRequestSchema,
+    CreateMessageResponseSchema,
     GetMessagesWithoutAuthorResponseSchema,
     GetMessagesResponseSchema,
     EditMessageRequestSchema,
+    EditMessageResponseSchema,
     DeleteMessageRequestSchema,
 } from './dtos/message.dto.js';
 // Export all message DTOs.
 export type {
     CreateMessageRequestDto,
+    CreateMessageResponseDto,
     GetMessagesWithoutAuthorResponseDto,
     GetMessagesResponseDto,
     EditMessageRequestDto,
+    EditMessageResponseDto,
     DeleteMessageRequestDto,
 } from './dtos/message.dto.js';
 
