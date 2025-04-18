@@ -16,9 +16,25 @@ export type {
 } from './dtos/auth.dto.js';
 
 // Export all user zod-schemas.
-export { UserSchema } from './dtos/user.dto.js';
+export {
+    UserSchema,
+    EditUserRequestSchema,
+    EditUserResponseSchema,
+    DeleteUserRequestParamsSchema,
+    RoleUpdateRequestParamsSchema,
+    GetUserMessagesResponseSchema,
+    ResetPasswordRequestSchema,
+} from './dtos/user.dto.js';
 // Export all user DTOs
-export type { UserDto } from './dtos/user.dto.js';
+export type {
+    UserDto,
+    EditUserRequestDto,
+    EditUserResponseDto,
+    DeleteUserRequestParamsDto,
+    RoleUpdateRequestParamsDto,
+    GetUserMessagesResponseDto,
+    ResetPasswordRequestDto,
+} from './dtos/user.dto.js';
 
 // Export all message zod-schemas.
 export {
