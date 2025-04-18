@@ -46,30 +46,15 @@ export type RegisterResponseDto = z.infer<typeof RegisterResponseSchema>;
 // LOGIN REQUEST
 // Schema
 export const LoginRequestSchema = z.object({
-    username: z.string().regex(/^[a-zA-Z0-9_]+$/, {
-        message: 'The username can only have letters, numbers, and underscores.',
-    }),
-    password: z
-        .string()
-        .min(8)
-        .regex(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-            {
-                message:
-                    'The password must contain at least 8 characters with at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character',
-            }
-        ),
+    username: RegisterRequestSchema.shape.username,
+    password: RegisterRequestSchema.shape.password,
 });
 // DTO
 export type LoginRequestDto = z.infer<typeof LoginRequestSchema>;
 
 // LOGIN RESPONSE
 // Schema
-export const LoginResponseSchema = z
-    .object({
-        accessToken: z.string(),
-    })
-    .merge(UserSchema);
+export const LoginResponseSchema = RegisterResponseSchema; // Same as Registration Response
 // DTO
 export type LoginResponseDto = z.infer<typeof LoginResponseSchema>;
 
