@@ -67,3 +67,13 @@ export const ResetPasswordRequestSchema = z.object({
 });
 // Request DTO
 export type ResetPasswordRequestDto = z.infer<typeof ResetPasswordRequestSchema>;
+
+// ROLE UPDATE
+// Request Schema
+export const RoleUpdateRequestParamsSchema = z.object({
+    username: RegisterRequestSchema.shape.username,
+});
+// Request DTO
+export type RoleUpdateRequestParamsDto = z.infer<
+    typeof RoleUpdateRequestParamsSchema
+>;
