@@ -42,3 +42,13 @@ export const EditUserRequestSchema = z
     .partial();
 // Request DTO
 export type EditUserRequestDto = z.infer<typeof EditUserRequestSchema>;
+
+// DELETE USER
+// Request Schema
+export const DeleteUserRequestParamsSchema = z.object({
+    username: RegisterRequestSchema.shape.username,
+});
+// Request DTO
+export type DeleteUserRequestParamsDto = z.infer<
+    typeof DeleteUserRequestParamsSchema
+>;
