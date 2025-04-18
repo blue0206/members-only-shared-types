@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { Role } from '../enums/roles.enum.js';
 import { GetMessagesResponseSchema } from './message.dto.js';
+import { RegisterRequestSchema } from './auth.dto.js';
 
 // User Schema
 export const UserSchema = z.object({
@@ -27,3 +28,17 @@ export type GetUserMessagesResponseDto = z.infer<
 // the generic schema imported which is for all messages.
 // This schema will be used in User route, for a clear separation of concerns,
 // with the redeclaration of variable.
+
+// EDIT USER
+// Request Schema
+export const EditUserRequestSchema = z
+    .object({
+        username: RegisterRequestSchema.shape.username,
+        firstname: RegisterRequestSchema.shape.firstname,
+        middlename: RegisterRequestSchema.shape.middlename,
+        lastname: RegisterRequestSchema.shape.lastname,
+        avatar: RegisterRequestSchema.shape.avatar,
+    })
+    .partial();
+// Request DTO
+export type EditUserRequestDto = z.infer<typeof EditUserRequestSchema>;
