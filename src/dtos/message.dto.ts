@@ -21,6 +21,7 @@ export const GetMessagesResponseSchema = z.array(
         messageId: z.number(),
         message: z.string(),
         username: z.string(),
+        edited: z.boolean(),
         timestamp: z.date(),
     })
 );
