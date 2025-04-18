@@ -19,6 +19,7 @@ Shared TypeScript types, Zod schemas, and API definitions for the "Members Only"
       - [Refresh User's Tokens](#refresh-users-tokens)
     - [Users (`/api/v1/users`)](#users-apiv1users)
       - [Get Messages](#get-messages)
+      - [Edit User (Update Profile Details)](#edit-user-update-profile-details)
     - [Errors](#errors)
       - [Prisma and Database Errors](#prisma-and-database-errors)
       - [JWT Verification Errors](#jwt-verification-errors)
@@ -223,6 +224,55 @@ By using this shared package, we ensure that changes to API data structures are 
     
 
 ---
+
+#### Edit User (Update Profile Details)
+
+*   **Endpoint:** `PUT /api/v1/users`
+*   **Description:** Update user profile details (except password).
+*   **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
+*   **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
+*   **Request Body:** `application/json`
+    ```jsonc
+    // Example Request Body (Matches EditUserRequestDto)
+    {
+      // Though all fields are optional, 
+      // at least one field must be provided, else it'll fail schema parsing.
+      "newUsername": "blue0206", // string, optional
+      "newFirstname": "John", // string, optional
+      "newMiddlename": "Mac", // string, optional
+      "newLastname": "Tavish" // string, optional
+    }
+    ```
+    *   **Schema:** See [`EditUserRequestDto`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/user.dto.ts)
+*   **Success Response:** `200 OK`
+    *   **Headers:** None.
+    *   **Body:** `application/json` (Matches `ApiResponseSuccess<EditUserResponseDto>`)
+        ```jsonc
+        // Example Success Response Body
+        {
+          "success": true,
+          "data": { // Matches EditUserResponseDto
+            "user": { // Matches UserDto
+              "id": 5,
+              "firstname": "Blue",
+              "username": "blue0206",
+              "avatar": null,
+              "role": "USER"
+            }
+          },
+          "requestId": "...",
+          "statusCode": 200
+        }
+        ```
+        // TODO: Refresh access token after this action to have updated access token payload.
+*   **Error Responses:** (Matches `ApiResponseError`)
+
+    | Status Code | Error Code | Message | Details | Description |
+    |-------------|------------|---------|---------|-------------|
+    
+
+---
+
 
 ### Errors
 
