@@ -33,13 +33,19 @@ export type GetUserMessagesResponseDto = z.infer<
 // Request Schema
 export const EditUserRequestSchema = z
     .object({
-        username: RegisterRequestSchema.shape.username,
-        firstname: RegisterRequestSchema.shape.firstname,
-        middlename: RegisterRequestSchema.shape.middlename,
-        lastname: RegisterRequestSchema.shape.lastname,
-        avatar: RegisterRequestSchema.shape.avatar,
+        newUsername: RegisterRequestSchema.shape.username,
+        newFirstname: RegisterRequestSchema.shape.firstname,
+        newMiddlename: RegisterRequestSchema.shape.middlename,
+        newLastname: RegisterRequestSchema.shape.lastname,
+        newAvatar: RegisterRequestSchema.shape.avatar,
     })
-    .partial();
+    .partial()
+    .refine(
+        (data) => {
+            return Object.values(data).some((value) => value !== undefined);
+        },
+        { message: 'At least one field must be provided.' }
+    );
 // Request DTO
 export type EditUserRequestDto = z.infer<typeof EditUserRequestSchema>;
 
