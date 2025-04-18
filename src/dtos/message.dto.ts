@@ -69,8 +69,10 @@ export type EditMessageResponseDto = z.infer<typeof EditMessageResponseSchema>;
 
 // DELETE MESSAGE
 // Request Schema
-export const DeleteMessageRequestSchema = z.object({
+export const DeleteMessageRequestParamsSchema = z.object({
     messageId: z.number(),
 });
 // Request DTO
-export type DeleteMessageRequestDto = z.infer<typeof DeleteMessageRequestSchema>;
+export type DeleteMessageRequestParamsDto = z.infer<
+    typeof DeleteMessageRequestParamsSchema
+>;
