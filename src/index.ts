@@ -45,8 +45,9 @@ export {
     GetMessagesWithoutAuthorResponseSchema,
     GetMessagesResponseSchema,
     EditMessageRequestSchema,
+    EditMessageRequestParamsSchema,
     EditMessageResponseSchema,
-    DeleteMessageRequestSchema,
+    DeleteMessageRequestParamsSchema,
 } from './dtos/message.dto.js';
 // Export all message DTOs.
 export type {
@@ -56,7 +57,8 @@ export type {
     GetMessagesResponseDto,
     EditMessageRequestDto,
     EditMessageResponseDto,
-    DeleteMessageRequestDto,
+    EditMessageRequestParamsDto,
+    DeleteMessageRequestParamsDto,
 } from './dtos/message.dto.js';
 
 // Export API Error and Response interfaces.
