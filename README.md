@@ -22,6 +22,7 @@ Shared TypeScript types, Zod schemas, and API definitions for the "Members Only"
       - [Edit User (Update Profile Details)](#edit-user-update-profile-details)
       - [Delete User](#delete-user)
       - [Reset Password](#reset-password)
+      - [Role Update](#role-update)
     - [Errors](#errors)
       - [Prisma and Database Errors](#prisma-and-database-errors)
       - [JWT Verification Errors](#jwt-verification-errors)
@@ -322,6 +323,41 @@ By using this shared package, we ensure that changes to API data structures are 
 
 ---
 
+#### Role Update
+
+*   **Endpoint:** `PUT /api/v1/users/role/:username`
+*   **Description:** Update the user's role. This action is only available to "Admin" users. Users can also promote themselves to "Member" by providing the "secret key".
+*   **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
+*   **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
+*   **Request Body:** None.
+*   **Request Parameters:**
+    *   `username` - The username of the user to delete.
+    *   **Schema:** See [`RoleUpdateRequestParamsSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/user.dto.ts)
+*   **Success Response:** `200 OK`
+    *   **Headers:** None.
+    *   **Body:** `application/json` (Matches `ApiResponseSuccess<RoleUpdateResponseDto>`)
+        ```jsonc
+        // Example Success Response Body
+        {
+          "success": true,
+          "data": { // Matches RoleUpdateResponseDto
+            "user": {
+              "id": 5,
+              "role": "MEMBER"
+            }
+          },
+          "requestId": "...",
+          "statusCode": 200
+        }
+        ```
+        // TODO: Refresh access token after this action to have updated access token payload.
+*   **Error Responses:** (Matches `ApiResponseError`)
+
+    | Status Code | Error Code | Message | Details | Description |
+    | ----------- | ---------- | ------- | ------- | ----------- |
+    
+
+---
 
 ### Errors
 
