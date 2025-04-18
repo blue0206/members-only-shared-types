@@ -17,6 +17,8 @@ Shared TypeScript types, Zod schemas, and API definitions for the "Members Only"
       - [Login User](#login-user)
       - [Logout User](#logout-user)
       - [Refresh User's Tokens](#refresh-users-tokens)
+    - [Users (`/api/v1/users`)](#users-apiv1users)
+      - [Get Messages](#get-messages)
     - [Errors](#errors)
       - [Prisma and Database Errors](#prisma-and-database-errors)
       - [JWT Verification Errors](#jwt-verification-errors)
@@ -183,6 +185,42 @@ By using this shared package, we ensure that changes to API data structures are 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
     - See [CSRF Verification Errors](#csrf-verification-errors) for error response on failed CSRF token verification.
+
+---
+
+### Users (`/api/v1/users`)
+
+#### Get Messages
+
+*   **Endpoint:** `GET /api/v1/users/messages`
+*   **Description:** Gets all the messages by logged-in user.
+*   **Request Cookies:** None.
+*   **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks.
+*   **Request Body:** None.
+*   **Success Response:** `200 OK`
+    *   **Headers:** None.
+    *   **Body:** `application/json` (Matches `ApiResponseSuccess<GetUserMessagesResponseDto>`)
+        ```jsonc
+        // Example Success Response Body
+        {
+          "success": true,
+          "data": [ // Matches GetUserMessagesResponseDto
+            {
+              "messageId": 5,
+              "message": "...",
+              "username": "blue0206",
+              "timestamp": "..." // createdAt timestamp
+            }
+          ],
+          "requestId": "...",
+          "statusCode": 200
+        }
+        ```
+*   **Error Responses:** (Matches `ApiResponseError`)
+
+    | Status Code | Error Code | Message | Details | Description |
+    |-------------|------------|---------|---------|-------------|
+    
 
 ---
 
