@@ -314,7 +314,13 @@ By using this shared package, we ensure that changes to API data structures are 
 
     | Status Code | Error Code | Message | Details | Description |
     | ----------- | ---------- | ------- | ------- | ----------- |
-    
+    | 403 | `FORBIDDEN` | "Admin privileges are required." | - | Returned when the logged-in user is not an admin and hence cannot perform this action. |
+    | 422 | `VALIDATION_ERROR` | "Invalid request parameters." | `{ /* Zod error details */ }` | Returned when request params fails validation | 
+    | 500 | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Request ID." | - | Returned when the request ID is missing from request. |
+
+    - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
+    - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
+    - See [CSRF Verification Errors](#csrf-verification-errors) for error response on failed CSRF token verification.
 
 ---
 
