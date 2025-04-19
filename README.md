@@ -20,9 +20,12 @@ Shared TypeScript types, Zod schemas, and API definitions for the "Members Only"
     - [Users (`/api/v1/users`)](#users-apiv1users)
       - [Get Messages](#get-messages)
       - [Edit User (Update Profile Details)](#edit-user-update-profile-details)
-      - [Delete User](#delete-user)
+      - [Delete User (Admin)](#delete-user-admin)
+      - [Delete User (Self)](#delete-user-self)
       - [Reset Password](#reset-password)
       - [Role Update](#role-update)
+    - [Messages (`/api/v1/messages`)](#messages-apiv1messages)
+      - [Get All Messages (Unregistered/User)](#get-all-messages-unregistereduser)
     - [Errors](#errors)
       - [Prisma and Database Errors](#prisma-and-database-errors)
       - [JWT Verification Errors](#jwt-verification-errors)
@@ -213,7 +216,8 @@ By using this shared package, we ensure that changes to API data structures are 
               "messageId": 5,
               "message": "...",
               "username": "blue0206",
-              "timestamp": "..." // createdAt timestamp
+              "timestamp": "...", // createdAt timestamp,
+              "edited": true
             }
           ],
           "requestId": "...",
@@ -246,7 +250,7 @@ By using this shared package, we ensure that changes to API data structures are 
       "newLastname": "Tavish" // string, optional
     }
     ```
-    *   **Schema:** See [`EditUserRequestDto`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/user.dto.ts)
+    *   **Schema:** See [`EditUserRequestSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/user.dto.ts)
 *   **Success Response:** `200 OK`
     *   **Headers:** None.
     *   **Body:** `application/json` (Matches `ApiResponseSuccess<EditUserResponseDto>`)
@@ -267,7 +271,6 @@ By using this shared package, we ensure that changes to API data structures are 
           "statusCode": 200
         }
         ```
-        // TODO: Refresh access token after this action to have updated access token payload.
 *   **Error Responses:** (Matches `ApiResponseError`)
 
     | Status Code | Error Code | Message | Details | Description |
@@ -276,16 +279,34 @@ By using this shared package, we ensure that changes to API data structures are 
 
 ---
 
-#### Delete User
+#### Delete User (Admin)
 
 *   **Endpoint:** `DELETE /api/v1/users/:username`
-*   **Description:** Delete a user's account. Note that users can only delete their own account unless they are "Admin".
+*   **Description:** Delete a user's account. Note that this endpoint is for Admin deleting other users' account.
 *   **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
 *   **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
 *   **Request Body:** None.
 *   **Request Parameters:**
     *   `username` - The username of the user to delete.
     *   **Schema:** See [`DeleteUserRequestParamsSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/user.dto.ts)
+*   **Success Response:** `204 No Content`
+    *   **Headers:** None.
+    *   **Body:** None.
+*   **Error Responses:** (Matches `ApiResponseError`)
+
+    | Status Code | Error Code | Message | Details | Description |
+    | ----------- | ---------- | ------- | ------- | ----------- |
+    
+
+---
+
+#### Delete User (Self)
+
+*   **Endpoint:** `DELETE /api/v1/users`
+*   **Description:** Delete the account of the logged-in user.
+*   **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
+*   **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
+*   **Request Body:** None.
 *   **Success Response:** `204 No Content`
     *   **Headers:** None.
     *   **Body:** None.
@@ -350,7 +371,41 @@ By using this shared package, we ensure that changes to API data structures are 
           "statusCode": 200
         }
         ```
-        // TODO: Refresh access token after this action to have updated access token payload.
+*   **Error Responses:** (Matches `ApiResponseError`)
+
+    | Status Code | Error Code | Message | Details | Description |
+    | ----------- | ---------- | ------- | ------- | ----------- |
+    
+
+---
+
+### Messages (`/api/v1/messages`)
+
+#### Get All Messages (Unregistered/User)
+
+*   **Endpoint:** `GET /api/v1/messages/public`
+*   **Description:** Gets all the messages without author names.
+*   **Request Cookies:** None.
+*   **Request Headers**: None.
+*   **Request Body:** None.
+*   **Success Response:** `200 OK`
+    *   **Headers:** None.
+    *   **Body:** `application/json` (Matches `ApiResponseSuccess<GetMessagesWithoutAuthorResponseDto>`)
+        ```jsonc
+        // Example Success Response Body
+        {
+          "success": true,
+          "data": [ // Matches GetMessagesWithoutAuthorResponseDto
+            {
+              "messageId": 5,
+              "message": "...",
+              "timestamp": "..." // createdAt timestamp
+            }
+          ],
+          "requestId": "...",
+          "statusCode": 200
+        }
+        ```
 *   **Error Responses:** (Matches `ApiResponseError`)
 
     | Status Code | Error Code | Message | Details | Description |
