@@ -416,8 +416,17 @@ By using this shared package, we ensure that changes to API data structures are 
         ```
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code | Message | Details | Description |
-    | ----------- | ---------- | ------- | ------- | ----------- |
+    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                   |
+    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------- |
+    | 401         | `INCORRECT_SECRET_KEY`    | "The secret key is incorrect."                             | -                             | Returned when the provided secret key is incorrect.                                           |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object.   |
+    | 422         | `VALIDATION_ERROR`        | "Invalid request body."                                    | `{ /* Zod error details */ }` | Returned when request body fails validation.                                                  |
+    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                         |
+    | 500         | `INTERNAL_SERVER_ERROR`   | "DTO Mapping Error"                                        | `{ /* Zod error details */ }` | Returned when the mapping to the `MemberRoleUpdateResponseDto` fails parsing with the schema. |
+
+    - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
+    - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
+    - See [CSRF Verification Errors](#csrf-verification-errors) for error response on failed CSRF token verification.
 
 ---
 
