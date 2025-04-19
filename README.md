@@ -25,6 +25,7 @@ Shared TypeScript types, Zod schemas, and API definitions for the "Members Only"
             - [Delete User (Self)](#delete-user-self)
             - [Reset Password](#reset-password)
             - [Member Role Update](#member-role-update)
+            - [Set Role](#set-role)
         - [Messages (`/api/v1/messages`)](#messages-apiv1messages)
             - [Get All Messages (Unregistered/User)](#get-all-messages-unregistereduser)
             - [Get All Messages (Admin/Member)](#get-all-messages-adminmember)
@@ -413,6 +414,29 @@ By using this shared package, we ensure that changes to API data structures are 
             "statusCode": 200,
         }
         ```
+- **Error Responses:** (Matches `ApiResponseError`)
+
+    | Status Code | Error Code | Message | Details | Description |
+    | ----------- | ---------- | ------- | ------- | ----------- |
+
+---
+
+#### Set Role
+
+- **Endpoint:** `PATCH /api/v1/users/role/:username`
+- **Description:** Update the user's role. Admin only.
+- **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
+- **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
+- **Request Body:** None.
+- **Request Parameters:**
+    - `username` - The username of the user to delete.
+    - **Schema:** See [`SetRoleRequestParamsSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/user.dto.ts)
+- **Request Query Parameters:**
+    - `role` - The role to set the user to.
+    - **Schema:** See [`SetRoleRequestQuerySchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/user.dto.ts)
+- **Success Response:** `204 No Content`
+    - **Headers:** None.
+    - **Body:** None.
 - **Error Responses:** (Matches `ApiResponseError`)
 
     | Status Code | Error Code | Message | Details | Description |
