@@ -287,7 +287,7 @@ By using this shared package, we ensure that changes to API data structures are 
     | Status Code | Error Code | Message | Details | Description |
     |-------------|------------|---------|---------|-------------|
     | 401 | `AUTHENTICATION_REQUIRED` | "Authentication details missing." | - | Returned when the access token verification middleware fails to populate `req.user` object. |
-    | 422 | `VALIDATION_ERROR` | "Invalid request body." | `{ /* Zod error details */ }` | Returned when request body fails validation | 
+    | 422 | `VALIDATION_ERROR` | "Invalid request body." | `{ /* Zod error details */ }` | Returned when request body fails validation |
     | 500 | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Request ID." | - | Returned when the request ID is missing from request. |
     | 500 | `INTERNAL_SERVER_ERROR` | "DTO Mapping Error" | `{ /* Zod error details */ }` | Returned when the mapping to the `EditUserResponseDto` fails parsing with the schema |
 
@@ -349,7 +349,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Reset Password
 
-*   **Endpoint:** `PUT /api/v1/users/reset-password`
+*   **Endpoint:** `PATCH /api/v1/users/reset-password`
 *   **Description:** Reset a user's password.
 *   **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
 *   **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
@@ -369,7 +369,15 @@ By using this shared package, we ensure that changes to API data structures are 
 
     | Status Code | Error Code | Message | Details | Description |
     | ----------- | ---------- | ------- | ------- | ----------- |
-    
+    | 401 | `INCORRECT_PASSWORD` | "Incorrect password." | - | Returned when the provided old password is incorrect. |
+    | 401 | `AUTHENTICATION_REQUIRED` | "Authentication details missing." | - | Returned when the access token verification middleware fails to populate `req.user` object. |
+    | 422 | `VALIDATION_ERROR` | "Invalid request body." | `{ /* Zod error details */ }` | Returned when request body fails validation. |
+    | 500 | `DATABASE_ERROR` | "User not found in database." | - | Returned when the user's entry is not in database. |
+    | 500 | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Request ID." | - | Returned when the request ID is missing from request. |
+
+    - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
+    - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
+    - See [CSRF Verification Errors](#csrf-verification-errors) for error response on failed CSRF token verification.
 
 ---
 
