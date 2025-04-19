@@ -73,19 +73,32 @@ export const ResetPasswordRequestSchema = z.object({
 // Request DTO
 export type ResetPasswordRequestDto = z.infer<typeof ResetPasswordRequestSchema>;
 
-// ROLE UPDATE
+// MEMBER ROLE UPDATE
 // Request Schema
-export const RoleUpdateRequestParamsSchema = z.object({
-    username: RegisterRequestSchema.shape.username,
+export const MemberRoleUpdateRequestSchema = z.object({
+    secretKey: z.string(),
 });
 // Request DTO
-export type RoleUpdateRequestParamsDto = z.infer<
-    typeof RoleUpdateRequestParamsSchema
+export type MemberRoleUpdateRequestDto = z.infer<
+    typeof MemberRoleUpdateRequestSchema
 >;
 // Response Schema
-export const RoleUpdateResponseSchema = UserSchema.pick({
-    id: true,
+export const MemberRoleUpdateResponseSchema = UserSchema.pick({
     role: true,
 });
 // Response DTO
-export type RoleUpdateResponseDto = z.infer<typeof RoleUpdateResponseSchema>;
+export type MemberRoleUpdateResponseDto = z.infer<
+    typeof MemberRoleUpdateResponseSchema
+>;
+
+// SET ROLE
+// Request Schema
+export const SetRoleRequestParamsSchema = z.object({
+    username: RegisterRequestSchema.shape.username,
+});
+export const SetRoleRequestQuerySchema = z.object({
+    role: z.nativeEnum(Role),
+});
+// Request DTO
+export type SetRoleRequestParamsDto = z.infer<typeof SetRoleRequestParamsSchema>;
+export type SetRoleRequestQueryDto = z.infer<typeof SetRoleRequestQuerySchema>;

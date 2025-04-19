@@ -21,10 +21,12 @@ export {
     EditUserRequestSchema,
     EditUserResponseSchema,
     DeleteUserRequestParamsSchema,
-    RoleUpdateRequestParamsSchema,
     GetUserMessagesResponseSchema,
     ResetPasswordRequestSchema,
-    RoleUpdateResponseSchema,
+    MemberRoleUpdateRequestSchema,
+    MemberRoleUpdateResponseSchema,
+    SetRoleRequestParamsSchema,
+    SetRoleRequestQuerySchema,
 } from './dtos/user.dto.js';
 // Export all user DTOs
 export type {
@@ -32,10 +34,12 @@ export type {
     EditUserRequestDto,
     EditUserResponseDto,
     DeleteUserRequestParamsDto,
-    RoleUpdateRequestParamsDto,
     GetUserMessagesResponseDto,
     ResetPasswordRequestDto,
-    RoleUpdateResponseDto,
+    MemberRoleUpdateRequestDto,
+    MemberRoleUpdateResponseDto,
+    SetRoleRequestParamsDto,
+    SetRoleRequestQueryDto,
 } from './dtos/user.dto.js';
 
 // Export all message zod-schemas.
