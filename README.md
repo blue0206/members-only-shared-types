@@ -420,7 +420,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Get All Messages (Admin/Member)
 
-*   **Endpoint:** `GET /api/v1/users/messages`
+*   **Endpoint:** `GET /api/v1/messages`
 *   **Description:** Gets all the messages with author names.
 *   **Request Cookies:** None.
 *   **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks.
