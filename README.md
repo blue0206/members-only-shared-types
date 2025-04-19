@@ -29,6 +29,7 @@ Shared TypeScript types, Zod schemas, and API definitions for the "Members Only"
       - [Get All Messages (Admin/Member)](#get-all-messages-adminmember)
       - [Create Message](#create-message)
       - [Edit Message](#edit-message)
+      - [Delete Message](#delete-message)
     - [Errors](#errors)
       - [Prisma and Database Errors](#prisma-and-database-errors)
       - [JWT Verification Errors](#jwt-verification-errors)
@@ -532,6 +533,27 @@ By using this shared package, we ensure that changes to API data structures are 
           "statusCode": 200
         }
         ```
+*   **Error Responses:** (Matches `ApiResponseError`)
+
+    | Status Code | Error Code | Message | Details | Description |
+    | ----------- | ---------- | ------- | ------- | ----------- |
+    
+
+---
+
+#### Delete Message
+
+*   **Endpoint:** `DELETE /api/v1/messages/:messageId`
+*   **Description:** Delete a user's account. Note that this endpoint is for Admin deleting other users' account.
+*   **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
+*   **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
+*   **Request Body:** None.
+*   **Request Parameters:**
+    *   `messageId` - The ID of the message to delete.
+    *   **Schema:** See [`DeleteMessageRequestParamsSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/message.dto.ts)
+*   **Success Response:** `204 No Content`
+    *   **Headers:** None.
+    *   **Body:** None.
 *   **Error Responses:** (Matches `ApiResponseError`)
 
     | Status Code | Error Code | Message | Details | Description |
