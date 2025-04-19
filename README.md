@@ -26,6 +26,7 @@ Shared TypeScript types, Zod schemas, and API definitions for the "Members Only"
       - [Role Update](#role-update)
     - [Messages (`/api/v1/messages`)](#messages-apiv1messages)
       - [Get All Messages (Unregistered/User)](#get-all-messages-unregistereduser)
+      - [Get All Messages (Admin/Member)](#get-all-messages-adminmember)
     - [Errors](#errors)
       - [Prisma and Database Errors](#prisma-and-database-errors)
       - [JWT Verification Errors](#jwt-verification-errors)
@@ -399,6 +400,41 @@ By using this shared package, we ensure that changes to API data structures are 
             {
               "messageId": 5,
               "message": "...",
+              "timestamp": "..." // createdAt timestamp
+            }
+          ],
+          "requestId": "...",
+          "statusCode": 200
+        }
+        ```
+*   **Error Responses:** (Matches `ApiResponseError`)
+
+    | Status Code | Error Code | Message | Details | Description |
+    | ----------- | ---------- | ------- | ------- | ----------- |
+    
+
+---
+
+#### Get All Messages (Admin/Member)
+
+*   **Endpoint:** `GET /api/v1/users/messages`
+*   **Description:** Gets all the messages with author names.
+*   **Request Cookies:** None.
+*   **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks.
+*   **Request Body:** None.
+*   **Success Response:** `200 OK`
+    *   **Headers:** None.
+    *   **Body:** `application/json` (Matches `ApiResponseSuccess<GetMessagesResponseDto>`)
+        ```jsonc
+        // Example Success Response Body
+        {
+          "success": true,
+          "data": [ // Matches GetMessagesResponseDto
+            {
+              "messageId": 5,
+              "message": "...",
+              "username": "blue0206",
+              "edited": false,
               "timestamp": "..." // createdAt timestamp
             }
           ],
