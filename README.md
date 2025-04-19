@@ -27,6 +27,7 @@ Shared TypeScript types, Zod schemas, and API definitions for the "Members Only"
     - [Messages (`/api/v1/messages`)](#messages-apiv1messages)
       - [Get All Messages (Unregistered/User)](#get-all-messages-unregistereduser)
       - [Get All Messages (Admin/Member)](#get-all-messages-adminmember)
+      - [Create Message](#create-message)
     - [Errors](#errors)
       - [Prisma and Database Errors](#prisma-and-database-errors)
       - [JWT Verification Errors](#jwt-verification-errors)
@@ -440,6 +441,48 @@ By using this shared package, we ensure that changes to API data structures are 
           ],
           "requestId": "...",
           "statusCode": 200
+        }
+        ```
+*   **Error Responses:** (Matches `ApiResponseError`)
+
+    | Status Code | Error Code | Message | Details | Description |
+    | ----------- | ---------- | ------- | ------- | ----------- |
+    
+
+---
+
+#### Create Message
+
+*   **Endpoint:** `POST /api/v1/messages`
+*   **Description:** Create/send a new message.
+*   **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
+*   **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
+*   **Request Body:** `application/json`
+    ```jsonc
+    // Example Request Body (Matches CreateMessageRequestDto)
+    {
+      "message": "...."
+    }
+    ```
+    *   **Schema:** See [`CreateMessageRequestSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/message.dto.ts)
+*   **Success Response:** `201 Created`
+    *   **Headers:** None.
+    *   **Body:** `application/json` (Matches `ApiResponseSuccess<CreateMessageResponseDto>`)
+        ```jsonc
+        // Example Success Response Body
+        {
+          "success": true,
+          "data": [ // Matches CreateMessageResponseDto (content depends on user role)
+            {
+              "messageId": 5,
+              "message": "...",
+              "username": "blue0206",  // Admin/Member only
+              "edited": false,  // Admin/Member only
+              "timestamp": "..." // createdAt timestamp
+            }
+          ],
+          "requestId": "...",
+          "statusCode": 201
         }
         ```
 *   **Error Responses:** (Matches `ApiResponseError`)
