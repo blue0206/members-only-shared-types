@@ -244,7 +244,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Edit User (Update Profile Details)
 
-*   **Endpoint:** `PUT /api/v1/users`
+*   **Endpoint:** `PATCH /api/v1/users`
 *   **Description:** Update user profile details (except password).
 *   **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
 *   **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
@@ -257,7 +257,8 @@ By using this shared package, we ensure that changes to API data structures are 
       "newUsername": "blue0206", // string, optional
       "newFirstname": "John", // string, optional
       "newMiddlename": "Mac", // string, optional
-      "newLastname": "Tavish" // string, optional
+      "newLastname": "Tavish", // string, optional
+      "newAvatar": "...", // string/url, optional
     }
     ```
     *   **Schema:** See [`EditUserRequestSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/user.dto.ts)
