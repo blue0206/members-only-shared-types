@@ -491,8 +491,12 @@ By using this shared package, we ensure that changes to API data structures are 
         ```
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code | Message | Details | Description |
-    | ----------- | ---------- | ------- | ------- | ----------- |
+    | Status Code | Error Code              | Message                                                    | Details                       | Description                                                                                           |
+    | ----------- | ----------------------- | ---------------------------------------------------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------- |
+    | 500         | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                                 |
+    | 500         | `INTERNAL_SERVER_ERROR` | "DTO Mapping Error"                                        | `{ /* Zod error details */ }` | Returned when the mapping to the `GetMessagesWithoutAuthorResponseDto` fails parsing with the schema. |
+
+    - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
 
 ---
 
