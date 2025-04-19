@@ -140,7 +140,7 @@ By using this shared package, we ensure that changes to API data structures are 
     | 401 | `UNAUTHORIZED` | "Invalid username or password." | - | Returned when user with username not found in database or if the password does not match. |
     | 422 | `VALIDATION_ERROR` | "Invalid request body." | `{ /* Zod error details */ }` | Returned when request body fails validation |
     | 500 | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Request ID." | - | Returned when the request ID is missing from request. |
-    | 500 | `INTERNAL_SERVER_ERROR` | "DTO Mapping Error" | `{ /* Zod error details */ }` | Returned when the mapping to the `RegisterResponseDto` fails parsing with the schema |
+    | 500 | `INTERNAL_SERVER_ERROR` | "DTO Mapping Error" | `{ /* Zod error details */ }` | Returned when the mapping to the `LoginResponseDto` fails parsing with the schema |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
 
@@ -190,7 +190,7 @@ By using this shared package, we ensure that changes to API data structures are 
     |-------------|------------|---------|---------|-------------|
     | 401 | `AUTHENTICATION_REQUIRED` | "Missing refresh token." | - | Returned when there's no refresh token in cookie.
     | 500 | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Request ID." | - | Returned when the request ID is missing from request. |
-    | 500 | `INTERNAL_SERVER_ERROR` | "DTO Mapping Error" | `{ /* Zod error details */ }` | Returned when the mapping to the `RegisterResponseDto` fails parsing with the schema |
+    | 500 | `INTERNAL_SERVER_ERROR` | "DTO Mapping Error" | `{ /* Zod error details */ }` | Returned when the mapping to the `RefreshTokenResponseDto` fails parsing with the schema |
     | 500 | `DATABASE_ERROR` | "User not found in database." | - | Returned when the refresh token is present and verified but the user's entry is not in database.
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
@@ -219,9 +219,9 @@ By using this shared package, we ensure that changes to API data structures are 
             {
               "messageId": 5,
               "message": "...",
-              "username": "blue0206",
-              "timestamp": "...", // createdAt timestamp,
-              "edited": true
+              "username": "blue0206",  // Only for Admin and Member roles.
+              "timestamp": "...",
+              "edited": true  // Only for Admin and Member roles.
             }
           ],
           "requestId": "...",
@@ -232,7 +232,13 @@ By using this shared package, we ensure that changes to API data structures are 
 
     | Status Code | Error Code | Message | Details | Description |
     |-------------|------------|---------|---------|-------------|
-    
+    | 401 | `AUTHENTICATION_REQUIRED` | "Authentication details missing." | - | Returned when the access token verification middleware fails to populate `req.user` object. |
+    | 500 | `DATABASE_ERROR` | "User not found in database." | - | Returned when the user's entry is not in database. |
+    | 500 | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Request ID." | - | Returned when the request ID is missing from request. |
+    | 500 | `INTERNAL_SERVER_ERROR` | "DTO Mapping Error" | `{ /* Zod error details */ }` | Returned when the mapping to the `GetUserMessagesResponseDto` fails parsing with the schema | 
+
+    - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
+    - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
 
 ---
 
