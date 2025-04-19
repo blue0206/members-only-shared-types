@@ -28,6 +28,7 @@ Shared TypeScript types, Zod schemas, and API definitions for the "Members Only"
       - [Get All Messages (Unregistered/User)](#get-all-messages-unregistereduser)
       - [Get All Messages (Admin/Member)](#get-all-messages-adminmember)
       - [Create Message](#create-message)
+      - [Edit Message](#edit-message)
     - [Errors](#errors)
       - [Prisma and Database Errors](#prisma-and-database-errors)
       - [JWT Verification Errors](#jwt-verification-errors)
@@ -483,6 +484,52 @@ By using this shared package, we ensure that changes to API data structures are 
           ],
           "requestId": "...",
           "statusCode": 201
+        }
+        ```
+*   **Error Responses:** (Matches `ApiResponseError`)
+
+    | Status Code | Error Code | Message | Details | Description |
+    | ----------- | ---------- | ------- | ------- | ----------- |
+    
+
+---
+
+#### Edit Message
+
+*   **Endpoint:** `PUT /api/v1/message/:messageId`
+*   **Description:** Edit an existing message.
+*   **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
+*   **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
+*   **Request Parameters:**
+    *   `messageId` - The ID of the message to delete.
+    *   **Schema:** See [`EditMessageRequestParamsSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/message.dto.ts)
+*   **Request Body:** `application/json`
+    ```jsonc
+    // Example Request Body (Matches EditMessageRequestSchema)
+    {
+      "message": "....",
+      "userId": 5
+    }
+    ```
+    *   **Schema:** See [`EditMessageRequestSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/message.dto.ts)
+*   **Success Response:** `200 OK`
+    *   **Headers:** None.
+    *   **Body:** `application/json` (Matches `ApiResponseSuccess<EditMessageResponseDto>`)
+        ```jsonc
+        // Example Success Response Body
+        {
+          "success": true,
+          "data": [ // Matches EditMessageResponseDto
+            {
+              "messageId": 5,
+              "message": "...",
+              "username": "blue0206",
+              "edited": false,
+              "timestamp": "..." // createdAt timestamp
+            }
+          ],
+          "requestId": "...",
+          "statusCode": 200
         }
         ```
 *   **Error Responses:** (Matches `ApiResponseError`)
