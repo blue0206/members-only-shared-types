@@ -557,30 +557,40 @@ By using this shared package, we ensure that changes to API data structures are 
     ```
     - **Schema:** See [`CreateMessageRequestSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/message.dto.ts)
 - **Success Response:** `201 Created`
+
     - **Headers:** None.
     - **Body:** `application/json` (Matches `ApiResponseSuccess<CreateMessageResponseDto>`)
+
         ```jsonc
         // Example Success Response Body
         {
             "success": true,
-            "data": [
+            "data": {
                 // Matches CreateMessageResponseDto (content depends on user role)
-                {
-                    "messageId": 5,
-                    "message": "...",
-                    "username": "blue0206", // Admin/Member only
-                    "edited": false, // Admin/Member only
-                    "timestamp": "...", // createdAt timestamp
-                },
-            ],
+                "messageId": 5,
+                "message": "...",
+                "username": "blue0206", // Admin/Member only
+                "edited": false, // Admin/Member only
+                "timestamp": "...", // createdAt timestamp
+            },
             "requestId": "...",
             "statusCode": 201,
         }
         ```
+
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code | Message | Details | Description |
-    | ----------- | ---------- | ------- | ------- | ----------- |
+    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                 |
+    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
+    | 422         | `VALIDATION_ERROR`        | "Invalid request body."                                    | `{ /* Zod error details */ }` | Returned when request body fails validation.                                                |
+    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                       |
+    | 500         | `INTERNAL_SERVER_ERROR`   | "DTO Mapping Error"                                        | `{ /* Zod error details */ }` | Returned when the mapping to the `CreateMessageResponseDto` fails parsing with the schema.  |
+    | 500         | `DATABASE_ERROR`          | "User not found in database."                              | -                             | Returned when the user's entry is not in created message in database.                       |
+
+    - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
+    - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
+    - See [CSRF Verification Errors](#csrf-verification-errors) for error response on failed CSRF token verification.
 
 ---
 
