@@ -20,7 +20,7 @@ export const GetMessagesResponseSchema = z.array(
     z.object({
         messageId: z.number(),
         message: z.string(),
-        username: z.string(),
+        username: z.string().nullish(),
         edited: z.boolean(),
         timestamp: z.date(),
     })
