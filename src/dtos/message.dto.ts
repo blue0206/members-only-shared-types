@@ -40,8 +40,8 @@ export const CreateMessageRequestSchema = z.object({
 export type CreateMessageRequestDto = z.infer<typeof CreateMessageRequestSchema>;
 // Response Schema (can either be with or without author depending on role.)
 export const CreateMessageResponseSchema = z.union([
-    GetMessagesResponseSchema,
-    GetMessagesWithoutAuthorResponseSchema,
+    GetMessagesResponseSchema.element,
+    GetMessagesWithoutAuthorResponseSchema.element,
 ]);
 // Response DTO
 export type CreateMessageResponseDto = z.infer<typeof CreateMessageResponseSchema>;
