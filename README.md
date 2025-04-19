@@ -519,7 +519,7 @@ By using this shared package, we ensure that changes to API data structures are 
                 {
                     "messageId": 5,
                     "message": "...",
-                    "username": "blue0206",
+                    "username": "blue0206", // Can also be nullish for deleted user.
                     "edited": false,
                     "timestamp": "...", // createdAt timestamp
                 },
@@ -530,8 +530,15 @@ By using this shared package, we ensure that changes to API data structures are 
         ```
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code | Message | Details | Description |
-    | ----------- | ---------- | ------- | ------- | ----------- |
+    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                   |
+    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object.   |
+    | 403         | `FORBIDDEN`               | "Member or Admin privileges are required."                 | -                             | Returned when the logged-in user is not an admin or member and hence cannot see author names. |
+    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                         |
+    | 500         | `INTERNAL_SERVER_ERROR`   | "DTO Mapping Error"                                        | `{ /* Zod error details */ }` | Returned when the mapping to the `GetMessagesResponseDto` fails parsing with the schema.      |
+
+    - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
+    - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
 
 ---
 
