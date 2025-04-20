@@ -53,7 +53,6 @@ export const EditMessageRequestSchema = z.object({
         .string()
         .min(1, { message: 'The message cannot be empty.' })
         .max(1100, { message: 'The message is too long.' }),
-    messageOwner: z.string().nullish(),
 });
 export const EditMessageRequestParamsSchema = z.object({
     messageId: z.number(),
