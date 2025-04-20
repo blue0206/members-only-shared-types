@@ -597,7 +597,7 @@ By using this shared package, we ensure that changes to API data structures are 
 #### Edit Message
 
 - **Endpoint:** `PATCH /api/v1/message/:messageId`
-- **Description:** Edit an existing message.
+- **Description:** Edit an existing message. Admin can edit any message while Member can only edit their own message. User role does not have access to this privilege.
 - **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
 - **Request Parameters:**
@@ -652,7 +652,7 @@ By using this shared package, we ensure that changes to API data structures are 
 #### Delete Message
 
 - **Endpoint:** `DELETE /api/v1/messages/:messageId`
-- **Description:** Delete a user's account. Note that this endpoint is for Admin deleting other users' account.
+- **Description:** Delete an existing message. Admin can delete any message while Member and User can only delete their own message.
 - **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
 - **Request Body:** None.
@@ -664,8 +664,17 @@ By using this shared package, we ensure that changes to API data structures are 
     - **Body:** None.
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code | Message | Details | Description |
-    | ----------- | ---------- | ------- | ------- | ----------- |
+    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                               |
+    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object.               |
+    | 403         | `FORBIDDEN`               | "You do not have permission to delete this message."       | -                             | Returned when the logged-in user is a Member or User role and is trying to delete another user's message. |
+    | 422         | `VALIDATION_ERROR`        | "Invalid request parameters."                              | `{ /* Zod error details */ }` | Returned when request params fails validation.                                                            |
+    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                                     |
+    | 500         | `DATABASE_ERROR`          | "Message not found in database."                           | -                             | Returned when the message's entry is not in database.                                                     |
+
+    - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
+    - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
+    - See [CSRF Verification Errors](#csrf-verification-errors) for error response on failed CSRF token verification.
 
 ---
 
