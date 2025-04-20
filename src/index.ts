@@ -5,6 +5,7 @@ export {
     LoginRequestSchema,
     LoginResponseSchema,
     RefreshResponseSchema,
+    UserSchema,
 } from './dtos/auth.dto.js';
 // Export all auth DTOs.
 export type {
@@ -13,11 +14,11 @@ export type {
     LoginRequestDto,
     LoginResponseDto,
     RefreshResponseDto,
+    UserDto,
 } from './dtos/auth.dto.js';
 
 // Export all user zod-schemas.
 export {
-    UserSchema,
     EditUserRequestSchema,
     EditUserResponseSchema,
     DeleteUserRequestParamsSchema,
@@ -30,7 +31,6 @@ export {
 } from './dtos/user.dto.js';
 // Export all user DTOs
 export type {
-    UserDto,
     EditUserRequestDto,
     EditUserResponseDto,
     DeleteUserRequestParamsDto,

@@ -4,20 +4,7 @@ import {
     GetMessagesResponseSchema,
     GetMessagesWithoutAuthorResponseSchema,
 } from './message.dto.js';
-import { RegisterRequestSchema } from './auth.dto.js';
-
-// User Schema
-export const UserSchema = z.object({
-    id: z.number(),
-    username: z.string(),
-    firstname: z.string(),
-    middlename: z.string().nullish(),
-    lastname: z.string().nullish(),
-    avatar: z.string().url().nullish(),
-    role: z.nativeEnum(Role),
-});
-// User DTO
-export type UserDto = z.infer<typeof UserSchema>;
+import { RegisterRequestSchema, UserSchema } from './auth.dto.js';
 
 // GET MESSAGES
 // Response Schema
