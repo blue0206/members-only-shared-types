@@ -55,7 +55,7 @@ export const EditMessageRequestSchema = z.object({
         .max(1100, { message: 'The message is too long.' }),
 });
 export const EditMessageRequestParamsSchema = z.object({
-    messageId: z.number(),
+    messageId: z.coerce.number(),
 });
 // Request DTO
 export type EditMessageRequestDto = z.infer<typeof EditMessageRequestSchema>;
@@ -70,7 +70,7 @@ export type EditMessageResponseDto = z.infer<typeof EditMessageResponseSchema>;
 // DELETE MESSAGE
 // Request Schema
 export const DeleteMessageRequestParamsSchema = z.object({
-    messageId: z.number(),
+    messageId: z.coerce.number(),
 });
 // Request DTO
 export type DeleteMessageRequestParamsDto = z.infer<
