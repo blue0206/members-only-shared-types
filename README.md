@@ -8,34 +8,34 @@ Shared TypeScript types, Zod schemas, and API definitions for the "Members Only"
 ## Table of Contents
 
 - [@blue0206/members-only-shared-types](#blue0206members-only-shared-types)
-    - [Table of Contents](#table-of-contents)
-    - [Installation](#installation)
-    - [Purpose \& Usage](#purpose--usage)
-    - [Core Contents](#core-contents)
-    - [API Documentation](#api-documentation)
-        - [Authentication (`/api/v1/auth`)](#authentication-apiv1auth)
-            - [Register User](#register-user)
-            - [Login User](#login-user)
-            - [Logout User](#logout-user)
-            - [Refresh User's Tokens](#refresh-users-tokens)
-        - [Users (`/api/v1/users`)](#users-apiv1users)
-            - [Get Messages](#get-messages)
-            - [Edit User (Update Profile Details)](#edit-user-update-profile-details)
-            - [Delete User (Admin)](#delete-user-admin)
-            - [Delete User (Self)](#delete-user-self)
-            - [Reset Password](#reset-password)
-            - [Member Role Update](#member-role-update)
-            - [Set Role](#set-role)
-        - [Messages (`/api/v1/messages`)](#messages-apiv1messages)
-            - [Get All Messages (Unregistered/User)](#get-all-messages-unregistereduser)
-            - [Get All Messages (Admin/Member)](#get-all-messages-adminmember)
-            - [Create Message](#create-message)
-            - [Edit Message](#edit-message)
-            - [Delete Message](#delete-message)
-        - [Errors](#errors)
-            - [Prisma and Database Errors](#prisma-and-database-errors)
-            - [JWT Verification Errors](#jwt-verification-errors)
-            - [CSRF Verification Errors](#csrf-verification-errors)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Purpose \& Usage](#purpose--usage)
+  - [Core Contents](#core-contents)
+  - [API Documentation](#api-documentation)
+    - [Authentication (`/api/v1/auth`)](#authentication-apiv1auth)
+      - [Register User](#register-user)
+      - [Login User](#login-user)
+      - [Logout User](#logout-user)
+      - [Refresh User's Tokens](#refresh-users-tokens)
+    - [Users (`/api/v1/users`)](#users-apiv1users)
+      - [Get Messages](#get-messages)
+      - [Edit User (Update Profile Details)](#edit-user-update-profile-details)
+      - [Delete User (Admin)](#delete-user-admin)
+      - [Delete User (Self)](#delete-user-self)
+      - [Reset Password](#reset-password)
+      - [Member Role Update](#member-role-update)
+      - [Set Role](#set-role)
+    - [Messages (`/api/v1/messages`)](#messages-apiv1messages)
+      - [Get All Messages (Unregistered/User)](#get-all-messages-unregistereduser)
+      - [Get All Messages (Admin/Member)](#get-all-messages-adminmember)
+      - [Create Message](#create-message)
+      - [Edit Message](#edit-message)
+      - [Delete Message](#delete-message)
+    - [Errors](#errors)
+      - [Prisma and Database Errors](#prisma-and-database-errors)
+      - [JWT Verification Errors](#jwt-verification-errors)
+      - [CSRF Verification Errors](#csrf-verification-errors)
 
 ## Installation
 
@@ -596,7 +596,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Edit Message
 
-- **Endpoint:** `PUT /api/v1/message/:messageId`
+- **Endpoint:** `PATCH /api/v1/message/:messageId`
 - **Description:** Edit an existing message.
 - **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
@@ -607,8 +607,7 @@ By using this shared package, we ensure that changes to API data structures are 
     ```jsonc
     // Example Request Body (Matches EditMessageRequestSchema)
     {
-        "message": "....",
-        "userId": 5,
+        "newMessage": "....",
     }
     ```
     - **Schema:** See [`EditMessageRequestSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/message.dto.ts)
@@ -619,24 +618,34 @@ By using this shared package, we ensure that changes to API data structures are 
         // Example Success Response Body
         {
             "success": true,
-            "data": [
+            "data": {
                 // Matches EditMessageResponseDto
-                {
-                    "messageId": 5,
-                    "message": "...",
-                    "username": "blue0206",
-                    "edited": false,
-                    "timestamp": "...", // createdAt timestamp
-                },
-            ],
+                "messageId": 5,
+                "message": "...",
+                "username": "blue0206",
+                "edited": false,
+                "timestamp": "...", // createdAt timestamp
+            },
             "requestId": "...",
             "statusCode": 200,
         }
         ```
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code | Message | Details | Description |
-    | ----------- | ---------- | ------- | ------- | ----------- |
+    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                 |
+    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
+    | 403         | `FORBIDDEN`               | "Member or Admin privileges are required."                 | -                             | Returned when the logged-in user is not an admin or member and hence cannot edit messages.  |
+    | 403         | `FORBIDDEN`               | "You do not have permission to edit this message."         | -                             | Returned when the logged-in user is a Member and is trying to edit another user's message.  |
+    | 422         | `VALIDATION_ERROR`        | "Invalid request body."                                    | `{ /* Zod error details */ }` | Returned when request body fails validation.                                                |
+    | 422         | `VALIDATION_ERROR`        | "Invalid request parameters."                              | `{ /* Zod error details */ }` | Returned when request params fails validation.                                              |
+    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                       |
+    | 500         | `INTERNAL_SERVER_ERROR`   | "DTO Mapping Error"                                        | `{ /* Zod error details */ }` | Returned when the mapping to the `EditMessageResponseDto` fails parsing with the schema.    |
+    | 500         | `DATABASE_ERROR`          | "Message not found in database."                           | -                             | Returned when the message's entry is not in database.                                       |
+
+    - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
+    - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
+    - See [CSRF Verification Errors](#csrf-verification-errors) for error response on failed CSRF token verification.
 
 ---
 
