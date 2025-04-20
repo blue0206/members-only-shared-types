@@ -63,7 +63,7 @@ export type EditMessageRequestParamsDto = z.infer<
     typeof EditMessageRequestParamsSchema
 >;
 // Response Schema (Only members and admin can edit their messages.)
-export const EditMessageResponseSchema = GetMessagesResponseSchema;
+export const EditMessageResponseSchema = GetMessagesResponseSchema.element;
 // Response DTO
 export type EditMessageResponseDto = z.infer<typeof EditMessageResponseSchema>;
 
