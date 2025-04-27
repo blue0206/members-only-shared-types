@@ -33,15 +33,14 @@ export const RegisterRequestSchema = z.object({
         .optional(),
     password: z
         .string()
-        .min(8)
+        .min(8, { message: 'The password must contain at least 8 characters.' })
         .regex(
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
             {
-                message:
-                    'The password must contain at least 8 characters with at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character',
+                message: `The password must contain:\n• At least 1 uppercase letter\n• At least 1 lowercase letter\n• At least 1 number\n• At least 1 special character (@$!%*?&)`,
             }
         ),
-    avatar: z.string().url({ message: 'The avatar must be a valid URL' }).optional(),
+    avatar: z.string().url({ message: 'The avatar URL must be valid.' }).optional(),
 });
 // DTO
 export type RegisterRequestDto = z.infer<typeof RegisterRequestSchema>;
