@@ -174,25 +174,24 @@ By using this shared package, we ensure that changes to API data structures are 
 - **Request Cookies:** (Same cookies as logout)
 - **Request Headers**: (Same request headers as Logout)
 - **Request Body:** None.
-- **Success Response:** `200 OK`
-    - **Headers:** (Same `Set-Cookie` headers as Register/Login)
-    - **Body:** `application/json` (Matches `ApiResponseSuccess<RefreshTokenResponseDto>`)
-        ```jsonc
-        // Example Success Response Body
-        {
-            "success": true,
-            "data": {
-                // Matches RefreshTokenResponseDto
-                "accessToken": "dbawlfblblvksdvlibsaviabv...", // NEW JWT Access Token
-            },
-            "requestId": "...",
-            "statusCode": 200,
-        }
-        ```
+- **Success Response:** `200 OK` - **Headers:** (Same `Set-Cookie` headers as Register/Login) - **Body:** `application/json` (Matches `ApiResponseSuccess<RefreshTokenResponseDto>`)
+  `jsonc
+// Example Success Response Body
+{
+    "success": true,
+    "data": {
+        // Matches RefreshTokenResponseDto
+        "accessToken": "dbawlfblblvksdvlibsaviabv...", // NEW JWT Access Token
+    },
+    "requestId": "...",
+    "statusCode": 200,
+}
+`
 - **Error Responses:** (Matches `ApiResponseError`)
   | Status Code | Error Code | Message | Details | Description |
   |-------------|------------|---------|---------|-------------|
-  | 401 | `AUTHENTICATION_REQUIRED` | "Missing refresh token." | - | Returned when there's no refresh token in cookie.
+  | 401 | `AUTHENTICATION_REQUIRED` | "Missing refresh token." | - | Returned when there's no refresh token in cookie. |
+  | 401 | `INVALID_TOKEN` | "The refresh token is invalid." | - | Returned when the refresh token is present and verified but the token's entry is not in database. |
   | 500 | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Request ID." | - | Returned when the request ID is missing from request. |
   | 500 | `INTERNAL_SERVER_ERROR` | "DTO Mapping Error" | `{ /* Zod error details */ }` | Returned when the mapping to the `RefreshTokenResponseDto` fails parsing with the schema |
   | 500 | `DATABASE_ERROR` | "User not found in database." | - | Returned when the refresh token is present and verified but the user's entry is not in database.
