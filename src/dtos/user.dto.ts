@@ -32,7 +32,7 @@ export const EditUserRequestSchema = z
         (data) => {
             return Object.values(data).some((value) => value !== undefined);
         },
-        { message: 'At least one field must be provided.' }
+        { message: 'At least one field is required.' }
     );
 // Request DTO
 export type EditUserRequestDto = z.infer<typeof EditUserRequestSchema>;
