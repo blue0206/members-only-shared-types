@@ -33,6 +33,7 @@ export type GetMessagesResponseDto = z.infer<typeof GetMessagesResponseSchema>;
 export const CreateMessageRequestSchema = z.object({
     message: z
         .string()
+        .trim()
         .min(1, { message: 'The message cannot be empty.' })
         .max(1100, { message: 'The message is too long.' }),
 });
@@ -51,6 +52,7 @@ export type CreateMessageResponseDto = z.infer<typeof CreateMessageResponseSchem
 export const EditMessageRequestSchema = z.object({
     newMessage: z
         .string()
+        .trim()
         .min(1, { message: 'The message cannot be empty.' })
         .max(1100, { message: 'The message is too long.' }),
 });
