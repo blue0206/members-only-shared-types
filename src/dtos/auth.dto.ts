@@ -17,29 +17,59 @@ export type UserDto = z.infer<typeof UserSchema>;
 // REGISTER REQUEST
 // Schema
 export const RegisterRequestSchema = z.object({
-    username: z.string().regex(/^[a-zA-Z0-9_]+$/, {
-        message: 'The username can only have letters, numbers, and underscores.',
-    }),
+    username: z
+        .string()
+        .trim()
+        .min(1, {
+            message: 'A username is required.',
+        })
+        .regex(/^(?!.*\s)[a-zA-Z0-9_]+$/, {
+            message: 'The username can only have letters, numbers, and underscores.',
+        }),
     firstname: z
         .string()
+        .trim()
         .regex(/^\p{L}+(-\p{L}+)*$/u, { message: 'The first name is invalid.' }),
     middlename: z
         .string()
+        .trim()
         .regex(/^\p{L}+(-\p{L}+)*$/u, { message: 'The middle name is invalid.' })
         .optional(),
     lastname: z
         .string()
+        .trim()
         .regex(/^\p{L}+(-\p{L}+)*$/u, { message: 'The last name is invalid.' })
         .optional(),
-    password: z
-        .string()
-        .min(8, { message: 'The password must contain at least 8 characters.' })
-        .regex(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-            {
-                message: `The password must contain:\n• At least 1 uppercase letter\n• At least 1 lowercase letter\n• At least 1 number\n• At least 1 special character (@$!%*?&)`,
-            }
-        ),
+    password: z.string().superRefine((value, ctx) => {
+        const requirements = [];
+        const hasUppercase = /[A-Z]/.test(value);
+        const hasLowercase = /[a-z]/.test(value);
+        const hasNumber = /\d/.test(value);
+        const hasSpecialChars = /[@$!%*?&]/.test(value);
+
+        if (value.length < 8) {
+            requirements.push('• At least 8 characters');
+        }
+        if (!hasUppercase) {
+            requirements.push('• At least 1 uppercase letter');
+        }
+        if (!hasLowercase) {
+            requirements.push('• At least 1 lowercase letter');
+        }
+        if (!hasNumber) {
+            requirements.push('• At least 1 number');
+        }
+        if (!hasSpecialChars) {
+            requirements.push('• At least 1 special character');
+        }
+
+        if (requirements.length > 0) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: `The password must contain:\n${requirements.join(`\n`)}`,
+            });
+        }
+    }),
     avatar: z.string().url({ message: 'The avatar URL must be valid.' }).optional(),
 });
 // DTO
