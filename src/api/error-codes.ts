@@ -4,6 +4,10 @@ export const ErrorCodes = {
     UNAUTHORIZED: 'UNAUTHORIZED',
     FORBIDDEN: 'FORBIDDEN',
     CONFLICT: 'CONFLICT',
+    // Multipart Form and File error codes.
+    FILE_TOO_LARGE: 'FILE_TOO_LARGE',
+    FILE_TYPE_NOT_SUPPORTED: 'FILE_TYPE_NOT_SUPPORTED',
+    FILE_UPLOAD_ERROR: 'FILE_UPLOAD_ERROR',
     // Validation, Prisma, and Bad Request error codes.
     VALIDATION_ERROR: 'VALIDATION_ERROR',
     BAD_REQUEST: 'BAD_REQUEST',
