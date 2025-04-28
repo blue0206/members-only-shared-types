@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { Role } from '../enums/roles.enum.js';
+import { AvatarSchema } from './file.dto.js';
 
 // User Schema
 export const UserSchema = z.object({
@@ -70,7 +71,7 @@ export const RegisterRequestSchema = z.object({
             });
         }
     }),
-    avatar: z.string().url({ message: 'The avatar URL must be valid.' }).optional(),
+    avatar: AvatarSchema.optional(),
 });
 // DTO
 export type RegisterRequestDto = z.infer<typeof RegisterRequestSchema>;

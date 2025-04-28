@@ -5,6 +5,7 @@ import {
     GetMessagesWithoutAuthorResponseSchema,
 } from './message.dto.js';
 import { RegisterRequestSchema, UserSchema } from './auth.dto.js';
+import { AvatarSchema } from './file.dto.js';
 
 // GET MESSAGES
 // Response Schema
@@ -25,7 +26,7 @@ export const EditUserRequestSchema = z
         newFirstname: RegisterRequestSchema.shape.firstname,
         newMiddlename: RegisterRequestSchema.shape.middlename,
         newLastname: RegisterRequestSchema.shape.lastname,
-        newAvatar: RegisterRequestSchema.shape.avatar,
+        newAvatar: AvatarSchema.optional(),
     })
     .partial()
     .refine(

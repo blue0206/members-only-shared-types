@@ -65,6 +65,11 @@ export type {
     DeleteMessageRequestParamsDto,
 } from './dtos/message.dto.js';
 
+// Export all file zod-schemas.
+export { AvatarSchema } from './dtos/file.dto.js';
+// Export all file types.
+export type { AvatarType } from './dtos/file.dto.js';
+
 // Export API Error and Response interfaces.
 export type {
     ApiErrorPayload,
