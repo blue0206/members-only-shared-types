@@ -1,5 +1,14 @@
 import { z } from 'zod';
 
+// Define Supported Image Formats.
+export const supportedImageFormats = [
+    'image/jpeg',
+    'image/jpg',
+    'image/png',
+    'image/webp',
+] as const;
+export type SupportedImageFormatsType = (typeof supportedImageFormats)[number];
+
 export const AvatarSchema = z.any().superRefine((file, ctx) => {
     // Validate image file size <= 8MB
     if (file?.size > 8000000) {
@@ -9,12 +18,12 @@ export const AvatarSchema = z.any().superRefine((file, ctx) => {
             maximum: 8000000,
             inclusive: true,
             type: 'number',
+            fatal: true,
         });
     }
 
-    // Validate image format is supported.
-    const supportedFormats = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-    if (!supportedFormats.includes(file?.type)) {
+    // Validate the image format.
+    if (!supportedImageFormats.includes(file?.type)) {
         ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message:
