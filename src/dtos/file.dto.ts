@@ -23,7 +23,10 @@ export const AvatarSchema = z.any().superRefine((file, ctx) => {
     }
 
     // Validate the image format.
-    if (!supportedImageFormats.includes(file?.type)) {
+    if (
+        !supportedImageFormats.includes(file?.type) &&
+        !supportedImageFormats.includes(file?.mimetype)
+    ) {
         ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message:
