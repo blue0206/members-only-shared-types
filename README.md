@@ -8,34 +8,36 @@ Shared TypeScript types, Zod schemas, and API definitions for the "Members Only"
 ## Table of Contents
 
 - [@blue0206/members-only-shared-types](#blue0206members-only-shared-types)
-  - [Table of Contents](#table-of-contents)
-  - [Installation](#installation)
-  - [Purpose \& Usage](#purpose--usage)
-  - [Core Contents](#core-contents)
-  - [API Documentation](#api-documentation)
-    - [Authentication (`/api/v1/auth`)](#authentication-apiv1auth)
-      - [Register User](#register-user)
-      - [Login User](#login-user)
-      - [Logout User](#logout-user)
-      - [Refresh User's Tokens](#refresh-users-tokens)
-    - [Users (`/api/v1/users`)](#users-apiv1users)
-      - [Get Messages](#get-messages)
-      - [Edit User (Update Profile Details)](#edit-user-update-profile-details)
-      - [Delete User (Admin)](#delete-user-admin)
-      - [Delete User (Self)](#delete-user-self)
-      - [Reset Password](#reset-password)
-      - [Member Role Update](#member-role-update)
-      - [Set Role](#set-role)
-    - [Messages (`/api/v1/messages`)](#messages-apiv1messages)
-      - [Get All Messages (Unregistered/User)](#get-all-messages-unregistereduser)
-      - [Get All Messages (Admin/Member)](#get-all-messages-adminmember)
-      - [Create Message](#create-message)
-      - [Edit Message](#edit-message)
-      - [Delete Message](#delete-message)
-    - [Errors](#errors)
-      - [Prisma and Database Errors](#prisma-and-database-errors)
-      - [JWT Verification Errors](#jwt-verification-errors)
-      - [CSRF Verification Errors](#csrf-verification-errors)
+    - [Table of Contents](#table-of-contents)
+    - [Installation](#installation)
+    - [Purpose \& Usage](#purpose--usage)
+    - [Core Contents](#core-contents)
+    - [API Documentation](#api-documentation)
+        - [Authentication (`/api/v1/auth`)](#authentication-apiv1auth)
+            - [Register User](#register-user)
+            - [Login User](#login-user)
+            - [Logout User](#logout-user)
+            - [Refresh User's Tokens](#refresh-users-tokens)
+        - [Users (`/api/v1/users`)](#users-apiv1users)
+            - [Get Messages](#get-messages)
+            - [Edit User (Update Profile Details)](#edit-user-update-profile-details)
+            - [Delete User (Admin)](#delete-user-admin)
+            - [Delete User (Self)](#delete-user-self)
+            - [Reset Password](#reset-password)
+            - [Member Role Update](#member-role-update)
+            - [Set Role](#set-role)
+            - [Delete Avatar](#delete-avatar)
+        - [Messages (`/api/v1/messages`)](#messages-apiv1messages)
+            - [Get All Messages (Unregistered/User)](#get-all-messages-unregistereduser)
+            - [Get All Messages (Admin/Member)](#get-all-messages-adminmember)
+            - [Create Message](#create-message)
+            - [Edit Message](#edit-message)
+            - [Delete Message](#delete-message)
+        - [Errors](#errors)
+            - [Prisma and Database Errors](#prisma-and-database-errors)
+            - [JWT Verification Errors](#jwt-verification-errors)
+            - [CSRF Verification Errors](#csrf-verification-errors)
+            - [File Upload Errors](#file-upload-errors)
 
 ## Installation
 
@@ -72,7 +74,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 - **Endpoint:** `POST /api/v1/auth/register`
 - **Description:** Creates a new user account and logs them in, returning user details and tokens.
-- **Request Body:** `application/json`
+- **Request Body:** `multipart/form-data`
     ```jsonc
     // Example Request Body (Matches RegisterRequestDto)
     {
@@ -100,6 +102,7 @@ By using this shared package, we ensure that changes to API data structures are 
                     "username": "blue0206",
                     "avatar": null,
                     "role": "USER",
+                    //...
                 },
                 "accessToken": "eyignavtfkscfky...", // JWT Access Token
                 // Note: Refresh token is NOT in the body. It is sent as cookie.
@@ -117,6 +120,7 @@ By using this shared package, we ensure that changes to API data structures are 
     | 500         | `INTERNAL_SERVER_ERROR` | "DTO Mapping Error"                                        | `{ /* Zod error details */ }` | Returned when the mapping to the `RegisterResponseDto` fails parsing with the schema |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
+    - See [File Upload Errors](#file-upload-errors) for error response on file upload errors.
 
 ---
 
@@ -252,7 +256,7 @@ By using this shared package, we ensure that changes to API data structures are 
 - **Description:** Update user profile details (except password).
 - **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
-- **Request Body:** `application/json`
+- **Request Body:** `multipart/form-data`
     ```jsonc
     // Example Request Body (Matches EditUserRequestDto)
     {
@@ -263,6 +267,7 @@ By using this shared package, we ensure that changes to API data structures are 
         "newMiddlename": "Mac", // string, optional
         "newLastname": "Tavish", // string, optional
         "newAvatar": "...", // string/url, optional
+        "avatarPresent": true, // boolean, optional (required when newAvatar is sent).
     }
     ```
     - **Schema:** See [`EditUserRequestSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/user.dto.ts)
@@ -297,6 +302,7 @@ By using this shared package, we ensure that changes to API data structures are 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
     - See [CSRF Verification Errors](#csrf-verification-errors) for error response on failed CSRF token verification.
+    - See [File Upload Errors](#file-upload-errors) for error response on file upload errors.
 
 ---
 
@@ -309,7 +315,7 @@ By using this shared package, we ensure that changes to API data structures are 
 - **Request Body:** None.
 - **Request Parameters:**
     - `username` - The username of the user to delete.
-    - **Schema:** See [`DeleteUserRequestParamsSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/user.dto.ts)
+    - **Schema:** See [`UsernameParamsSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/user.dto.ts)
 - **Success Response:** `204 No Content`
     - **Headers:** None.
     - **Body:** None.
@@ -438,7 +444,7 @@ By using this shared package, we ensure that changes to API data structures are 
 - **Request Body:** None.
 - **Request Parameters:**
     - `username` - The username of the user to delete.
-    - **Schema:** See [`SetRoleRequestParamsSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/user.dto.ts)
+    - **Schema:** See [`UsernameParamsSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/user.dto.ts)
 - **Request Query Parameters:**
     - `role` - The role to set the user to.
     - **Schema:** See [`SetRoleRequestQuerySchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/user.dto.ts)
@@ -457,6 +463,35 @@ By using this shared package, we ensure that changes to API data structures are 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
     - See [CSRF Verification Errors](#csrf-verification-errors) for error response on failed CSRF token verification.
+
+---
+
+#### Delete Avatar
+
+- **Endpoint:** `DELETE /api/v1/users/avatar/:username`
+- **Description:** Delete a user's avatar.
+- **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
+- **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
+- **Request Body:** None.
+- **Request Parameters:**
+    - `username` - The username of the user to delete.
+    - **Schema:** See [`UsernameParamsSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/user.dto.ts)
+- **Success Response:** `204 No Content`
+    - **Headers:** None.
+    - **Body:** None.
+- **Error Responses:** (Matches `ApiResponseError`)
+
+    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                 |
+    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
+    | 422         | `VALIDATION_ERROR`        | "Invalid request parameters."                              | `{ /* Zod error details */ }` | Returned when request params fails validation                                               |
+    | 500         | `DATABASE_ERROR`          | "User avatar not found in database."                       | -                             | Returned when the user's avatar entry is not in database.                                   |
+    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                       |
+
+    - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
+    - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
+    - See [CSRF Verification Errors](#csrf-verification-errors) for error response on failed CSRF token verification.
+    - See [File Upload Errors](#file-upload-errors) for error response on file upload/delete errors.
 
 ---
 
@@ -601,7 +636,7 @@ By using this shared package, we ensure that changes to API data structures are 
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
 - **Request Parameters:**
     - `messageId` - The ID of the message to delete.
-    - **Schema:** See [`EditMessageRequestParamsSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/message.dto.ts)
+    - **Schema:** See [`MessageParamsSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/message.dto.ts)
 - **Request Body:** `application/json`
     ```jsonc
     // Example Request Body (Matches EditMessageRequestSchema)
@@ -657,7 +692,7 @@ By using this shared package, we ensure that changes to API data structures are 
 - **Request Body:** None.
 - **Request Parameters:**
     - `messageId` - The ID of the message to delete.
-    - **Schema:** See [`DeleteMessageRequestParamsSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/message.dto.ts)
+    - **Schema:** See [`MessageParamsSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/message.dto.ts)
 - **Success Response:** `204 No Content`
     - **Headers:** None.
     - **Body:** None.
@@ -721,5 +756,19 @@ These errors are handled using an error-handling wrapper around JWT verification
 | 403         | `MISSING_CSRF_HEADER` | "CSRF token missing."  | This error is thrown when CSRF token is not passed via `x-csrf-token` header.                                            |
 | 403         | `MISSING_CSRF_COOKIE` | "CSRF token missing."  | This error is thrown when CSRF token is not passed via `csrf-token` cookie.                                              |
 | 403         | `CSRF_TOKEN_MISMATCH` | "CSRF token mismatch." | This error is thrown when the CSRF token passed via `x-csrf-token` header does not match the one in `csrf-token` cookie. |
+
+---
+
+#### File Upload Errors
+
+| Status Code | Error Code                | Message                                 | Details                              | Remarks                                                           |
+| ----------- | ------------------------- | --------------------------------------- | ------------------------------------ | ----------------------------------------------------------------- |
+| 400         | `FILE_UPLOAD_ERROR`       | `{/* Multer error message */}`          | -                                    | Thrown by multer when file upload fails.                          |
+| 400         | `FILE_TOO_LARGE`          | "The file exceeds size limit."          | -                                    | Thrown by multer when file size exceeds limits.                   |
+| 422         | `VALIDATION_ERROR`        | "File upload validation failed."        | `{ /* Zod error details */ }`        | This is a generic error thrown when file upload validation fails. |
+| 422         | `FILE_TYPE_NOT_SUPPORTED` | "File upload validation failed."        | `{ /* Zod error details */ }`        | Thrown when the file type uploaded is not supported.              |
+| 422         | `FILE_TOO_LARGE`          | "File upload validation failed."        | `{ /* Zod error details */ }`        | Thrown when the file size uploaded is too large.                  |
+| 500         | `FILE_UPLOAD_ERROR`       | "File upload to Cloudinary failed."     | `{ /* Cloudinary error details */ }` | Thrown by Cloudinary when file upload fails.                      |
+| 500         | `FILE_DELETE_ERROR`       | "File deletion from Cloudinary failed." | `{ /* Cloudinary error details */ }` | Thrown by Cloudinary when file deletion fails.                    |
 
 ---
