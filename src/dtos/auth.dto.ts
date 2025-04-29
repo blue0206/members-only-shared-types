@@ -72,7 +72,7 @@ export const RegisterRequestSchema = z.object({
             });
         }
     }),
-    avatar: AvatarSchema.optional(),
+    avatar: AvatarSchema.nullish().optional(),
 });
 // Request DTO
 export type RegisterRequestDto = z.infer<typeof RegisterRequestSchema>;
