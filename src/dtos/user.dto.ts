@@ -45,16 +45,6 @@ export const EditUserResponseSchema = UserSchema;
 // Response DTO
 export type EditUserResponseDto = z.infer<typeof EditUserResponseSchema>;
 
-// DELETE USER
-// Request Schema
-export const DeleteUserRequestParamsSchema = z.object({
-    username: RegisterRequestSchema.shape.username,
-});
-// Request DTO
-export type DeleteUserRequestParamsDto = z.infer<
-    typeof DeleteUserRequestParamsSchema
->;
-
 // RESET PASSWORD
 // Request Schema
 export const ResetPasswordRequestSchema = z.object({
@@ -84,12 +74,16 @@ export type MemberRoleUpdateResponseDto = z.infer<
 
 // SET ROLE
 // Request Schema
-export const SetRoleRequestParamsSchema = z.object({
-    username: RegisterRequestSchema.shape.username,
-});
 export const SetRoleRequestQuerySchema = z.object({
     role: z.nativeEnum(Role),
 });
 // Request DTO
-export type SetRoleRequestParamsDto = z.infer<typeof SetRoleRequestParamsSchema>;
 export type SetRoleRequestQueryDto = z.infer<typeof SetRoleRequestQuerySchema>;
+
+// DELETE AVATAR, SET ROLE, DELETE USER by username
+// Request Params Schema
+export const UsernameParamsSchema = z.object({
+    username: RegisterRequestSchema.shape.username,
+});
+// Request Params DTO
+export type UsernameParamsDto = z.infer<typeof UsernameParamsSchema>;

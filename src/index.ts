@@ -21,25 +21,23 @@ export type {
 export {
     EditUserRequestSchema,
     EditUserResponseSchema,
-    DeleteUserRequestParamsSchema,
     GetUserMessagesResponseSchema,
     ResetPasswordRequestSchema,
     MemberRoleUpdateRequestSchema,
     MemberRoleUpdateResponseSchema,
-    SetRoleRequestParamsSchema,
     SetRoleRequestQuerySchema,
+    UsernameParamsSchema,
 } from './dtos/user.dto.js';
 // Export all user DTOs
 export type {
     EditUserRequestDto,
     EditUserResponseDto,
-    DeleteUserRequestParamsDto,
     GetUserMessagesResponseDto,
     ResetPasswordRequestDto,
     MemberRoleUpdateRequestDto,
     MemberRoleUpdateResponseDto,
-    SetRoleRequestParamsDto,
     SetRoleRequestQueryDto,
+    UsernameParamsDto,
 } from './dtos/user.dto.js';
 
 // Export all message zod-schemas.
@@ -49,9 +47,8 @@ export {
     GetMessagesWithoutAuthorResponseSchema,
     GetMessagesResponseSchema,
     EditMessageRequestSchema,
-    EditMessageRequestParamsSchema,
     EditMessageResponseSchema,
-    DeleteMessageRequestParamsSchema,
+    MessageParamsSchema,
 } from './dtos/message.dto.js';
 // Export all message DTOs.
 export type {
@@ -61,8 +58,7 @@ export type {
     GetMessagesResponseDto,
     EditMessageRequestDto,
     EditMessageResponseDto,
-    EditMessageRequestParamsDto,
-    DeleteMessageRequestParamsDto,
+    MessageParamsDto,
 } from './dtos/message.dto.js';
 
 // Export all file zod-schemas and other constants.

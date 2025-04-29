@@ -56,25 +56,17 @@ export const EditMessageRequestSchema = z.object({
         .min(1, { message: 'The message cannot be empty.' })
         .max(1100, { message: 'The message is too long.' }),
 });
-export const EditMessageRequestParamsSchema = z.object({
-    messageId: z.coerce.number(),
-});
 // Request DTO
 export type EditMessageRequestDto = z.infer<typeof EditMessageRequestSchema>;
-export type EditMessageRequestParamsDto = z.infer<
-    typeof EditMessageRequestParamsSchema
->;
 // Response Schema (Only members and admin can edit their messages.)
 export const EditMessageResponseSchema = GetMessagesResponseSchema.element;
 // Response DTO
 export type EditMessageResponseDto = z.infer<typeof EditMessageResponseSchema>;
 
-// DELETE MESSAGE
-// Request Schema
-export const DeleteMessageRequestParamsSchema = z.object({
+// EDIT MESSAGE, DELETE MESSAGE
+// Request Params Schema
+export const MessageParamsSchema = z.object({
     messageId: z.coerce.number(),
 });
-// Request DTO
-export type DeleteMessageRequestParamsDto = z.infer<
-    typeof DeleteMessageRequestParamsSchema
->;
+// Request Params DTO
+export type MessageParamsDto = z.infer<typeof MessageParamsSchema>;
