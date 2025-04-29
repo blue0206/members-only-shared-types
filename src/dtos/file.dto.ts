@@ -9,6 +9,7 @@ export const supportedImageFormats = [
 ] as const;
 export type SupportedImageFormatsType = (typeof supportedImageFormats)[number];
 
+// Avatar Schema for avatar file validation.
 export const AvatarSchema = z.any().superRefine((file, ctx) => {
     // Validate image file size <= 8MB
     if (file?.size > 8000000) {
@@ -23,6 +24,7 @@ export const AvatarSchema = z.any().superRefine((file, ctx) => {
     }
 
     // Validate the image format.
+    // We check against `file.type` for client-side and `file.mimetype` for multer on server-side.
     if (
         !supportedImageFormats.includes(file?.type) &&
         !supportedImageFormats.includes(file?.mimetype)

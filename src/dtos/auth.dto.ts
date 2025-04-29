@@ -15,8 +15,9 @@ export const UserSchema = z.object({
 // User DTO
 export type UserDto = z.infer<typeof UserSchema>;
 
-// REGISTER REQUEST
-// Schema
+//--------------------------------REGISTER--------------------------------
+
+// Request Schema
 export const RegisterRequestSchema = z.object({
     username: z
         .string()
@@ -73,41 +74,41 @@ export const RegisterRequestSchema = z.object({
     }),
     avatar: AvatarSchema.optional(),
 });
-// DTO
+// Request DTO
 export type RegisterRequestDto = z.infer<typeof RegisterRequestSchema>;
 
-// REGISTER RESPONSE
-// Schema
+// Response Schema
 export const RegisterResponseSchema = z
     .object({
         accessToken: z.string(),
     })
     .merge(UserSchema);
-// DTO
+// Response DTO
 export type RegisterResponseDto = z.infer<typeof RegisterResponseSchema>;
 
-// LOGIN REQUEST
-// Schema
+//--------------------------------LOGIN--------------------------------
+
+// Register Schema
 export const LoginRequestSchema = z.object({
     username: RegisterRequestSchema.shape.username,
     password: RegisterRequestSchema.shape.password,
 });
-// DTO
+// Register DTO
 export type LoginRequestDto = z.infer<typeof LoginRequestSchema>;
 
-// LOGIN RESPONSE
-// Schema
+// Response Schema
 export const LoginResponseSchema = RegisterResponseSchema; // Same as Registration Response
-// DTO
+// Response DTO
 export type LoginResponseDto = z.infer<typeof LoginResponseSchema>;
 
 // No need for Logout Request/Response schema and Refresh Response schema as
 // they only require headers, specifically, the cookie header carrying refreshToken.
 
-// REFRESH RESPONSE
-// Schema
+//--------------------------------REFRESH--------------------------------
+
+// Response Schema
 export const RefreshResponseSchema = z.object({
     accessToken: z.string(),
 });
-// DTO
+// Response DTO
 export type RefreshResponseDto = z.infer<typeof RefreshResponseSchema>;

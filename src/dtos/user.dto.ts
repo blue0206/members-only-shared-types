@@ -7,7 +7,8 @@ import {
 import { RegisterRequestSchema, UserSchema } from './auth.dto.js';
 import { AvatarSchema } from './file.dto.js';
 
-// GET MESSAGES
+//----------------------------------GET MESSAGES--------------------------------
+
 // Response Schema
 export const GetUserMessagesResponseSchema = z.union([
     GetMessagesResponseSchema,
@@ -18,7 +19,8 @@ export type GetUserMessagesResponseDto = z.infer<
     typeof GetUserMessagesResponseSchema
 >;
 
-// EDIT USER
+//--------------------------------EDIT USER--------------------------------
+
 // Request Schema
 export const EditUserRequestSchema = z
     .object({
@@ -40,12 +42,14 @@ export const EditUserRequestSchema = z
     );
 // Request DTO
 export type EditUserRequestDto = z.infer<typeof EditUserRequestSchema>;
+
 // Response Schema
 export const EditUserResponseSchema = UserSchema;
 // Response DTO
 export type EditUserResponseDto = z.infer<typeof EditUserResponseSchema>;
 
-// RESET PASSWORD
+//--------------------------------RESET PASSWORD--------------------------------
+
 // Request Schema
 export const ResetPasswordRequestSchema = z.object({
     oldPassword: RegisterRequestSchema.shape.password,
@@ -54,7 +58,8 @@ export const ResetPasswordRequestSchema = z.object({
 // Request DTO
 export type ResetPasswordRequestDto = z.infer<typeof ResetPasswordRequestSchema>;
 
-// MEMBER ROLE UPDATE
+//--------------------------------MEMBER ROLE UPDATE--------------------------------
+
 // Request Schema
 export const MemberRoleUpdateRequestSchema = z.object({
     secretKey: z.string(),
@@ -63,6 +68,7 @@ export const MemberRoleUpdateRequestSchema = z.object({
 export type MemberRoleUpdateRequestDto = z.infer<
     typeof MemberRoleUpdateRequestSchema
 >;
+
 // Response Schema
 export const MemberRoleUpdateResponseSchema = UserSchema.pick({
     role: true,
@@ -72,7 +78,8 @@ export type MemberRoleUpdateResponseDto = z.infer<
     typeof MemberRoleUpdateResponseSchema
 >;
 
-// SET ROLE
+//--------------------------------SET ROLE--------------------------------
+
 // Request Schema
 export const SetRoleRequestQuerySchema = z.object({
     role: z.nativeEnum(Role),
@@ -80,7 +87,8 @@ export const SetRoleRequestQuerySchema = z.object({
 // Request DTO
 export type SetRoleRequestQueryDto = z.infer<typeof SetRoleRequestQuerySchema>;
 
-// DELETE AVATAR, SET ROLE, DELETE USER by username
+//--------PARAMS for DELETE AVATAR, SET ROLE, DELETE USER by username--------
+
 // Request Params Schema
 export const UsernameParamsSchema = z.object({
     username: RegisterRequestSchema.shape.username,

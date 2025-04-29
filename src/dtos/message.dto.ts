@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
-// GET MESSAGES (Unregistered/User)
+//--------------------------------GET MESSAGES (Unregistered/User)--------------------------------
+
 // Response Schema
 export const GetMessagesWithoutAuthorResponseSchema = z.array(
     z.object({
@@ -14,7 +15,8 @@ export type GetMessagesWithoutAuthorResponseDto = z.infer<
     typeof GetMessagesWithoutAuthorResponseSchema
 >;
 
-// GET MESSAGES (Member/Admin)
+//--------------------------------GET MESSAGES (Member/Admin)--------------------------------
+
 // Response Schema
 export const GetMessagesResponseSchema = z.array(
     z.object({
@@ -28,7 +30,8 @@ export const GetMessagesResponseSchema = z.array(
 // Response DTO
 export type GetMessagesResponseDto = z.infer<typeof GetMessagesResponseSchema>;
 
-// CREATE MESSAGE
+//--------------------------------CREATE MESSAGE--------------------------------
+
 // Request Schema
 export const CreateMessageRequestSchema = z.object({
     message: z
@@ -39,6 +42,7 @@ export const CreateMessageRequestSchema = z.object({
 });
 // Request DTO
 export type CreateMessageRequestDto = z.infer<typeof CreateMessageRequestSchema>;
+
 // Response Schema (can either be with or without author depending on role.)
 export const CreateMessageResponseSchema = z.union([
     GetMessagesResponseSchema.element,
@@ -47,7 +51,8 @@ export const CreateMessageResponseSchema = z.union([
 // Response DTO
 export type CreateMessageResponseDto = z.infer<typeof CreateMessageResponseSchema>;
 
-// EDIT MESSAGE
+//--------------------------------EDIT MESSAGE--------------------------------
+
 // Request Schema
 export const EditMessageRequestSchema = z.object({
     newMessage: z
@@ -58,12 +63,14 @@ export const EditMessageRequestSchema = z.object({
 });
 // Request DTO
 export type EditMessageRequestDto = z.infer<typeof EditMessageRequestSchema>;
+
 // Response Schema (Only members and admin can edit their messages.)
 export const EditMessageResponseSchema = GetMessagesResponseSchema.element;
 // Response DTO
 export type EditMessageResponseDto = z.infer<typeof EditMessageResponseSchema>;
 
-// EDIT MESSAGE, DELETE MESSAGE
+//--------------------------------EDIT MESSAGE, DELETE MESSAGE--------------------------------
+
 // Request Params Schema
 export const MessageParamsSchema = z.object({
     messageId: z.coerce.number(),
