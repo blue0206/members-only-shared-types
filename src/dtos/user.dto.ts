@@ -27,6 +27,9 @@ export const EditUserRequestSchema = z
         newMiddlename: RegisterRequestSchema.shape.middlename,
         newLastname: RegisterRequestSchema.shape.lastname,
         newAvatar: AvatarSchema.optional(),
+        // An indicator; if avatar is present, this indicator is provided, else not.
+        // This does not determine with boolean, but instead with its presence.
+        avatarPresent: z.boolean().optional(),
     })
     .partial()
     .refine(
