@@ -35,12 +35,12 @@ export const RegisterRequestSchema = z.object({
     middlename: z
         .string()
         .trim()
-        .regex(/^\p{L}+(-\p{L}+)*$/u, { message: 'The middle name is invalid.' })
+        .regex(/^(\p{L}+(-\p{L}+)*)?$/u, { message: 'The middle name is invalid.' })
         .optional(),
     lastname: z
         .string()
         .trim()
-        .regex(/^\p{L}+(-\p{L}+)*$/u, { message: 'The last name is invalid.' })
+        .regex(/^(\p{L}+(-\p{L}+)*)?$/u, { message: 'The last name is invalid.' })
         .optional(),
     password: z.string().superRefine((value, ctx) => {
         const requirements = [];
