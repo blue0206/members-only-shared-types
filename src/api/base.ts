@@ -11,7 +11,7 @@ export interface ApiErrorPayload {
 // Interface for Api Response in case of Error.
 export interface ApiResponseError {
     success: false;
-    error: ApiErrorPayload;
+    errorPayload: ApiErrorPayload;
     requestId?: string;
 }
 
@@ -19,7 +19,7 @@ export interface ApiResponseError {
 export interface ApiResponseSuccess<DataType> {
     success: true;
     statusCode: number;
-    data: DataType;
+    payload: DataType;
     requestId: string;
 }
 
