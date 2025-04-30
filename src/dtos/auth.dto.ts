@@ -90,8 +90,8 @@ export type RegisterResponseDto = z.infer<typeof RegisterResponseSchema>;
 
 // Register Schema
 export const LoginRequestSchema = z.object({
-    username: RegisterRequestSchema.shape.username,
-    password: RegisterRequestSchema.shape.password,
+    username: z.string().trim().min(1, { message: 'Please enter your username.' }),
+    password: z.string().trim().min(1, { message: 'Please enter your password.' }),
 });
 // Register DTO
 export type LoginRequestDto = z.infer<typeof LoginRequestSchema>;
