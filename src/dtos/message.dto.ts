@@ -7,7 +7,7 @@ export const GetMessagesWithoutAuthorResponseSchema = z.array(
     z.object({
         messageId: z.number(),
         message: z.string(),
-        timestamp: z.date(),
+        timestamp: z.union([z.date(), z.string().datetime()]),
     })
 );
 // Response DTO
@@ -24,7 +24,7 @@ export const GetMessagesResponseSchema = z.array(
         message: z.string(),
         username: z.string().nullish(),
         edited: z.boolean(),
-        timestamp: z.date(),
+        timestamp: z.union([z.date(), z.string().datetime()]),
     })
 );
 // Response DTO
