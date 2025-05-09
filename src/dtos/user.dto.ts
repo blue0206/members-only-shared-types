@@ -69,15 +69,6 @@ export type MemberRoleUpdateRequestDto = z.infer<
     typeof MemberRoleUpdateRequestSchema
 >;
 
-// Response Schema
-export const MemberRoleUpdateResponseSchema = UserSchema.pick({
-    role: true,
-});
-// Response DTO
-export type MemberRoleUpdateResponseDto = z.infer<
-    typeof MemberRoleUpdateResponseSchema
->;
-
 //--------------------------------SET ROLE--------------------------------
 
 // Request Schema

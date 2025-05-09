@@ -24,7 +24,6 @@ export {
     GetUserMessagesResponseSchema,
     ResetPasswordRequestSchema,
     MemberRoleUpdateRequestSchema,
-    MemberRoleUpdateResponseSchema,
     SetRoleRequestQuerySchema,
     UsernameParamsSchema,
 } from './dtos/user.dto.js';
@@ -35,7 +34,6 @@ export type {
     GetUserMessagesResponseDto,
     ResetPasswordRequestDto,
     MemberRoleUpdateRequestDto,
-    MemberRoleUpdateResponseDto,
     SetRoleRequestQueryDto,
     UsernameParamsDto,
 } from './dtos/user.dto.js';
