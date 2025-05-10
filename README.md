@@ -175,8 +175,8 @@ By using this shared package, we ensure that changes to API data structures are 
 
 - **Endpoint:** `POST /api/v1/auth/refresh`
 - **Description:** Uses a valid refresh token (sent via cookie) to obtain a new access token.
-- **Request Cookies:** (Same cookies as logout)
-- **Request Headers**: (Same request headers as Logout)
+- **Request Cookies:** Requires a valid `refreshToken` HttpOnly cookie to be sent by the browser, and a `csrf-token` cookie for passing CSRF verification checks.
+- **Request Headers**: Requires a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
 - **Request Body:** None.
 - **Success Response:** `200 OK` - **Headers:** (Same `Set-Cookie` headers as Register/Login) - **Body:** `application/json` (Matches `ApiResponseSuccess<RefreshTokenResponseDto>`)
   `jsonc
