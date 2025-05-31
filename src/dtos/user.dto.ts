@@ -86,3 +86,17 @@ export const UsernameParamsSchema = z.object({
 });
 // Request Params DTO
 export type UsernameParamsDto = z.infer<typeof UsernameParamsSchema>;
+
+//--------------------------------GET BOOKMARKS------------------------------------------------
+
+// Response Schema
+export const GetUserBookmarksResponseSchema = z.array(
+    z.object({
+        ...GetMessagesResponseSchema.element.shape,
+        bookmarked: z.boolean().refine((value) => value === true),
+    })
+);
+// Response DTO
+export type GetUserBookmarksResponseDto = z.infer<
+    typeof GetUserBookmarksResponseSchema
+>;

@@ -26,6 +26,7 @@ export {
     MemberRoleUpdateRequestSchema,
     SetRoleRequestQuerySchema,
     UsernameParamsSchema,
+    GetUserBookmarksResponseSchema,
 } from './dtos/user.dto.js';
 // Export all user DTOs
 export type {
@@ -36,6 +37,7 @@ export type {
     MemberRoleUpdateRequestDto,
     SetRoleRequestQueryDto,
     UsernameParamsDto,
+    GetUserBookmarksResponseDto,
 } from './dtos/user.dto.js';
 
 // Export all message zod-schemas.
@@ -47,7 +49,6 @@ export {
     EditMessageRequestSchema,
     EditMessageResponseSchema,
     MessageParamsSchema,
-    GetUserBookmarksResponseSchema,
 } from './dtos/message.dto.js';
 // Export all message DTOs.
 export type {
@@ -58,7 +59,6 @@ export type {
     EditMessageRequestDto,
     EditMessageResponseDto,
     MessageParamsDto,
-    GetUserBookmarksResponseDto,
 } from './dtos/message.dto.js';
 
 // Export all file zod-schemas and other constants.
