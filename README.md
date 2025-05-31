@@ -27,12 +27,17 @@ Shared TypeScript types, Zod schemas, and API definitions for the "Members Only"
             - [Member Role Update](#member-role-update)
             - [Set Role](#set-role)
             - [Delete Avatar](#delete-avatar)
+            - [Get Bookmarks (Admin/Member)](#get-bookmarks-adminmember)
+            - [Add Bookmark](#add-bookmark)
+            - [Remove Bookmark](#remove-bookmark)
         - [Messages (`/api/v1/messages`)](#messages-apiv1messages)
             - [Get All Messages (Unregistered/User)](#get-all-messages-unregistereduser)
             - [Get All Messages (Admin/Member)](#get-all-messages-adminmember)
             - [Create Message](#create-message)
             - [Edit Message](#edit-message)
             - [Delete Message](#delete-message)
+            - [Like Message](#like-message)
+            - [Unlike Message](#unlike-message)
         - [Errors](#errors)
             - [Prisma and Database Errors](#prisma-and-database-errors)
             - [JWT Verification Errors](#jwt-verification-errors)
@@ -479,6 +484,18 @@ By using this shared package, we ensure that changes to API data structures are 
 
 ---
 
+#### Get Bookmarks (Admin/Member)
+
+---
+
+#### Add Bookmark
+
+---
+
+#### Remove Bookmark
+
+---
+
 ### Messages (`/api/v1/messages`)
 
 #### Get All Messages (Unregistered/User)
@@ -500,6 +517,8 @@ By using this shared package, we ensure that changes to API data structures are 
                 {
                     "messageId": 5,
                     "message": "...",
+                    "likes": 5,
+                    "bookmarks": 4,
                     "timestamp": "...", // createdAt timestamp
                 },
             ],
@@ -537,8 +556,21 @@ By using this shared package, we ensure that changes to API data structures are 
                 {
                     "messageId": 5,
                     "message": "...",
-                    "username": "blue0206", // Can also be nullish for deleted user.
+                    "user": {
+                        // Can also be nullish for deleted user.
+                        "username": "soap0206",
+                        "firstname": "John",
+                        "middlename": "'SOAP'",
+                        "lastname": "MacTavish",
+                        "avatar": "...",
+                        "role": "MEMBER",
+                    },
+                    "likes": 5,
+                    "bookmarks": 4,
                     "edited": false,
+                    // Details for the user viewing the message.
+                    "bookmarked": true,
+                    "liked": true,
                     "timestamp": "...", // createdAt timestamp
                 },
             ],
@@ -693,6 +725,14 @@ By using this shared package, we ensure that changes to API data structures are 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
     - See [CSRF Verification Errors](#csrf-verification-errors) for error response on failed CSRF token verification.
+
+---
+
+#### Like Message
+
+---
+
+#### Unlike Message
 
 ---
 
