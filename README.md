@@ -486,6 +486,55 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Get Bookmarks (Admin/Member)
 
+- **Endpoint:** `GET /api/v1/users/bookmarks`
+- **Description:** Gets all the messages bookmarked by Admin/Member users.
+- **Request Cookies:** None.
+- **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks.
+- **Request Body:** None.
+- **Success Response:** `200 OK`
+    - **Headers:** None.
+    - **Body:** `application/json` (Matches `ApiResponseSuccess<GetUserBookmarksResponseDto>`)
+        ```jsonc
+        // Example Success Response Body
+        {
+            "success": true,
+            "data": [
+                // Matches GetUserBookmarksResponseDto
+                {
+                    "messageId": 5,
+                    "message": "...",
+                    "user": {
+                        // Can also be nullish for deleted user.
+                        "username": "soap0206",
+                        "firstname": "John",
+                        "middlename": "'SOAP'",
+                        "lastname": "MacTavish",
+                        "avatar": "...",
+                        "role": "MEMBER",
+                    },
+                    "likes": 5,
+                    "bookmarks": 4,
+                    "edited": false,
+                    "bookmarked": true,
+                    "liked": true,
+                    "timestamp": "...", // createdAt timestamp
+                },
+            ],
+            "requestId": "...",
+            "statusCode": 200,
+        }
+        ```
+- **Error Responses:** (Matches `ApiResponseError`)
+
+    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                 |
+    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
+    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                       |
+    | 500         | `INTERNAL_SERVER_ERROR`   | "DTO Mapping Error"                                        | `{ /* Zod error details */ }` | Returned when the mapping to the `GetUserMessagesResponseDto` fails parsing with the schema |
+
+    - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
+    - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
+
 ---
 
 #### Add Bookmark
