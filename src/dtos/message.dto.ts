@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { UserSchema } from './auth.dto.js';
 
 //--------------------------------GET MESSAGES (Unregistered/User)--------------------------------
 
@@ -7,6 +8,8 @@ export const GetMessagesWithoutAuthorResponseSchema = z.array(
     z.object({
         messageId: z.number(),
         message: z.string(),
+        likes: z.number(),
+        bookmarks: z.number(),
         timestamp: z.union([z.date(), z.string().datetime()]),
     })
 );
@@ -22,8 +25,14 @@ export const GetMessagesResponseSchema = z.array(
     z.object({
         messageId: z.number(),
         message: z.string(),
-        username: z.string().nullish(),
+        user: UserSchema.omit({
+            id: true,
+        }).nullish(),
+        likes: z.number(),
+        bookmarks: z.number(),
         edited: z.boolean(),
+        bookmarked: z.boolean(),
+        liked: z.boolean(),
         timestamp: z.union([z.date(), z.string().datetime()]),
     })
 );
