@@ -47,6 +47,7 @@ export {
     EditMessageRequestSchema,
     EditMessageResponseSchema,
     MessageParamsSchema,
+    GetUserBookmarksResponseSchema,
 } from './dtos/message.dto.js';
 // Export all message DTOs.
 export type {
@@ -57,6 +58,7 @@ export type {
     EditMessageRequestDto,
     EditMessageResponseDto,
     MessageParamsDto,
+    GetUserBookmarksResponseDto,
 } from './dtos/message.dto.js';
 
 // Export all file zod-schemas and other constants.
