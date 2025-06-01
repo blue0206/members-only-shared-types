@@ -86,14 +86,3 @@ export const MessageParamsSchema = z.object({
 });
 // Request Params DTO
 export type MessageParamsDto = z.infer<typeof MessageParamsSchema>;
-
-//---------------------------------LIKE MESSAGE-----------------------------------------------
-
-// Response Schema
-export const LikeMessageResponseSchema = z.object({
-    messageId: z.number(),
-    likes: z.number(),
-    liked: z.boolean(),
-});
-// Response DTO
-export type LikeMessageResponseDto = z.infer<typeof LikeMessageResponseSchema>;
