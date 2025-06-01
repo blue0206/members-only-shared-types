@@ -565,7 +565,7 @@ By using this shared package, we ensure that changes to API data structures are 
     | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                 |
     | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
     | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
-    | 403         | `FORBIDDEN`               | "Member or Admin privileges are required."                 | -                             | Returned when the logged-in user is not an admin or member and hence cannot edit messages.  |
+    | 403         | `FORBIDDEN`               | "Member or Admin privileges are required."                 | -                             | Returned when the logged-in user is not an admin or member.                                 |
     | 422         | `VALIDATION_ERROR`        | "Invalid request parameters."                              | `{ /* Zod error details */ }` | Returned when request params fails validation.                                              |
     | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                       |
 
@@ -576,6 +576,30 @@ By using this shared package, we ensure that changes to API data structures are 
 ---
 
 #### Remove Bookmark
+
+- **Endpoint:** `DELETE /api/v1/users/bookmarks/:messageId`
+- **Description:** Remove logged-in Admin/Member user's bookmark.
+- **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
+- **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
+- **Request Parameters:**
+    - `messageId` - The ID of the message to bookmark.
+    - **Schema:** See [`MessageParamsSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/message.dto.ts)
+- **Request Body:** None.
+- **Success Response:** `204 No Content`
+    - **Headers:** None.
+    - **Body:** None.
+- **Error Responses:** (Matches `ApiResponseError`)
+
+    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                 |
+    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
+    | 403         | `FORBIDDEN`               | "Member or Admin privileges are required."                 | -                             | Returned when the logged-in user is not an admin or member.                                 |
+    | 422         | `VALIDATION_ERROR`        | "Invalid request parameters."                              | `{ /* Zod error details */ }` | Returned when request params fails validation.                                              |
+    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                       |
+
+    - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
+    - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
+    - See [CSRF Verification Errors](#csrf-verification-errors) for error response on failed CSRF token verification.
 
 ---
 
