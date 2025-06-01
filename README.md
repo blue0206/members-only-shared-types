@@ -848,18 +848,13 @@ By using this shared package, we ensure that changes to API data structures are 
 - **Success Response:** `201 Created`
 
     - **Headers:** None.
-    - **Body:** `application/json` (Matches `ApiResponseSuccess<LikeMessageResponseDto>`)
+    - **Body:** `application/json` (Matches `ApiResponseSuccess<null>`)
 
         ```jsonc
         // Example Success Response Body
         {
             "success": true,
-            "payload": {
-                // Matches LikeMessageResponseDto
-                "messageId": 5,
-                "likes": 8,
-                "liked": true,
-            },
+            "payload": null,
             "requestId": "...",
             "statusCode": 201,
         }
