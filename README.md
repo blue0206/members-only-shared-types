@@ -8,41 +8,41 @@ Shared TypeScript types, Zod schemas, and API definitions for the "Members Only"
 ## Table of Contents
 
 - [@blue0206/members-only-shared-types](#blue0206members-only-shared-types)
-    - [Table of Contents](#table-of-contents)
-    - [Installation](#installation)
-    - [Purpose \& Usage](#purpose--usage)
-    - [Core Contents](#core-contents)
-    - [API Documentation](#api-documentation)
-        - [Authentication (`/api/v1/auth`)](#authentication-apiv1auth)
-            - [Register User](#register-user)
-            - [Login User](#login-user)
-            - [Logout User](#logout-user)
-            - [Refresh User's Tokens](#refresh-users-tokens)
-        - [Users (`/api/v1/users`)](#users-apiv1users)
-            - [Get Messages](#get-messages)
-            - [Edit User (Update Profile Details)](#edit-user-update-profile-details)
-            - [Delete User (Admin)](#delete-user-admin)
-            - [Delete User (Self)](#delete-user-self)
-            - [Reset Password](#reset-password)
-            - [Member Role Update](#member-role-update)
-            - [Set Role](#set-role)
-            - [Delete Avatar](#delete-avatar)
-            - [Get Bookmarks (Admin/Member)](#get-bookmarks-adminmember)
-            - [Add Bookmark](#add-bookmark)
-            - [Remove Bookmark](#remove-bookmark)
-        - [Messages (`/api/v1/messages`)](#messages-apiv1messages)
-            - [Get All Messages (Unregistered/User)](#get-all-messages-unregistereduser)
-            - [Get All Messages (Admin/Member)](#get-all-messages-adminmember)
-            - [Create Message](#create-message)
-            - [Edit Message](#edit-message)
-            - [Delete Message](#delete-message)
-            - [Like Message](#like-message)
-            - [Unlike Message](#unlike-message)
-        - [Errors](#errors)
-            - [Prisma and Database Errors](#prisma-and-database-errors)
-            - [JWT Verification Errors](#jwt-verification-errors)
-            - [CSRF Verification Errors](#csrf-verification-errors)
-            - [File Upload Errors](#file-upload-errors)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Purpose \& Usage](#purpose--usage)
+  - [Core Contents](#core-contents)
+  - [API Documentation](#api-documentation)
+    - [Authentication (`/api/v1/auth`)](#authentication-apiv1auth)
+      - [Register User](#register-user)
+      - [Login User](#login-user)
+      - [Logout User](#logout-user)
+      - [Refresh User's Tokens](#refresh-users-tokens)
+    - [Users (`/api/v1/users`)](#users-apiv1users)
+      - [Get Messages](#get-messages)
+      - [Edit User (Update Profile Details)](#edit-user-update-profile-details)
+      - [Delete User (Admin)](#delete-user-admin)
+      - [Delete User (Self)](#delete-user-self)
+      - [Reset Password](#reset-password)
+      - [Member Role Update](#member-role-update)
+      - [Set Role](#set-role)
+      - [Delete Avatar](#delete-avatar)
+      - [Get Bookmarks (Admin/Member)](#get-bookmarks-adminmember)
+      - [Add Bookmark](#add-bookmark)
+      - [Remove Bookmark](#remove-bookmark)
+    - [Messages (`/api/v1/messages`)](#messages-apiv1messages)
+      - [Get All Messages (Unregistered/User)](#get-all-messages-unregistereduser)
+      - [Get All Messages (Admin/Member)](#get-all-messages-adminmember)
+      - [Create Message](#create-message)
+      - [Edit Message](#edit-message)
+      - [Delete Message](#delete-message)
+      - [Like Message](#like-message)
+      - [Unlike Message](#unlike-message)
+    - [Errors](#errors)
+      - [Prisma and Database Errors](#prisma-and-database-errors)
+      - [JWT Verification Errors](#jwt-verification-errors)
+      - [CSRF Verification Errors](#csrf-verification-errors)
+      - [File Upload Errors](#file-upload-errors)
 
 ## Installation
 
@@ -232,9 +232,9 @@ By using this shared package, we ensure that changes to API data structures are 
                 {
                     "messageId": 5,
                     "message": "...",
-                    "username": "blue0206", // Only for Admin and Member roles.
                     "timestamp": "...",
                     "edited": true, // Only for Admin and Member roles.
+                    "..."
                 },
             ],
             "requestId": "...",
@@ -505,6 +505,7 @@ By using this shared package, we ensure that changes to API data structures are 
                     "message": "...",
                     "user": {
                         // Can also be nullish for deleted user.
+                        "userId": 16,
                         "username": "soap0206",
                         "firstname": "John",
                         "middlename": "'SOAP'",
@@ -626,6 +627,7 @@ By using this shared package, we ensure that changes to API data structures are 
                     "message": "...",
                     "likes": 5,
                     "bookmarks": 4,
+                    "userId": 16,
                     "timestamp": "...", // createdAt timestamp
                 },
             ],
@@ -665,6 +667,7 @@ By using this shared package, we ensure that changes to API data structures are 
                     "message": "...",
                     "user": {
                         // Can also be nullish for deleted user.
+                        "userId": 16,
                         "username": "soap0206",
                         "firstname": "John",
                         "middlename": "'SOAP'",
@@ -726,9 +729,9 @@ By using this shared package, we ensure that changes to API data structures are 
                 // Matches CreateMessageResponseDto (content depends on user role)
                 "messageId": 5,
                 "message": "...",
-                "username": "blue0206", // Admin/Member only
                 "edited": false, // Admin/Member only
                 "timestamp": "...", // createdAt timestamp
+                "..."
             },
             "requestId": "...",
             "statusCode": 201,
@@ -779,9 +782,9 @@ By using this shared package, we ensure that changes to API data structures are 
                 // Matches EditMessageResponseDto
                 "messageId": 5,
                 "message": "...",
-                "username": "blue0206",
                 "edited": false,
                 "timestamp": "...", // createdAt timestamp
+                "..."
             },
             "requestId": "...",
             "statusCode": 200,
