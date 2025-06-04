@@ -10,7 +10,7 @@ export const GetMessagesWithoutAuthorResponseSchema = z.array(
         message: z.string(),
         likes: z.number(),
         bookmarks: z.number(),
-        userId: z.number(),
+        userId: z.number().nullish(),
         timestamp: z.union([z.date(), z.string().datetime()]),
     })
 );
