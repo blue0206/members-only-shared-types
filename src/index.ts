@@ -8,6 +8,7 @@ export {
     UserSchema,
     UserSessionsResponseSchema,
     SessionIdParamsSchema,
+    RevokeAllSessionsRequestSchema,
 } from './dtos/auth.dto.js';
 // Export all auth DTOs.
 export type {
@@ -19,6 +20,7 @@ export type {
     UserDto,
     UserSessionsResponseDto,
     SessionIdParamsDto,
+    RevokeAllSessionsRequestDto,
 } from './dtos/auth.dto.js';
 
 // Export all user zod-schemas.
