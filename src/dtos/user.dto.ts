@@ -7,13 +7,15 @@ import { AvatarSchema } from './file.dto.js';
 //----------------------------------GET USERS--------------------------------
 
 // Response Schema
-export const GetUsersResponseSchema = z
-    .object({
-        joinDate: z.union([z.date(), z.string().datetime()]),
-        lastUpdate: z.union([z.date(), z.string().datetime()]),
-        lastActive: z.union([z.date(), z.string().datetime()]),
-    })
-    .merge(UserSchema);
+export const GetUsersResponseSchema = z.array(
+    z
+        .object({
+            joinDate: z.union([z.date(), z.string().datetime()]),
+            lastUpdate: z.union([z.date(), z.string().datetime()]),
+            lastActive: z.union([z.date(), z.string().datetime()]),
+        })
+        .merge(UserSchema)
+);
 // Response DTO
 export type GetUsersResponseDto = z.infer<typeof GetUsersResponseSchema>;
 
