@@ -21,7 +21,7 @@ export type {
 export {
     EditUserRequestSchema,
     EditUserResponseSchema,
-    GetUserMessagesResponseSchema,
+    GetUsersResponseSchema,
     ResetPasswordRequestSchema,
     MemberRoleUpdateRequestSchema,
     SetRoleRequestQuerySchema,
@@ -32,7 +32,7 @@ export {
 export type {
     EditUserRequestDto,
     EditUserResponseDto,
-    GetUserMessagesResponseDto,
+    GetUsersResponseDto,
     ResetPasswordRequestDto,
     MemberRoleUpdateRequestDto,
     SetRoleRequestQueryDto,

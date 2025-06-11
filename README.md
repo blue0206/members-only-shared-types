@@ -8,41 +8,41 @@ Shared TypeScript types, Zod schemas, and API definitions for the "Members Only"
 ## Table of Contents
 
 - [@blue0206/members-only-shared-types](#blue0206members-only-shared-types)
-  - [Table of Contents](#table-of-contents)
-  - [Installation](#installation)
-  - [Purpose \& Usage](#purpose--usage)
-  - [Core Contents](#core-contents)
-  - [API Documentation](#api-documentation)
-    - [Authentication (`/api/v1/auth`)](#authentication-apiv1auth)
-      - [Register User](#register-user)
-      - [Login User](#login-user)
-      - [Logout User](#logout-user)
-      - [Refresh User's Tokens](#refresh-users-tokens)
-    - [Users (`/api/v1/users`)](#users-apiv1users)
-      - [Get Messages](#get-messages)
-      - [Edit User (Update Profile Details)](#edit-user-update-profile-details)
-      - [Delete User (Admin)](#delete-user-admin)
-      - [Delete User (Self)](#delete-user-self)
-      - [Reset Password](#reset-password)
-      - [Member Role Update](#member-role-update)
-      - [Set Role](#set-role)
-      - [Delete Avatar](#delete-avatar)
-      - [Get Bookmarks (Admin/Member)](#get-bookmarks-adminmember)
-      - [Add Bookmark](#add-bookmark)
-      - [Remove Bookmark](#remove-bookmark)
-    - [Messages (`/api/v1/messages`)](#messages-apiv1messages)
-      - [Get All Messages (Unregistered/User)](#get-all-messages-unregistereduser)
-      - [Get All Messages (Admin/Member)](#get-all-messages-adminmember)
-      - [Create Message](#create-message)
-      - [Edit Message](#edit-message)
-      - [Delete Message](#delete-message)
-      - [Like Message](#like-message)
-      - [Unlike Message](#unlike-message)
-    - [Errors](#errors)
-      - [Prisma and Database Errors](#prisma-and-database-errors)
-      - [JWT Verification Errors](#jwt-verification-errors)
-      - [CSRF Verification Errors](#csrf-verification-errors)
-      - [File Upload Errors](#file-upload-errors)
+    - [Table of Contents](#table-of-contents)
+    - [Installation](#installation)
+    - [Purpose \& Usage](#purpose--usage)
+    - [Core Contents](#core-contents)
+    - [API Documentation](#api-documentation)
+        - [Authentication (`/api/v1/auth`)](#authentication-apiv1auth)
+            - [Register User](#register-user)
+            - [Login User](#login-user)
+            - [Logout User](#logout-user)
+            - [Refresh User's Tokens](#refresh-users-tokens)
+        - [Users (`/api/v1/users`)](#users-apiv1users)
+            - [Get Users](#get-users)
+            - [Edit User (Update Profile Details)](#edit-user-update-profile-details)
+            - [Delete User (Admin)](#delete-user-admin)
+            - [Delete User (Self)](#delete-user-self)
+            - [Reset Password](#reset-password)
+            - [Member Role Update](#member-role-update)
+            - [Set Role](#set-role)
+            - [Delete Avatar](#delete-avatar)
+            - [Get Bookmarks (Admin/Member)](#get-bookmarks-adminmember)
+            - [Add Bookmark](#add-bookmark)
+            - [Remove Bookmark](#remove-bookmark)
+        - [Messages (`/api/v1/messages`)](#messages-apiv1messages)
+            - [Get All Messages (Unregistered/User)](#get-all-messages-unregistereduser)
+            - [Get All Messages (Admin/Member)](#get-all-messages-adminmember)
+            - [Create Message](#create-message)
+            - [Edit Message](#edit-message)
+            - [Delete Message](#delete-message)
+            - [Like Message](#like-message)
+            - [Unlike Message](#unlike-message)
+        - [Errors](#errors)
+            - [Prisma and Database Errors](#prisma-and-database-errors)
+            - [JWT Verification Errors](#jwt-verification-errors)
+            - [CSRF Verification Errors](#csrf-verification-errors)
+            - [File Upload Errors](#file-upload-errors)
 
 ## Installation
 
@@ -213,27 +213,27 @@ By using this shared package, we ensure that changes to API data structures are 
 
 ### Users (`/api/v1/users`)
 
-#### Get Messages
+#### Get Users
 
-- **Endpoint:** `GET /api/v1/users/messages`
-- **Description:** Gets all the messages by logged-in user.
+- **Endpoint:** `GET /api/v1/users`
+- **Description:** Gets all the users. This route is Admin only.
 - **Request Cookies:** None.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks.
 - **Request Body:** None.
 - **Success Response:** `200 OK`
     - **Headers:** None.
-    - **Body:** `application/json` (Matches `ApiResponseSuccess<GetUserMessagesResponseDto>`)
+    - **Body:** `application/json` (Matches `ApiResponseSuccess<GetUsersResponseDto>`)
         ```jsonc
         // Example Success Response Body
         {
             "success": true,
             "data": [
-                // Matches GetUserMessagesResponseDto
+                // Matches GetUsersResponseDto
                 {
-                    "messageId": 5,
-                    "message": "...",
-                    "timestamp": "...",
-                    "edited": true, // Only for Admin and Member roles.
+                    "username": "blue0206",
+                    "firstname": "Aayush",
+                    "middlename": null,
+                    "lastActive": "...",
                     "..."
                 },
             ],
@@ -243,12 +243,11 @@ By using this shared package, we ensure that changes to API data structures are 
         ```
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                 |
-    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
-    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
-    | 500         | `DATABASE_ERROR`          | "User not found in database."                              | -                             | Returned when the user's entry is not in database.                                          |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                       |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "DTO Mapping Error"                                        | `{ /* Zod error details */ }` | Returned when the mapping to the `GetUserMessagesResponseDto` fails parsing with the schema |
+    | Status Code | Error Code              | Message                                                    | Details                       | Description                                                                            |
+    | ----------- | ----------------------- | ---------------------------------------------------------- | ----------------------------- | -------------------------------------------------------------------------------------- |
+    | 403         | `FORBIDDEN`             | "Admin privileges are required."                           | -                             | Returned when the logged-in user is not an admin and hence cannot perform this action. |
+    | 500         | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                  |
+    | 500         | `INTERNAL_SERVER_ERROR` | "DTO Mapping Error"                                        | `{ /* Zod error details */ }` | Returned when the mapping to the `GetUsersResponseDto` fails parsing with the schema   |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.

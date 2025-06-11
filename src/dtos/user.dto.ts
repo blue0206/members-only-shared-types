@@ -1,23 +1,21 @@
 import { z } from 'zod';
 import { Role } from '../enums/roles.enum.js';
-import {
-    GetMessagesResponseSchema,
-    GetMessagesWithoutAuthorResponseSchema,
-} from './message.dto.js';
+import { GetMessagesResponseSchema } from './message.dto.js';
 import { RegisterRequestSchema, UserSchema } from './auth.dto.js';
 import { AvatarSchema } from './file.dto.js';
 
-//----------------------------------GET MESSAGES--------------------------------
+//----------------------------------GET USERS--------------------------------
 
 // Response Schema
-export const GetUserMessagesResponseSchema = z.union([
-    GetMessagesResponseSchema,
-    GetMessagesWithoutAuthorResponseSchema,
-]);
+export const GetUsersResponseSchema = z
+    .object({
+        joinDate: z.union([z.date(), z.string().datetime()]),
+        lastUpdate: z.union([z.date(), z.string().datetime()]),
+        lastActive: z.union([z.date(), z.string().datetime()]),
+    })
+    .merge(UserSchema);
 // Response DTO
-export type GetUserMessagesResponseDto = z.infer<
-    typeof GetUserMessagesResponseSchema
->;
+export type GetUsersResponseDto = z.infer<typeof GetUsersResponseSchema>;
 
 //--------------------------------EDIT USER--------------------------------
 
