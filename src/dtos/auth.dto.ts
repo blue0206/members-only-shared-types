@@ -128,4 +128,14 @@ export const UserSessionsResponseSchema = z.array(
         currentSession: z.boolean(),
     })
 );
+// Response DTO
 export type UserSessionsResponseDto = z.infer<typeof UserSessionsResponseSchema>;
+
+//--------------------------------REVOKE SESSION--------------------------------
+
+// Request Schema
+export const SessionIdParamsSchema = z.object({
+    sessionId: z.string().uuid(),
+});
+// Request DTO
+export type SessionIdParamsDto = z.infer<typeof SessionIdParamsSchema>;
