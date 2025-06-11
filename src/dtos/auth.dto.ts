@@ -112,3 +112,20 @@ export const RefreshResponseSchema = z.object({
 });
 // Response DTO
 export type RefreshResponseDto = z.infer<typeof RefreshResponseSchema>;
+
+//--------------------------------USER SESSIONS--------------------------------
+
+// Response Schema
+export const UserSessionsResponseSchema = z.array(
+    z.object({
+        sessionId: z.string().uuid(),
+        userId: z.number(),
+        userIp: z.string().ip().optional(),
+        userAgent: z.string().optional(),
+        userLocation: z.string().optional(),
+        lastUsedOn: z.union([z.date(), z.string().datetime()]),
+        expires: z.union([z.date(), z.string().datetime()]),
+        currentSession: z.boolean(),
+    })
+);
+export type UserSessionsResponseDto = z.infer<typeof UserSessionsResponseSchema>;

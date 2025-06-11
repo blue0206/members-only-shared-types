@@ -18,6 +18,7 @@ Shared TypeScript types, Zod schemas, and API definitions for the "Members Only"
             - [Login User](#login-user)
             - [Logout User](#logout-user)
             - [Refresh User's Tokens](#refresh-users-tokens)
+            - [Get User's Sessions](#get-users-sessions)
         - [Users (`/api/v1/users`)](#users-apiv1users)
             - [Get Users](#get-users)
             - [Edit User (Update Profile Details)](#edit-user-update-profile-details)
@@ -183,19 +184,24 @@ By using this shared package, we ensure that changes to API data structures are 
 - **Request Cookies:** Requires a valid `refreshToken` HttpOnly cookie to be sent by the browser, and a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
 - **Request Body:** None.
-- **Success Response:** `200 OK` - **Headers:** (Same `Set-Cookie` headers as Register/Login) - **Body:** `application/json` (Matches `ApiResponseSuccess<RefreshTokenResponseDto>`)
-  `jsonc
-// Example Success Response Body
-{
-    "success": true,
-    "data": {
-        // Matches RefreshTokenResponseDto
-        "accessToken": "dbawlfblblvksdvlibsaviabv...", // NEW JWT Access Token
-    },
-    "requestId": "...",
-    "statusCode": 200,
-}
-`
+- **Success Response:** `200 OK`
+
+    - **Headers:** (Same `Set-Cookie` headers as Register/Login)
+    - **Body:** `application/json` (Matches `ApiResponseSuccess<RefreshTokenResponseDto>`)
+
+        ```jsonc
+        // Example Success Response Body
+        {
+            "success": true,
+            "data": {
+                // Matches RefreshTokenResponseDto
+                "accessToken": "dbawlfblblvksdvlibsaviabv...", // NEW JWT Access Token
+            },
+            "requestId": "...",
+            "statusCode": 200,
+        }
+        ```
+
 - **Error Responses:** (Matches `ApiResponseError`)
   | Status Code | Error Code | Message | Details | Description |
   |-------------|------------|---------|---------|-------------|
@@ -204,6 +210,49 @@ By using this shared package, we ensure that changes to API data structures are 
   | 500 | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Request ID." | - | Returned when the request ID is missing from request. |
   | 500 | `INTERNAL_SERVER_ERROR` | "DTO Mapping Error" | `{ /* Zod error details */ }` | Returned when the mapping to the `RefreshTokenResponseDto` fails parsing with the schema |
   | 500 | `DATABASE_ERROR` | "User not found in database." | - | Returned when the refresh token is present and verified but the user's entry is not in database.
+
+    - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
+    - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
+    - See [CSRF Verification Errors](#csrf-verification-errors) for error response on failed CSRF token verification.
+
+---
+
+#### Get User's Sessions
+
+- **Endpoint:** `GET /api/v1/auth/sessions`
+- **Description:** Gets all the sessions of the current user.
+- **Request Cookies:** Requires a valid `refreshToken` HttpOnly cookie to be sent by the browser, and a `csrf-token` cookie for passing CSRF verification checks.
+- **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
+- **Request Body:** None.
+- **Success Response:** `200 OK`
+
+    - **Body:** `application/json` (Matches `ApiResponseSuccess<UserSessionsResponseDto>`)
+
+        ```jsonc
+        // Example Success Response Body
+        {
+            "success": true,
+            "data": {
+                // Matches UserSessionsResponseDto
+                "sessionId": "uuid", // JwtID or jti
+                "userId": 16,
+                "userIp": "192.168.0.1",
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+                "userLocation": "New York, United States",
+                "lastUsedOn": "...",
+                "currentSession": true,
+            },
+            "requestId": "...",
+            "statusCode": 200,
+        }
+        ```
+
+- **Error Responses:** (Matches `ApiResponseError`)
+  | Status Code | Error Code | Message | Details | Description |
+  |-------------|------------|---------|---------|-------------|
+  | 403 | `FORBIDDEN` | "Admin privileges are required." | - | Returned when the logged-in user is not an admin and hence cannot perform this action. |
+  | 500 | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Request ID." | - | Returned when the request ID is missing from request. |
+  | 500 | `INTERNAL_SERVER_ERROR` | "DTO Mapping Error" | `{ /* Zod error details */ }` | Returned when the mapping to the `UserSessionsResponseDto` fails parsing with the schema |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
@@ -966,3 +1015,11 @@ These errors are handled using an error-handling wrapper around JWT verification
 | 500         | `FILE_DELETE_ERROR`       | "File deletion from Cloudinary failed." | `{ /* Cloudinary error details */ }` | Thrown by Cloudinary when file deletion fails.                    |
 
 ---
+
+```
+
+```
+
+```
+
+```
