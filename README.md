@@ -306,9 +306,10 @@ By using this shared package, we ensure that changes to API data structures are 
 - **Error Responses:** (Matches `ApiResponseError`)
   | Status Code | Error Code | Message | Details | Description |
   |-------------|------------|---------|---------|-------------|
-  | 403 | `FORBIDDEN` | "Admin privileges are required." | - | Returned when the logged-in user is not an admin and hence cannot perform this action. |
+  | 401 | `MISSING_REFRESH_TOKEN` | "Missing refresh token." | - | Returned when there's no refresh token in cookie. |
+  | 401 | `INVALID_TOKEN` | "Invalid refresh token: missing jti claim." | - | Returned when the refresh token is present and verified but the token's jti claim is missing. |
+  | 401 | `AUTHENTICATION_REQUIRED` | "Authentication details missing." | - | Returned when the access token verification middleware fails to populate `req.user` object. |
   | 500 | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Request ID." | - | Returned when the request ID is missing from request. |
-  | 500 | `INTERNAL_SERVER_ERROR` | "DTO Mapping Error" | `{ /* Zod error details */ }` | Returned when the mapping to the `UserSessionsResponseDto` fails parsing with the schema |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
