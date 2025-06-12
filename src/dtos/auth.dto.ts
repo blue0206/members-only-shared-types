@@ -139,14 +139,3 @@ export const SessionIdParamsSchema = z.object({
 });
 // Request DTO
 export type SessionIdParamsDto = z.infer<typeof SessionIdParamsSchema>;
-
-//--------------------------------REVOKE ALL OTHER SESSIONS--------------------------
-
-// Request Schema
-export const RevokeAllSessionsRequestSchema = z.object({
-    currentSessionId: z.string().uuid(),
-});
-// Request DTO
-export type RevokeAllSessionsRequestDto = z.infer<
-    typeof RevokeAllSessionsRequestSchema
->;
