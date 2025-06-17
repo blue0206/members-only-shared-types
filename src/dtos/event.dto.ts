@@ -35,3 +35,16 @@ export const MessageEventPayloadSchema = z.object({
 });
 // Event Payload DTO
 export type MessageEventPayloadDto = z.infer<typeof MessageEventPayloadSchema>;
+
+//---------------------------------------MESSAGE_AND_USER_EVENT---------------------------------------
+
+// Event Payload Schema
+export const MultiEventPayloadSchema = z.object({
+    reason: z.nativeEnum(EventReason),
+    concernedId: z.union([
+        UserEventPayloadSchema.shape.userId,
+        MessageEventPayloadSchema.shape.messageId,
+    ]),
+});
+// Event Payload DTO
+export type MultiEventPayloadDto = z.infer<typeof MultiEventPayloadSchema>;
