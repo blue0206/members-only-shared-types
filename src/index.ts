@@ -93,3 +93,4 @@ export type { SseEventNamesType } from './api/event-names.js';
 
 // Export enums.
 export { Role } from './enums/roles.enum.js';
+export { EventReason } from './enums/eventReason.enum.js';
