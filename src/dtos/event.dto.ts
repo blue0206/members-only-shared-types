@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { EventReason } from '../enums/eventReason.enum.js';
 import type { SseEventNamesType } from '../api/event-names.js';
 
 // Request Schema
@@ -14,3 +15,13 @@ export interface ServerSentEvent<EventName extends SseEventNamesType, Payload> {
     data: Payload;
     id?: string;
 }
+
+//---------------------------------------USER_EVENT---------------------------------------
+
+// Event Payload Schema
+export const UserEventPayloadSchema = z.object({
+    reason: z.nativeEnum(EventReason),
+    userId: z.number(),
+});
+// Event Payload DTO
+export type UserEventPayloadDto = z.infer<typeof UserEventPayloadSchema>;
