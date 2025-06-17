@@ -87,5 +87,9 @@ export type {
 export { ErrorCodes } from './api/error-codes.js';
 export type { ApiErrorCode } from './api/error-codes.js';
 
+// Export server-sent event names and type.
+export { SseEventNames } from './api/event-names.js';
+export type { SseEventNamesType } from './api/event-names.js';
+
 // Export enums.
 export { Role } from './enums/roles.enum.js';
