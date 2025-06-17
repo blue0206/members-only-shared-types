@@ -69,12 +69,14 @@ export type {
 export {
     EventRequestQuerySchema,
     UserEventPayloadSchema,
+    MessageEventPayloadSchema,
 } from './dtos/event.dto.js';
 // Export all server-sent event DTOs/types.
 export type {
     ServerSentEvent,
     EventRequestQueryDto,
     UserEventPayloadDto,
+    MessageEventPayloadDto,
 } from './dtos/event.dto.js';
 
 // Export all file zod-schemas and other constants.

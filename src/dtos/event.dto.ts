@@ -25,3 +25,13 @@ export const UserEventPayloadSchema = z.object({
 });
 // Event Payload DTO
 export type UserEventPayloadDto = z.infer<typeof UserEventPayloadSchema>;
+
+//---------------------------------------MESSAGE_EVENT---------------------------------------
+
+// Event Payload Schema
+export const MessageEventPayloadSchema = z.object({
+    reason: z.nativeEnum(EventReason),
+    messageId: z.number(),
+});
+// Event Payload DTO
+export type MessageEventPayloadDto = z.infer<typeof MessageEventPayloadSchema>;
