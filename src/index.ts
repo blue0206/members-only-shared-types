@@ -67,8 +67,8 @@ export type {
 
 // Export all server-sent event zod schemas.
 export { EventRequestQuerySchema } from './dtos/event.dto.js';
-// Export all server-sent event DTOs.
-export type { EventRequestQueryDto } from './dtos/event.dto.js';
+// Export all server-sent event DTOs/types.
+export type { ServerSentEvent, EventRequestQueryDto } from './dtos/event.dto.js';
 
 // Export all file zod-schemas and other constants.
 export { AvatarSchema, supportedImageFormats } from './dtos/file.dto.js';
