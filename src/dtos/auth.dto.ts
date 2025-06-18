@@ -80,7 +80,7 @@ export type RegisterRequestDto = z.infer<typeof RegisterRequestSchema>;
 // Response Schema
 export const RegisterResponseSchema = z
     .object({
-        accessToken: z.string(),
+        accessToken: z.string().jwt(),
     })
     .merge(UserSchema);
 // Response DTO
@@ -107,9 +107,7 @@ export type LoginResponseDto = z.infer<typeof LoginResponseSchema>;
 //--------------------------------REFRESH--------------------------------
 
 // Response Schema
-export const RefreshResponseSchema = z.object({
-    accessToken: z.string(),
-});
+export const RefreshResponseSchema = RegisterResponseSchema;
 // Response DTO
 export type RefreshResponseDto = z.infer<typeof RefreshResponseSchema>;
 
