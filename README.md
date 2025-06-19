@@ -431,11 +431,12 @@ By using this shared package, we ensure that changes to API data structures are 
     - **Body:** None.
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code              | Message                                                    | Details                       | Description                                                                            |
-    | ----------- | ----------------------- | ---------------------------------------------------------- | ----------------------------- | -------------------------------------------------------------------------------------- |
-    | 403         | `FORBIDDEN`             | "Admin privileges are required."                           | -                             | Returned when the logged-in user is not an admin and hence cannot perform this action. |
-    | 422         | `VALIDATION_ERROR`      | "Invalid request parameters."                              | `{ /* Zod error details */ }` | Returned when request params fails validation                                          |
-    | 500         | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                  |
+    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                 |
+    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
+    | 403         | `FORBIDDEN`               | "Admin privileges are required."                           | -                             | Returned when the logged-in user is not an admin and hence cannot perform this action.      |
+    | 422         | `VALIDATION_ERROR`        | "Invalid request parameters."                              | `{ /* Zod error details */ }` | Returned when request params fails validation                                               |
+    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                       |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
@@ -550,12 +551,13 @@ By using this shared package, we ensure that changes to API data structures are 
     - **Body:** None.
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code              | Message                                                    | Details                       | Description                                                                            |
-    | ----------- | ----------------------- | ---------------------------------------------------------- | ----------------------------- | -------------------------------------------------------------------------------------- |
-    | 403         | `FORBIDDEN`             | "Admin privileges are required."                           | -                             | Returned when the logged-in user is not an admin and hence cannot perform this action. |
-    | 422         | `VALIDATION_ERROR`      | "Invalid request parameters."                              | `{ /* Zod error details */ }` | Returned when request params fails validation.                                         |
-    | 422         | `VALIDATION_ERROR`      | "Invalid request query."                                   | `{ /* Zod error details */ }` | Returned when request query fails validation.                                          |
-    | 500         | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                  |
+    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                 |
+    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
+    | 403         | `FORBIDDEN`               | "Admin privileges are required."                           | -                             | Returned when the logged-in user is not an admin and hence cannot perform this action.      |
+    | 422         | `VALIDATION_ERROR`        | "Invalid request parameters."                              | `{ /* Zod error details */ }` | Returned when request params fails validation.                                              |
+    | 422         | `VALIDATION_ERROR`        | "Invalid request query."                                   | `{ /* Zod error details */ }` | Returned when request query fails validation.                                               |
+    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                       |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
