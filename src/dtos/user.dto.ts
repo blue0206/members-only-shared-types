@@ -94,6 +94,8 @@ export const GetUserBookmarksResponseSchema = z.array(
     z.object({
         ...GetMessagesResponseSchema.element.shape,
         bookmarked: z.boolean().refine((value) => value === true),
+        messageTimestamp: z.union([z.date(), z.string().datetime()]), // Message timestamp.
+        timestamp: z.union([z.date(), z.string().datetime()]), // Bookmark timestamp.
     })
 );
 // Response DTO
