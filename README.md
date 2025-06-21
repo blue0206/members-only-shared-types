@@ -29,6 +29,7 @@ Shared TypeScript types, Zod schemas, and API definitions for the "Members Only"
             - [Reset Password](#reset-password)
             - [Member Role Update](#member-role-update)
             - [Set Role](#set-role)
+            - [Upload Avatar](#upload-avatar)
             - [Delete Avatar](#delete-avatar)
             - [Get Bookmarks (Admin/Member)](#get-bookmarks-adminmember)
             - [Add Bookmark](#add-bookmark)
@@ -366,7 +367,7 @@ By using this shared package, we ensure that changes to API data structures are 
 - **Description:** Update user profile details (except password).
 - **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
-- **Request Body:** `multipart/form-data`
+- **Request Body:** `application/json`
     ```jsonc
     // Example Request Body (Matches EditUserRequestDto)
     {
@@ -376,8 +377,6 @@ By using this shared package, we ensure that changes to API data structures are 
         "newFirstname": "John", // string, optional
         "newMiddlename": "Mac", // string, optional
         "newLastname": "Tavish", // string, optional
-        "newAvatar": "...", // string/url, optional
-        "avatarPresent": true, // boolean, optional (required when newAvatar is sent).
     }
     ```
     - **Schema:** See [`EditUserRequestSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/user.dto.ts)
@@ -562,6 +561,48 @@ By using this shared package, we ensure that changes to API data structures are 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
     - See [CSRF Verification Errors](#csrf-verification-errors) for error response on failed CSRF token verification.
+
+---
+
+#### Upload Avatar
+
+- **Endpoint:** `PATCH /api/v1/users/avatar`
+- **Description:** Allows registered users to update their avatar.
+- **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
+- **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
+- **Request Body:** `multipart/form-data`
+    ```jsonc
+    // Example Request Body (Matches UploadAvatarRequestSchema)
+    {
+        "avatar": "...", // file
+    }
+    ```
+    - **Schema:** See [`UploadAvatarRequestSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/user.dto.ts)
+- **Request Parameters:** None.
+- **Success Response:** `200 OK`
+    - **Headers:** None.
+    - **Body:** `application/json` (Matches `ApiResponseSuccess<null>`)
+        ```jsonc
+        // Example Success Response Body
+        {
+            "success": true,
+            "data": null,
+            "requestId": "...",
+            "statusCode": 200,
+        }
+        ```
+- **Error Responses:** (Matches `ApiResponseError`)
+
+    | Status Code | Error Code                | Message                                                    | Details                                                                               | Description                                                                                 |
+    | ----------- | ------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                                                                                     | Returned when the access token verification middleware fails to populate `req.user` object. |
+    | 500         | `FILE_UPLOAD_ERROR`       | "File not found in request."                               | Returned when the multer middleware fails to populate the `req` object with the file. |
+    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                                                                                     | Returned when the request ID is missing from request.                                       |
+
+    - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
+    - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
+    - See [CSRF Verification Errors](#csrf-verification-errors) for error response on failed CSRF token verification.
+    - See [File Upload Errors](#file-upload-errors) for error response on file upload/delete errors.
 
 ---
 

@@ -28,10 +28,6 @@ export const EditUserRequestSchema = z
         newFirstname: RegisterRequestSchema.shape.firstname,
         newMiddlename: RegisterRequestSchema.shape.middlename,
         newLastname: RegisterRequestSchema.shape.lastname,
-        newAvatar: AvatarSchema.nullish().optional(),
-        // An indicator; if avatar is present, this indicator is provided, else not.
-        // This does not determine with boolean, but instead with its presence.
-        avatarPresent: z.boolean().optional(),
     })
     .partial()
     .refine(
@@ -78,7 +74,16 @@ export const SetRoleRequestQuerySchema = z.object({
 // Request DTO
 export type SetRoleRequestQueryDto = z.infer<typeof SetRoleRequestQuerySchema>;
 
-//--------PARAMS for DELETE AVATAR, SET ROLE, DELETE USER by username--------
+//--------------------------------Upload Avatar------------------------------
+
+// Request Schema
+export const UploadAvatarRequestSchema = z.object({
+    avatar: AvatarSchema,
+});
+// Request DTO
+export type UploadAvatarRequestDto = z.infer<typeof UploadAvatarRequestSchema>;
+
+//--------PARAMS for SET ROLE, DELETE USER by username--------
 
 // Request Params Schema
 export const UsernameParamsSchema = z.object({
