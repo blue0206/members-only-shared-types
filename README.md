@@ -581,12 +581,14 @@ By using this shared package, we ensure that changes to API data structures are 
 - **Request Parameters:** None.
 - **Success Response:** `200 OK`
     - **Headers:** None.
-    - **Body:** `application/json` (Matches `ApiResponseSuccess<null>`)
+    - **Body:** `application/json` (Matches `ApiResponseSuccess<UploadAvatarResponseDto>`)
         ```jsonc
-        // Example Success Response Body
+        // Example Success Response Body (Matches UploadAvatarResponseDto)
         {
             "success": true,
-            "data": null,
+            "data": {
+                "avatar": "....", // url
+            },
             "requestId": "...",
             "statusCode": 200,
         }

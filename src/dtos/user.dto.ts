@@ -78,11 +78,17 @@ export type SetRoleRequestQueryDto = z.infer<typeof SetRoleRequestQuerySchema>;
 
 // Request Schema
 export const UploadAvatarRequestSchema = z.object({
-    avatarPresent: z.boolean(),
     avatar: AvatarSchema,
 });
 // Request DTO
 export type UploadAvatarRequestDto = z.infer<typeof UploadAvatarRequestSchema>;
+
+// Response Schema
+export const UploadAvatarResponseSchema = z.object({
+    avatar: UserSchema.shape.avatar,
+});
+// Response DTO
+export type UploadAvatarResponseDto = z.infer<typeof UploadAvatarResponseSchema>;
 
 //--------PARAMS for SET ROLE, DELETE USER by username--------
 

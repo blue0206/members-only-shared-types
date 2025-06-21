@@ -32,6 +32,7 @@ export {
     UsernameParamsSchema,
     GetUserBookmarksResponseSchema,
     UploadAvatarRequestSchema,
+    UploadAvatarResponseSchema,
 } from './dtos/user.dto.js';
 // Export all user DTOs
 export type {
@@ -44,6 +45,7 @@ export type {
     UsernameParamsDto,
     GetUserBookmarksResponseDto,
     UploadAvatarRequestDto,
+    UploadAvatarResponseDto,
 } from './dtos/user.dto.js';
 
 // Export all message zod-schemas.
