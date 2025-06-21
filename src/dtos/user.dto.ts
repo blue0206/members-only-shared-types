@@ -78,6 +78,7 @@ export type SetRoleRequestQueryDto = z.infer<typeof SetRoleRequestQuerySchema>;
 
 // Request Schema
 export const UploadAvatarRequestSchema = z.object({
+    avatarPresent: z.boolean(),
     avatar: AvatarSchema,
 });
 // Request DTO
