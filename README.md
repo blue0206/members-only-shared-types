@@ -572,12 +572,11 @@ By using this shared package, we ensure that changes to API data structures are 
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
 - **Request Body:** `multipart/form-data`
     ```jsonc
-    // Example Request Body (Matches UploadAvatarRequestSchema)
+    // Example Request Body (The schema for this is not provided as Zod generated schema is of 'any' type and causes issues on frontend. The frontend is responsible for properly validating the request body with the help of AvatarSchema exported by this package.)
     {
         "avatar": "...", // file
     }
     ```
-    - **Schema:** See [`UploadAvatarRequestSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/user.dto.ts)
 - **Request Parameters:** None.
 - **Success Response:** `200 OK`
     - **Headers:** None.

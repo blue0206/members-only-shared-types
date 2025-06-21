@@ -2,7 +2,6 @@ import { z } from 'zod';
 import { Role } from '../enums/roles.enum.js';
 import { GetMessagesResponseSchema } from './message.dto.js';
 import { RegisterRequestSchema, UserSchema } from './auth.dto.js';
-import { AvatarSchema } from './file.dto.js';
 
 //----------------------------------GET USERS--------------------------------
 
@@ -75,14 +74,6 @@ export const SetRoleRequestQuerySchema = z.object({
 export type SetRoleRequestQueryDto = z.infer<typeof SetRoleRequestQuerySchema>;
 
 //--------------------------------Upload Avatar------------------------------
-
-// Request Schema
-export const UploadAvatarRequestSchema = z.object({
-    avatar: AvatarSchema,
-});
-// Request DTO
-export type UploadAvatarRequestDto = z.infer<typeof UploadAvatarRequestSchema>;
-
 // Response Schema
 export const UploadAvatarResponseSchema = z.object({
     avatar: UserSchema.shape.avatar,

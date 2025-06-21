@@ -31,7 +31,6 @@ export {
     SetRoleRequestQuerySchema,
     UsernameParamsSchema,
     GetUserBookmarksResponseSchema,
-    UploadAvatarRequestSchema,
     UploadAvatarResponseSchema,
 } from './dtos/user.dto.js';
 // Export all user DTOs
@@ -44,7 +43,6 @@ export type {
     SetRoleRequestQueryDto,
     UsernameParamsDto,
     GetUserBookmarksResponseDto,
-    UploadAvatarRequestDto,
     UploadAvatarResponseDto,
 } from './dtos/user.dto.js';
 
