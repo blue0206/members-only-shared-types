@@ -47,7 +47,7 @@ export type EditUserResponseDto = z.infer<typeof EditUserResponseSchema>;
 
 // Request Schema
 export const ResetPasswordRequestSchema = z.object({
-    oldPassword: RegisterRequestSchema.shape.password,
+    oldPassword: z.string(),
     newPassword: RegisterRequestSchema.shape.password,
 });
 // Request DTO
