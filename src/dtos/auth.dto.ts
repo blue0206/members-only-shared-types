@@ -118,9 +118,9 @@ export const UserSessionsResponseSchema = z.array(
     z.object({
         sessionId: z.string().uuid(),
         userId: z.number(),
-        userIp: z.string().ip().optional(),
-        userAgent: z.string().optional(),
-        userLocation: z.string().optional(),
+        userIp: z.string(),
+        userAgent: z.string(),
+        userLocation: z.string(),
         lastUsedOn: z.union([z.date(), z.string().datetime()]),
         expires: z.union([z.date(), z.string().datetime()]),
         currentSession: z.boolean(),
