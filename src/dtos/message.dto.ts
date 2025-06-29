@@ -46,7 +46,7 @@ export const CreateMessageRequestSchema = z.object({
         .string()
         .trim()
         .min(1, { message: 'The message cannot be empty.' })
-        .max(1100, { message: 'The message is too long.' }),
+        .max(2000, { message: 'The message is too long.' }),
 });
 // Request DTO
 export type CreateMessageRequestDto = z.infer<typeof CreateMessageRequestSchema>;
