@@ -1,6 +1,6 @@
 {
     "name": "@blue0206/members-only-shared-types",
-    "version": "12.0.0",
+    "version": "13.0.0",
     "description": "Shared TypeScript types and schemas for Members Only project.",
     "keywords": [
         "typescript",
@@ -22,35 +22,20 @@
     "type": "module",
     "sideEffects": false,
     "exports": {
-        "./api": {
-            "import": "./dist/api/base.js",
-            "module-sync": "./dist/api/base.js",
-            "types": "./dist/api/base.d.ts"
-        },
-        "./constants/error": {
-            "import": "./dist/api/error-codes.js",
-            "module-sync": "./dist/api/error-codes.js",
-            "types": "./dist/api/error-codes.d.ts"
-        },
-        "./constants/event": {
-            "import": "./dist/api/event-names.js",
-            "module-sync": "./dist/api/event-names.js",
-            "types": "./dist/api/event-names.d.ts"
+        "./api/*": {
+            "import": "./dist/api/*.js",
+            "module-sync": "./dist/api/*.js",
+            "types": "./dist/api/*.d.ts"
         },
         "./dtos/*": {
             "import": "./dist/dtos/*.js",
             "module-sync": "./dist/dtos/*.js",
             "types": "./dist/dtos/*.d.ts"
         },
-        "./enums/role": {
-            "import": "./dist/enums/roles.enum.js",
-            "module-sync": "./dist/enums/roles.enum.js",
-            "types": "./dist/enums/roles.enum.d.ts"
-        },
-        "./enums/event": {
-            "import": "./dist/enums/eventReason.enum.js",
-            "module-sync": "./dist/enums/eventReason.enum.js",
-            "types": "./dist/enums/eventReason.enum.d.ts"
+        "./enums/*": {
+            "import": "./dist/enums/*.js",
+            "module-sync": "./dist/enums/*.js",
+            "types": "./dist/enums/*.d.ts"
         }
     },
     "files": [
