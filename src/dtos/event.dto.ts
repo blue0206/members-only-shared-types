@@ -55,25 +55,39 @@ export type MultiEventPayloadDto = z.infer<typeof MultiEventPayloadSchema>;
 //---------------------------------------Event Request Dispatch (Lambda to EC2)---------------------------------------
 
 // Request Schema
+const eventNameDiscriminatedUnion = z.discriminatedUnion('eventName', [
+    z.object({
+        eventName: z.literal(SseEventNames.MESSAGE_EVENT),
+        payload: MessageEventPayloadSchema,
+    }),
+    z.object({
+        eventName: z.literal(SseEventNames.USER_EVENT),
+        payload: UserEventPayloadSchema,
+    }),
+    z.object({
+        eventName: z.literal(SseEventNames.MULTI_EVENT),
+        payload: MultiEventPayloadSchema,
+    }),
+]);
+const transmissionTypeDiscriminatedUnion = z.discriminatedUnion('transmissionType', [
+    z.object({
+        transmissionType: z.literal('unicast'),
+        targetId: z.number(),
+    }),
+    z.object({
+        transmissionType: z.literal('multicast'),
+        targetRoles: z.array(z.nativeEnum(Role)),
+    }),
+    z.object({
+        transmissionType: z.literal('broadcast'),
+    }),
+]);
 export const EventRequestSchema = z.object({
     events: z.array(
-        z.discriminatedUnion('eventName', [
-            z.object({
-                eventName: z.literal(SseEventNames.MESSAGE_EVENT),
-                payload: MessageEventPayloadSchema,
-                transmissionType: z.enum(['unicast', 'multicast', 'broadcast']),
-            }),
-            z.object({
-                eventName: z.literal(SseEventNames.USER_EVENT),
-                payload: UserEventPayloadSchema,
-                transmissionType: z.enum(['unicast', 'multicast', 'broadcast']),
-            }),
-            z.object({
-                eventName: z.literal(SseEventNames.MULTI_EVENT),
-                payload: MultiEventPayloadSchema,
-                transmissionType: z.enum(['unicast', 'multicast', 'broadcast']),
-            }),
-        ])
+        z.intersection(
+            eventNameDiscriminatedUnion,
+            transmissionTypeDiscriminatedUnion
+        )
     ),
 });
 export type EventRequestDto = z.infer<typeof EventRequestSchema>;
