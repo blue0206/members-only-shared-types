@@ -1,14 +1,7 @@
 import { z } from 'zod';
 import { EventReason } from '../enums/eventReason.enum.js';
-import type { SseEventNamesType } from '../api/event-names.js';
+import { SseEventNames, type SseEventNamesType } from '../api/event-names.js';
 import { Role } from '../enums/roles.enum.js';
-
-// Request Schema
-export const EventRequestQuerySchema = z.object({
-    accessToken: z.string().jwt(),
-});
-// Request DTO
-export type EventRequestQueryDto = z.infer<typeof EventRequestQuerySchema>;
 
 // Server Sent Event Interface
 export interface ServerSentEvent<EventName extends SseEventNamesType, Payload> {
@@ -16,6 +9,15 @@ export interface ServerSentEvent<EventName extends SseEventNamesType, Payload> {
     data: Payload;
     id?: string;
 }
+
+//---------------------------------------Event Auth---------------------------------------
+
+// Request Schema
+export const EventRequestQuerySchema = z.object({
+    accessToken: z.string().jwt(),
+});
+// Request DTO
+export type EventRequestQueryDto = z.infer<typeof EventRequestQuerySchema>;
 
 //---------------------------------------USER_EVENT---------------------------------------
 
@@ -49,3 +51,29 @@ export const MultiEventPayloadSchema = z.object({
 });
 // Event Payload DTO
 export type MultiEventPayloadDto = z.infer<typeof MultiEventPayloadSchema>;
+
+//---------------------------------------Event Request Dispatch (Lambda to EC2)---------------------------------------
+
+// Request Schema
+export const EventRequestSchema = z.object({
+    events: z.array(
+        z.discriminatedUnion('eventName', [
+            z.object({
+                eventName: z.literal(SseEventNames.MESSAGE_EVENT),
+                payload: MessageEventPayloadSchema,
+                transmissionType: z.enum(['unicast', 'multicast', 'broadcast']),
+            }),
+            z.object({
+                eventName: z.literal(SseEventNames.USER_EVENT),
+                payload: UserEventPayloadSchema,
+                transmissionType: z.enum(['unicast', 'multicast', 'broadcast']),
+            }),
+            z.object({
+                eventName: z.literal(SseEventNames.MULTI_EVENT),
+                payload: MultiEventPayloadSchema,
+                transmissionType: z.enum(['unicast', 'multicast', 'broadcast']),
+            }),
+        ])
+    ),
+});
+export type EventRequestDto = z.infer<typeof EventRequestSchema>;
