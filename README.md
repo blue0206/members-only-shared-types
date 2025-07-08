@@ -8,45 +8,45 @@ Shared TypeScript types, Zod schemas, and API definitions for the "Members Only"
 ## Table of Contents
 
 - [@blue0206/members-only-shared-types](#blue0206members-only-shared-types)
-    - [Table of Contents](#table-of-contents)
-    - [Installation](#installation)
-    - [Purpose \& Usage](#purpose--usage)
-    - [Core Contents](#core-contents)
-    - [API Documentation](#api-documentation)
-        - [Authentication (`/api/v1/auth`)](#authentication-apiv1auth)
-            - [Register User](#register-user)
-            - [Login User](#login-user)
-            - [Logout User](#logout-user)
-            - [Refresh User's Tokens](#refresh-users-tokens)
-            - [Get User's Sessions](#get-users-sessions)
-            - [Revoke Specific Session](#revoke-specific-session)
-            - [Revoke All Other Sessions](#revoke-all-other-sessions)
-        - [Users (`/api/v1/users`)](#users-apiv1users)
-            - [Get Users](#get-users)
-            - [Edit User (Update Profile Details)](#edit-user-update-profile-details)
-            - [Delete User (Admin)](#delete-user-admin)
-            - [Delete User (Self)](#delete-user-self)
-            - [Reset Password](#reset-password)
-            - [Member Role Update](#member-role-update)
-            - [Set Role](#set-role)
-            - [Upload Avatar](#upload-avatar)
-            - [Delete Avatar](#delete-avatar)
-            - [Get Bookmarks (Admin/Member)](#get-bookmarks-adminmember)
-            - [Add Bookmark](#add-bookmark)
-            - [Remove Bookmark](#remove-bookmark)
-        - [Messages (`/api/v1/messages`)](#messages-apiv1messages)
-            - [Get All Messages (Unregistered/User)](#get-all-messages-unregistereduser)
-            - [Get All Messages (Admin/Member)](#get-all-messages-adminmember)
-            - [Create Message](#create-message)
-            - [Edit Message](#edit-message)
-            - [Delete Message](#delete-message)
-            - [Like Message](#like-message)
-            - [Unlike Message](#unlike-message)
-        - [Errors](#errors)
-            - [Prisma and Database Errors](#prisma-and-database-errors)
-            - [JWT Verification Errors](#jwt-verification-errors)
-            - [CSRF Verification Errors](#csrf-verification-errors)
-            - [File Upload Errors](#file-upload-errors)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Purpose \& Usage](#purpose--usage)
+  - [Core Contents](#core-contents)
+  - [API Documentation](#api-documentation)
+    - [Authentication (`/api/v1/auth`)](#authentication-apiv1auth)
+      - [Register User](#register-user)
+      - [Login User](#login-user)
+      - [Logout User](#logout-user)
+      - [Refresh User's Tokens](#refresh-users-tokens)
+      - [Get User's Sessions](#get-users-sessions)
+      - [Revoke Specific Session](#revoke-specific-session)
+      - [Revoke All Other Sessions](#revoke-all-other-sessions)
+    - [Users (`/api/v1/users`)](#users-apiv1users)
+      - [Get Users](#get-users)
+      - [Edit User (Update Profile Details)](#edit-user-update-profile-details)
+      - [Delete User (Admin)](#delete-user-admin)
+      - [Delete User (Self)](#delete-user-self)
+      - [Reset Password](#reset-password)
+      - [Member Role Update](#member-role-update)
+      - [Set Role](#set-role)
+      - [Upload Avatar](#upload-avatar)
+      - [Delete Avatar](#delete-avatar)
+      - [Get Bookmarks (Admin/Member)](#get-bookmarks-adminmember)
+      - [Add Bookmark](#add-bookmark)
+      - [Remove Bookmark](#remove-bookmark)
+    - [Messages (`/api/v1/messages`)](#messages-apiv1messages)
+      - [Get All Messages (Unregistered/User)](#get-all-messages-unregistereduser)
+      - [Get All Messages (Admin/Member)](#get-all-messages-adminmember)
+      - [Create Message](#create-message)
+      - [Edit Message](#edit-message)
+      - [Delete Message](#delete-message)
+      - [Like Message](#like-message)
+      - [Unlike Message](#unlike-message)
+    - [Errors](#errors)
+      - [Prisma and Database Errors](#prisma-and-database-errors)
+      - [JWT Verification Errors](#jwt-verification-errors)
+      - [CSRF Verification Errors](#csrf-verification-errors)
+      - [File Upload Errors](#file-upload-errors)
 
 ## Installation
 
@@ -124,8 +124,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
     | Status Code | Error Code              | Message                                                        | Details                       | Description                                                                          |
     | ----------- | ----------------------- | -------------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------ |
-    | 422         | `VALIDATION_ERROR`      | "Invalid request body."                                        | `{ /* Zod error details */ }` | Returned when request body fails validation                                          |
-    | 500         | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Request ID."     | -                             | Returned when the request ID is missing from request.                                |
+    | 422         | `VALIDATION_ERROR`      | "Invalid request."                                             | `{ /* Zod error details */ }` | Returned when request fails validation                                               |
     | 500         | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Client Details." | -                             | Returned when the client details object is missing from request.                     |
     | 500         | `INTERNAL_SERVER_ERROR` | "DTO Mapping Error"                                            | `{ /* Zod error details */ }` | Returned when the mapping to the `RegisterResponseDto` fails parsing with the schema |
 
@@ -155,8 +154,7 @@ By using this shared package, we ensure that changes to API data structures are 
     | Status Code | Error Code              | Message                                                        | Details                       | Description                                                                               |
     | ----------- | ----------------------- | -------------------------------------------------------------- | ----------------------------- | ----------------------------------------------------------------------------------------- |
     | 401         | `UNAUTHORIZED`          | "Invalid username or password."                                | -                             | Returned when user with username not found in database or if the password does not match. |
-    | 422         | `VALIDATION_ERROR`      | "Invalid request body."                                        | `{ /* Zod error details */ }` | Returned when request body fails validation                                               |
-    | 500         | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Request ID."     | -                             | Returned when the request ID is missing from request.                                     |
+    | 422         | `VALIDATION_ERROR`      | "Invalid request."                                             | `{ /* Zod error details */ }` | Returned when request fails validation                                                    |
     | 500         | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Client Details." | -                             | Returned when the client details object is missing from request.                          |
     | 500         | `INTERNAL_SERVER_ERROR` | "DTO Mapping Error"                                            | `{ /* Zod error details */ }` | Returned when the mapping to the `LoginResponseDto` fails parsing with the schema         |
 
@@ -212,10 +210,9 @@ By using this shared package, we ensure that changes to API data structures are 
   |-------------|------------|---------|---------|-------------|
   | 401 | `MISSING_REFRESH_TOKEN` | "Missing refresh token." | - | Returned when there's no refresh token in cookie. |
   | 401 | `INVALID_TOKEN` | "The refresh token is invalid." | - | Returned when the refresh token is present and verified but the token's entry is not in database. |
-  | 500 | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Request ID." | - | Returned when the request ID is missing from request. |
   | 500 | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Client Details." | - | Returned when the client details object is missing from request. |
   | 500 | `INTERNAL_SERVER_ERROR` | "DTO Mapping Error" | `{ /* Zod error details */ }` | Returned when the mapping to the `RefreshTokenResponseDto` fails parsing with the schema |
-  | 500 | `DATABASE_ERROR` | "User not found in database." | - | Returned when the refresh token is present and verified but the user's entry is not in database.
+  | 500 | `DATABASE_ERROR` | "User not found in database." | - | Returned when the refresh token is present and verified but the user's entry is not in database. |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
@@ -259,7 +256,6 @@ By using this shared package, we ensure that changes to API data structures are 
   | 401 | `MISSING_REFRESH_TOKEN` | "Missing refresh token." | - | Returned when there's no refresh token in cookie. |
   | 401 | `INVALID_TOKEN` | "Invalid refresh token: missing jti claim." | - | Returned when the refresh token is present and verified but the token's jti claim is missing. |
   | 401 | `AUTHENTICATION_REQUIRED` | "Authentication details missing." | - | Returned when the access token verification middleware fails to populate `req.user` object. |
-  | 500 | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Request ID." | - | Returned when the request ID is missing from request. |
   | 500 | `INTERNAL_SERVER_ERROR` | "DTO Mapping Error" | `{ /* Zod error details */ }` | Returned when the mapping to the `UserSessionsResponseDto` fails parsing with the schema |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
@@ -285,8 +281,7 @@ By using this shared package, we ensure that changes to API data structures are 
   | Status Code | Error Code | Message | Details | Description |
   |-------------|------------|---------|---------|-------------|
   | 401 | `AUTHENTICATION_REQUIRED` | "Authentication details missing." | - | Returned when the access token verification middleware fails to populate `req.user` object. |
-  | 422 | `VALIDATION_ERROR` | "Invalid request parameters." | `{ /* Zod error details */ }` | Returned when request params fails validation. |
-  | 500 | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Request ID." | - | Returned when the request ID is missing from request. |
+  | 422 | `VALIDATION_ERROR` | "Invalid request." | `{ /* Zod error details */ }` | Returned when request fails validation. |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
@@ -310,7 +305,6 @@ By using this shared package, we ensure that changes to API data structures are 
   | 401 | `MISSING_REFRESH_TOKEN` | "Missing refresh token." | - | Returned when there's no refresh token in cookie. |
   | 401 | `INVALID_TOKEN` | "Invalid refresh token: missing jti claim." | - | Returned when the refresh token is present and verified but the token's jti claim is missing. |
   | 401 | `AUTHENTICATION_REQUIRED` | "Authentication details missing." | - | Returned when the access token verification middleware fails to populate `req.user` object. |
-  | 500 | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Request ID." | - | Returned when the request ID is missing from request. |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
@@ -350,11 +344,10 @@ By using this shared package, we ensure that changes to API data structures are 
         ```
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code              | Message                                                    | Details                       | Description                                                                            |
-    | ----------- | ----------------------- | ---------------------------------------------------------- | ----------------------------- | -------------------------------------------------------------------------------------- |
-    | 403         | `FORBIDDEN`             | "Admin privileges are required."                           | -                             | Returned when the logged-in user is not an admin and hence cannot perform this action. |
-    | 500         | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                  |
-    | 500         | `INTERNAL_SERVER_ERROR` | "DTO Mapping Error"                                        | `{ /* Zod error details */ }` | Returned when the mapping to the `GetUsersResponseDto` fails parsing with the schema   |
+    | Status Code | Error Code              | Message                          | Details                       | Description                                                                            |
+    | ----------- | ----------------------- | -------------------------------- | ----------------------------- | -------------------------------------------------------------------------------------- |
+    | 403         | `FORBIDDEN`             | "Admin privileges are required." | -                             | Returned when the logged-in user is not an admin and hence cannot perform this action. |
+    | 500         | `INTERNAL_SERVER_ERROR` | "DTO Mapping Error"              | `{ /* Zod error details */ }` | Returned when the mapping to the `GetUsersResponseDto` fails parsing with the schema   |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
@@ -401,12 +394,11 @@ By using this shared package, we ensure that changes to API data structures are 
         ```
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                 |
-    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
-    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
-    | 422         | `VALIDATION_ERROR`        | "Invalid request body."                                    | `{ /* Zod error details */ }` | Returned when request body fails validation                                                 |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                       |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "DTO Mapping Error"                                        | `{ /* Zod error details */ }` | Returned when the mapping to the `EditUserResponseDto` fails parsing with the schema        |
+    | Status Code | Error Code                | Message                           | Details                       | Description                                                                                 |
+    | ----------- | ------------------------- | --------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing." | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
+    | 422         | `VALIDATION_ERROR`        | "Invalid request."                | `{ /* Zod error details */ }` | Returned when request fails validation                                                      |
+    | 500         | `INTERNAL_SERVER_ERROR`   | "DTO Mapping Error"               | `{ /* Zod error details */ }` | Returned when the mapping to the `EditUserResponseDto` fails parsing with the schema        |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
@@ -430,12 +422,11 @@ By using this shared package, we ensure that changes to API data structures are 
     - **Body:** None.
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                 |
-    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
-    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
-    | 403         | `FORBIDDEN`               | "Admin privileges are required."                           | -                             | Returned when the logged-in user is not an admin and hence cannot perform this action.      |
-    | 422         | `VALIDATION_ERROR`        | "Invalid request parameters."                              | `{ /* Zod error details */ }` | Returned when request params fails validation                                               |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                       |
+    | Status Code | Error Code                | Message                           | Details                       | Description                                                                                 |
+    | ----------- | ------------------------- | --------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing." | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
+    | 403         | `FORBIDDEN`               | "Admin privileges are required."  | -                             | Returned when the logged-in user is not an admin and hence cannot perform this action.      |
+    | 422         | `VALIDATION_ERROR`        | "Invalid request."                | `{ /* Zod error details */ }` | Returned when request fails validation.                                                     |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
@@ -455,10 +446,9 @@ By using this shared package, we ensure that changes to API data structures are 
     - **Body:** None.
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code                | Message                                                    | Details | Description                                                                                 |
-    | ----------- | ------------------------- | ---------------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------- |
-    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -       | Returned when the access token verification middleware fails to populate `req.user` object. |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -       | Returned when the request ID is missing from request.                                       |
+    | Status Code | Error Code                | Message                           | Details | Description                                                                                 |
+    | ----------- | ------------------------- | --------------------------------- | ------- | ------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing." | -       | Returned when the access token verification middleware fails to populate `req.user` object. |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
@@ -486,13 +476,12 @@ By using this shared package, we ensure that changes to API data structures are 
     - **Body:** None.
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                 |
-    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
-    | 401         | `INCORRECT_PASSWORD`      | "Incorrect password."                                      | -                             | Returned when the provided old password is incorrect.                                       |
-    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
-    | 422         | `VALIDATION_ERROR`        | "Invalid request body."                                    | `{ /* Zod error details */ }` | Returned when request body fails validation.                                                |
-    | 500         | `DATABASE_ERROR`          | "User not found in database."                              | -                             | Returned when the user's entry is not in database.                                          |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                       |
+    | Status Code | Error Code                | Message                           | Details                       | Description                                                                                 |
+    | ----------- | ------------------------- | --------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
+    | 401         | `INCORRECT_PASSWORD`      | "Incorrect password."             | -                             | Returned when the provided old password is incorrect.                                       |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing." | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
+    | 422         | `VALIDATION_ERROR`        | "Invalid request."                | `{ /* Zod error details */ }` | Returned when request fails validation.                                                     |
+    | 500         | `DATABASE_ERROR`          | "User not found in database."     | -                             | Returned when the user's entry is not in database.                                          |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
@@ -519,12 +508,11 @@ By using this shared package, we ensure that changes to API data structures are 
     - **Body:** None.
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                 |
-    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
-    | 401         | `INCORRECT_SECRET_KEY`    | "The secret key is incorrect."                             | -                             | Returned when the provided secret key is incorrect.                                         |
-    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
-    | 422         | `VALIDATION_ERROR`        | "Invalid request body."                                    | `{ /* Zod error details */ }` | Returned when request body fails validation.                                                |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                       |
+    | Status Code | Error Code                | Message                           | Details                       | Description                                                                                 |
+    | ----------- | ------------------------- | --------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
+    | 401         | `INCORRECT_SECRET_KEY`    | "The secret key is incorrect."    | -                             | Returned when the provided secret key is incorrect.                                         |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing." | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
+    | 422         | `VALIDATION_ERROR`        | "Invalid request."                | `{ /* Zod error details */ }` | Returned when request fails validation.                                                     |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
@@ -550,13 +538,12 @@ By using this shared package, we ensure that changes to API data structures are 
     - **Body:** None.
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                 |
-    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
-    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
-    | 403         | `FORBIDDEN`               | "Admin privileges are required."                           | -                             | Returned when the logged-in user is not an admin and hence cannot perform this action.      |
-    | 422         | `VALIDATION_ERROR`        | "Invalid request parameters."                              | `{ /* Zod error details */ }` | Returned when request params fails validation.                                              |
-    | 422         | `VALIDATION_ERROR`        | "Invalid request query."                                   | `{ /* Zod error details */ }` | Returned when request query fails validation.                                               |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                       |
+    | Status Code | Error Code                | Message                           | Details                       | Description                                                                                 |
+    | ----------- | ------------------------- | --------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing." | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
+    | 403         | `FORBIDDEN`               | "Admin privileges are required."  | -                             | Returned when the logged-in user is not an admin and hence cannot perform this action.      |
+    | 422         | `VALIDATION_ERROR`        | "Invalid request."                | `{ /* Zod error details */ }` | Returned when request fails validation.                                                     |
+    | 422         | `VALIDATION_ERROR`        | "Invalid request."                | `{ /* Zod error details */ }` | Returned when request fails validation.                                                     |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
@@ -594,11 +581,10 @@ By using this shared package, we ensure that changes to API data structures are 
         ```
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code                | Message                                                    | Details | Description                                                                                 |
-    | ----------- | ------------------------- | ---------------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------- |
-    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -       | Returned when the access token verification middleware fails to populate `req.user` object. |
-    | 500         | `FILE_UPLOAD_ERROR`       | "File not found in request."                               | -       | Returned when the multer middleware fails to populate the `req` object with the file.       |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -       | Returned when the request ID is missing from request.                                       |
+    | Status Code | Error Code                | Message                           | Details | Description                                                                                 |
+    | ----------- | ------------------------- | --------------------------------- | ------- | ------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing." | -       | Returned when the access token verification middleware fails to populate `req.user` object. |
+    | 500         | `FILE_UPLOAD_ERROR`       | "File not found in request."      | -       | Returned when the multer middleware fails to populate the `req` object with the file.       |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
@@ -620,11 +606,10 @@ By using this shared package, we ensure that changes to API data structures are 
     - **Body:** None.
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code                | Message                                                    | Details | Description                                                                                 |
-    | ----------- | ------------------------- | ---------------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------- |
-    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -       | Returned when the access token verification middleware fails to populate `req.user` object. |
-    | 500         | `DATABASE_ERROR`          | "User avatar not found in database."                       | -       | Returned when the user's avatar entry is not in database.                                   |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -       | Returned when the request ID is missing from request.                                       |
+    | Status Code | Error Code                | Message                              | Details | Description                                                                                 |
+    | ----------- | ------------------------- | ------------------------------------ | ------- | ------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."    | -       | Returned when the access token verification middleware fails to populate `req.user` object. |
+    | 500         | `DATABASE_ERROR`          | "User avatar not found in database." | -       | Returned when the user's avatar entry is not in database.                                   |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
@@ -677,12 +662,11 @@ By using this shared package, we ensure that changes to API data structures are 
         ```
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                  |
-    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | -------------------------------------------------------------------------------------------- |
-    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object.  |
-    | 403         | `FORBIDDEN`               | "Member or Admin privileges are required."                 | -                             | Returned when the logged-in user is not an admin or member and hence cannot edit messages.   |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                        |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "DTO Mapping Error"                                        | `{ /* Zod error details */ }` | Returned when the mapping to the `GetUserBookmarksResponseDto` fails parsing with the schema |
+    | Status Code | Error Code                | Message                                    | Details                       | Description                                                                                  |
+    | ----------- | ------------------------- | ------------------------------------------ | ----------------------------- | -------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."          | -                             | Returned when the access token verification middleware fails to populate `req.user` object.  |
+    | 403         | `FORBIDDEN`               | "Member or Admin privileges are required." | -                             | Returned when the logged-in user is not an admin or member and hence cannot edit messages.   |
+    | 500         | `INTERNAL_SERVER_ERROR`   | "DTO Mapping Error"                        | `{ /* Zod error details */ }` | Returned when the mapping to the `GetUserBookmarksResponseDto` fails parsing with the schema |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
@@ -713,12 +697,11 @@ By using this shared package, we ensure that changes to API data structures are 
         ```
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                 |
-    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
-    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
-    | 403         | `FORBIDDEN`               | "Member or Admin privileges are required."                 | -                             | Returned when the logged-in user is not an admin or member.                                 |
-    | 422         | `VALIDATION_ERROR`        | "Invalid request parameters."                              | `{ /* Zod error details */ }` | Returned when request params fails validation.                                              |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                       |
+    | Status Code | Error Code                | Message                                    | Details                       | Description                                                                                 |
+    | ----------- | ------------------------- | ------------------------------------------ | ----------------------------- | ------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
+    | 403         | `FORBIDDEN`               | "Member or Admin privileges are required." | -                             | Returned when the logged-in user is not an admin or member.                                 |
+    | 422         | `VALIDATION_ERROR`        | "Invalid request."                         | `{ /* Zod error details */ }` | Returned when request fails validation.                                                     |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
@@ -741,12 +724,11 @@ By using this shared package, we ensure that changes to API data structures are 
     - **Body:** None.
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                 |
-    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
-    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
-    | 403         | `FORBIDDEN`               | "Member or Admin privileges are required."                 | -                             | Returned when the logged-in user is not an admin or member.                                 |
-    | 422         | `VALIDATION_ERROR`        | "Invalid request parameters."                              | `{ /* Zod error details */ }` | Returned when request params fails validation.                                              |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                       |
+    | Status Code | Error Code                | Message                                    | Details                       | Description                                                                                 |
+    | ----------- | ------------------------- | ------------------------------------------ | ----------------------------- | ------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
+    | 403         | `FORBIDDEN`               | "Member or Admin privileges are required." | -                             | Returned when the logged-in user is not an admin or member.                                 |
+    | 422         | `VALIDATION_ERROR`        | "Invalid request."                         | `{ /* Zod error details */ }` | Returned when request fails validation.                                                     |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
@@ -787,10 +769,9 @@ By using this shared package, we ensure that changes to API data structures are 
         ```
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code              | Message                                                    | Details                       | Description                                                                                           |
-    | ----------- | ----------------------- | ---------------------------------------------------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------- |
-    | 500         | `INTERNAL_SERVER_ERROR` | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                                 |
-    | 500         | `INTERNAL_SERVER_ERROR` | "DTO Mapping Error"                                        | `{ /* Zod error details */ }` | Returned when the mapping to the `GetMessagesWithoutAuthorResponseDto` fails parsing with the schema. |
+    | Status Code | Error Code              | Message             | Details                       | Description                                                                                           |
+    | ----------- | ----------------------- | ------------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------- |
+    | 500         | `INTERNAL_SERVER_ERROR` | "DTO Mapping Error" | `{ /* Zod error details */ }` | Returned when the mapping to the `GetMessagesWithoutAuthorResponseDto` fails parsing with the schema. |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
 
@@ -840,12 +821,11 @@ By using this shared package, we ensure that changes to API data structures are 
         ```
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                   |
-    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------- |
-    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object.   |
-    | 403         | `FORBIDDEN`               | "Member or Admin privileges are required."                 | -                             | Returned when the logged-in user is not an admin or member and hence cannot see author names. |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                         |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "DTO Mapping Error"                                        | `{ /* Zod error details */ }` | Returned when the mapping to the `GetMessagesResponseDto` fails parsing with the schema.      |
+    | Status Code | Error Code                | Message                                    | Details                       | Description                                                                                   |
+    | ----------- | ------------------------- | ------------------------------------------ | ----------------------------- | --------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."          | -                             | Returned when the access token verification middleware fails to populate `req.user` object.   |
+    | 403         | `FORBIDDEN`               | "Member or Admin privileges are required." | -                             | Returned when the logged-in user is not an admin or member and hence cannot see author names. |
+    | 500         | `INTERNAL_SERVER_ERROR`   | "DTO Mapping Error"                        | `{ /* Zod error details */ }` | Returned when the mapping to the `GetMessagesResponseDto` fails parsing with the schema.      |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
@@ -890,13 +870,12 @@ By using this shared package, we ensure that changes to API data structures are 
 
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                 |
-    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
-    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
-    | 422         | `VALIDATION_ERROR`        | "Invalid request body."                                    | `{ /* Zod error details */ }` | Returned when request body fails validation.                                                |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                       |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "DTO Mapping Error"                                        | `{ /* Zod error details */ }` | Returned when the mapping to the `CreateMessageResponseDto` fails parsing with the schema.  |
-    | 500         | `DATABASE_ERROR`          | "User not found in database."                              | -                             | Returned when the user's entry is not in created message in database.                       |
+    | Status Code | Error Code                | Message                           | Details                       | Description                                                                                 |
+    | ----------- | ------------------------- | --------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing." | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
+    | 422         | `VALIDATION_ERROR`        | "Invalid request."                | `{ /* Zod error details */ }` | Returned when request fails validation.                                                     |
+    | 500         | `INTERNAL_SERVER_ERROR`   | "DTO Mapping Error"               | `{ /* Zod error details */ }` | Returned when the mapping to the `CreateMessageResponseDto` fails parsing with the schema.  |
+    | 500         | `DATABASE_ERROR`          | "User not found in database."     | -                             | Returned when the user's entry is not in created message in database.                       |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
@@ -942,16 +921,14 @@ By using this shared package, we ensure that changes to API data structures are 
         ```
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                 |
-    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
-    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
-    | 403         | `FORBIDDEN`               | "Member or Admin privileges are required."                 | -                             | Returned when the logged-in user is not an admin or member and hence cannot edit messages.  |
-    | 403         | `FORBIDDEN`               | "You do not have permission to edit this message."         | -                             | Returned when the logged-in user is a Member and is trying to edit another user's message.  |
-    | 422         | `VALIDATION_ERROR`        | "Invalid request body."                                    | `{ /* Zod error details */ }` | Returned when request body fails validation.                                                |
-    | 422         | `VALIDATION_ERROR`        | "Invalid request parameters."                              | `{ /* Zod error details */ }` | Returned when request params fails validation.                                              |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                       |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "DTO Mapping Error"                                        | `{ /* Zod error details */ }` | Returned when the mapping to the `EditMessageResponseDto` fails parsing with the schema.    |
-    | 500         | `DATABASE_ERROR`          | "Message not found in database."                           | -                             | Returned when the message's entry is not in database.                                       |
+    | Status Code | Error Code                | Message                                            | Details                       | Description                                                                                 |
+    | ----------- | ------------------------- | -------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                  | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
+    | 403         | `FORBIDDEN`               | "Member or Admin privileges are required."         | -                             | Returned when the logged-in user is not an admin or member and hence cannot edit messages.  |
+    | 403         | `FORBIDDEN`               | "You do not have permission to edit this message." | -                             | Returned when the logged-in user is a Member and is trying to edit another user's message.  |
+    | 422         | `VALIDATION_ERROR`        | "Invalid request."                                 | `{ /* Zod error details */ }` | Returned when request fails validation.                                                     |
+    | 500         | `INTERNAL_SERVER_ERROR`   | "DTO Mapping Error"                                | `{ /* Zod error details */ }` | Returned when the mapping to the `EditMessageResponseDto` fails parsing with the schema.    |
+    | 500         | `DATABASE_ERROR`          | "Message not found in database."                   | -                             | Returned when the message's entry is not in database.                                       |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
@@ -974,13 +951,12 @@ By using this shared package, we ensure that changes to API data structures are 
     - **Body:** None.
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                               |
-    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------- |
-    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object.               |
-    | 403         | `FORBIDDEN`               | "You do not have permission to delete this message."       | -                             | Returned when the logged-in user is a Member or User role and is trying to delete another user's message. |
-    | 422         | `VALIDATION_ERROR`        | "Invalid request parameters."                              | `{ /* Zod error details */ }` | Returned when request params fails validation.                                                            |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                                     |
-    | 500         | `DATABASE_ERROR`          | "Message not found in database."                           | -                             | Returned when the message's entry is not in database.                                                     |
+    | Status Code | Error Code                | Message                                              | Details                       | Description                                                                                               |
+    | ----------- | ------------------------- | ---------------------------------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                    | -                             | Returned when the access token verification middleware fails to populate `req.user` object.               |
+    | 403         | `FORBIDDEN`               | "You do not have permission to delete this message." | -                             | Returned when the logged-in user is a Member or User role and is trying to delete another user's message. |
+    | 422         | `VALIDATION_ERROR`        | "Invalid request."                                   | `{ /* Zod error details */ }` | Returned when request fails validation.                                                                   |
+    | 500         | `DATABASE_ERROR`          | "Message not found in database."                     | -                             | Returned when the message's entry is not in database.                                                     |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
@@ -1015,13 +991,12 @@ By using this shared package, we ensure that changes to API data structures are 
 
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                 |
-    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
-    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
-    | 403         | `FORBIDDEN`               | "Member or Admin privileges are required."                 | -                             | Returned when the logged-in user is not an admin or member.                                 |
-    | 422         | `VALIDATION_ERROR`        | "Invalid request parameters."                              | `{ /* Zod error details */ }` | Returned when request params fails validation.                                              |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                       |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "DTO Mapping Error"                                        | `{ /* Zod error details */ }` | Returned when the mapping to the `LikeMessageResponseDto` fails parsing with the schema.    |
+    | Status Code | Error Code                | Message                                    | Details                       | Description                                                                                 |
+    | ----------- | ------------------------- | ------------------------------------------ | ----------------------------- | ------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
+    | 403         | `FORBIDDEN`               | "Member or Admin privileges are required." | -                             | Returned when the logged-in user is not an admin or member.                                 |
+    | 422         | `VALIDATION_ERROR`        | "Invalid request."                         | `{ /* Zod error details */ }` | Returned when request fails validation.                                                     |
+    | 500         | `INTERNAL_SERVER_ERROR`   | "DTO Mapping Error"                        | `{ /* Zod error details */ }` | Returned when the mapping to the `LikeMessageResponseDto` fails parsing with the schema.    |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
@@ -1044,12 +1019,11 @@ By using this shared package, we ensure that changes to API data structures are 
     - **Body:** None.
 - **Error Responses:** (Matches `ApiResponseError`)
 
-    | Status Code | Error Code                | Message                                                    | Details                       | Description                                                                                 |
-    | ----------- | ------------------------- | ---------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------- |
-    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."                          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
-    | 403         | `FORBIDDEN`               | "Member or Admin privileges are required."                 | -                             | Returned when the logged-in user is not an admin or member.                                 |
-    | 422         | `VALIDATION_ERROR`        | "Invalid request parameters."                              | `{ /* Zod error details */ }` | Returned when request params fails validation.                                              |
-    | 500         | `INTERNAL_SERVER_ERROR`   | "Internal server configuration error: Missing Request ID." | -                             | Returned when the request ID is missing from request.                                       |
+    | Status Code | Error Code                | Message                                    | Details                       | Description                                                                                 |
+    | ----------- | ------------------------- | ------------------------------------------ | ----------------------------- | ------------------------------------------------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Authentication details missing."          | -                             | Returned when the access token verification middleware fails to populate `req.user` object. |
+    | 403         | `FORBIDDEN`               | "Member or Admin privileges are required." | -                             | Returned when the logged-in user is not an admin or member.                                 |
+    | 422         | `VALIDATION_ERROR`        | "Invalid request."                         | `{ /* Zod error details */ }` | Returned when request fails validation.                                                     |
 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
@@ -1117,11 +1091,3 @@ These errors are handled using an error-handling wrapper around JWT verification
 | 500         | `FILE_DELETE_ERROR`       | "File deletion from Cloudinary failed." | `{ /* Cloudinary error details */ }` | Thrown by Cloudinary when file deletion fails.                    |
 
 ---
-
-```
-
-```
-
-```
-
-```
