@@ -42,6 +42,9 @@ Shared TypeScript types, Zod schemas, and API definitions for the "Members Only"
       - [Delete Message](#delete-message)
       - [Like Message](#like-message)
       - [Unlike Message](#unlike-message)
+    - [Server-Sent Events (`/api/v1/events`)](#server-sent-events-apiv1events)
+      - [Create EventSource Connection (for frontend)](#create-eventsource-connection-for-frontend)
+      - [Dispatch Event to SSE Service (Internal API Endpoint)](#dispatch-event-to-sse-service-internal-api-endpoint)
     - [Errors](#errors)
       - [Prisma and Database Errors](#prisma-and-database-errors)
       - [JWT Verification Errors](#jwt-verification-errors)
@@ -1028,6 +1031,78 @@ By using this shared package, we ensure that changes to API data structures are 
     - See [Prisma Errors](#prisma-and-database-errors) for error response on failed database calls.
     - See [JWT Verification Errors](#jwt-verification-errors) for error response on errors thrown during JWT verification.
     - See [CSRF Verification Errors](#csrf-verification-errors) for error response on failed CSRF token verification.
+
+---
+
+### Server-Sent Events (`/api/v1/events`)
+
+#### Create EventSource Connection (for frontend)
+
+- **Endpoint:** `GET /api/v1/events`
+- **Description:** Establishes a server-sent events connection.
+- **Request Body:** None.
+- **Request Parameters:** None.
+- **Request Query Parameters:**
+    - `accessToken` - A valid access token for passing access token verification checks.
+    - **Schema:** See [`EventRequestQuerySchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/event.dto.ts)
+- **Success Response:** `200 OK`
+
+    - **Headers:**
+        - `Content-Type`: `text/event-stream`
+        - `Cache-Control`: `no-cache`
+        - `Connection`: `keep-alive`
+    - **Body:** `text/event-stream`
+
+        - The server holds the connection open and streams events to the client. Each event follows the SSE format and corresponds to the `ServerSentEvent` interface defined in this package.
+        - The `event` field will be one of `MESSAGE_EVENT`, `USER_EVENT`, or `MULTI_EVENT`.
+        - The `data` field is a JSON stringified payload matching one of the event payload DTOs (e.g., `UserEventPayloadDto`, `MessageEventPayloadDto`, `MultiEventPayloadDto`).
+
+        **Example Event Stream:**
+
+        ```text
+        id: 1
+        event: MULTI_EVENT
+        data: {"reason":"USER_CREATED","originId":42,"originUsername":"new_user","targetUserRole":"MEMBER"}
+
+        id: 2
+        event: MESSAGE_EVENT
+        data: {"reason":"MESSAGE_CREATED","originId":15}
+
+        id: 3
+        event: USER_EVENT
+        data: {"reason":"USER_UPDATED","originId":42}
+
+        ```
+
+- **Error Responses:** (Matches `ApiResponseError`)
+
+    | Status Code | Error Code                | Message                 | Details | Description                                        |
+    | ----------- | ------------------------- | ----------------------- | ------- | -------------------------------------------------- |
+    | 401         | `AUTHENTICATION_REQUIRED` | "Missing access token." | -       | Returned when the access token verification fails. |
+
+---
+
+#### Dispatch Event to SSE Service (Internal API Endpoint)
+
+- **Endpoint:** `POST /api/v1/events/internal/dispatch`
+- **Description:** This endpoint is specifically for dispatching events to the SSE service in serverless implementation of this project. This endpoint is unavailable for monolithic implementation of this project.
+- **Request Body:** `application/json`
+    ```jsonc
+    // Example Request Body (Matches EventRequestDto)
+    {
+        "events": [
+            {
+                "eventName": "MESSAGE_EVENT",
+                "data": { "reason": "MESSAGE_CREATED", "originId": 15 },
+                "transmissionType": "unicast",
+            },
+        ],
+    }
+    ```
+    - **Schema:** See [`EventRequestSchema`](https://github.com/blue0206/members-only-shared-types/blob/main/src/dtos/event.dto.ts)
+- **Request Headers**: Requires a valid `internal api secret key` in `x-internal-api-secret` to verify the request origin authenticity.
+- **Success Response:** `204 No Content`
+- **Error Responses:** No error response for this route. The error is just logged.
 
 ---
 
