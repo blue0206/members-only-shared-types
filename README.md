@@ -12,8 +12,11 @@ Shared TypeScript types, Zod schemas, and API definitions for the "Members Only"
     - [Installation](#installation)
     - [Purpose \& Usage](#purpose--usage)
     - [Core Contents](#core-contents)
+    - [Project Evolution: From Monolith to Serverless](#project-evolution-from-monolith-to-serverless)
+        - [Version 2: Serverless Microservices (Current)](#version-2-serverless-microservices-current)
+        - [Version 1: Containerized Monolith (Legacy)](#version-1-containerized-monolith-legacy)
     - [API Documentation](#api-documentation)
-        - [Authentication (`/api/v1/auth`)](#authentication-apiv1auth)
+        - [Authentication (`/auth`)](#authentication-auth)
             - [Register User](#register-user)
             - [Login User](#login-user)
             - [Logout User](#logout-user)
@@ -21,7 +24,7 @@ Shared TypeScript types, Zod schemas, and API definitions for the "Members Only"
             - [Get User's Sessions](#get-users-sessions)
             - [Revoke Specific Session](#revoke-specific-session)
             - [Revoke All Other Sessions](#revoke-all-other-sessions)
-        - [Users (`/api/v1/users`)](#users-apiv1users)
+        - [Users (`/users`)](#users-users)
             - [Get Users](#get-users)
             - [Edit User (Update Profile Details)](#edit-user-update-profile-details)
             - [Delete User (Admin)](#delete-user-admin)
@@ -34,7 +37,7 @@ Shared TypeScript types, Zod schemas, and API definitions for the "Members Only"
             - [Get Bookmarks (Admin/Member)](#get-bookmarks-adminmember)
             - [Add Bookmark](#add-bookmark)
             - [Remove Bookmark](#remove-bookmark)
-        - [Messages (`/api/v1/messages`)](#messages-apiv1messages)
+        - [Messages (`/messages`)](#messages-messages)
             - [Get All Messages (Unregistered/User)](#get-all-messages-unregistereduser)
             - [Get All Messages (Admin/Member)](#get-all-messages-adminmember)
             - [Create Message](#create-message)
@@ -42,7 +45,7 @@ Shared TypeScript types, Zod schemas, and API definitions for the "Members Only"
             - [Delete Message](#delete-message)
             - [Like Message](#like-message)
             - [Unlike Message](#unlike-message)
-        - [Server-Sent Events (`/api/v1/events`)](#server-sent-events-apiv1events)
+        - [Server-Sent Events (`/events`)](#server-sent-events-events)
             - [Create EventSource Connection (for frontend)](#create-eventsource-connection-for-frontend)
             - [Dispatch Event to SSE Service (Internal API Endpoint)](#dispatch-event-to-sse-service-internal-api-endpoint)
         - [Errors](#errors)
@@ -76,15 +79,40 @@ By using this shared package, we ensure that changes to API data structures are 
 - `/enums`: Shared enumerations (e.g., `roles.enum.ts`).
 - `index.ts`: Re-exports all public schemas, types, interfaces, enums, and constants.
 
+## Project Evolution: From Monolith to Serverless
+
+The "Members Only" project has been built in two distinct architectural versions to demonstrate different development methodologies. This package provides the types and DTOs that are compatible with **both versions**.
+
+### Version 2: Serverless Microservices (Current)
+
+The primary version of the application is a distributed system built on a modern, serverless-first architecture using AWS.
+
+- **Live Frontend (V2):** **[cloud.nevery.shop](https://cloud.nevery.shop)**
+- **REST API Base URL (V2):** `https://api-v2.nevery.shop/api/v2`
+- **SSE Endpoint (V2):** `https://event.nevery.shop/api/v2/events`
+- **Backend Architecture:** A collection of AWS Lambda microservices, managed by API Gateway, with stateful components (SSE Server) running on EC2. Utilizes SQS, EventBridge, and Redis for a decoupled, event-driven design.
+- **Backend Repository:** [Members Only Backend Microservice](https://github.com/blue0206/members-only-backend)
+
+### Version 1: Containerized Monolith (Legacy)
+
+The initial version of the application was built as a robust, layered monolith, deployed as a single container. This version is preserved on a separate branch for reference.
+
+- **Live Frontend (V1):** **[app.nevery.shop](https://app.nevery.shop)**
+- **API Base URL (V1):** `https://api.nevery.shop/api/v1`
+- **Backend Architecture:** A traditional Node.js/Express application with a layered structure, deployed as a single Docker container on Render.
+- **Backend Repository Branch:** [Members Only Backend Monolith](https://github.com/blue0206/members-only-backend/tree/monolith-deployment)
+
+---
+
 ## API Documentation
 
 ---
 
-### Authentication (`/api/v1/auth`)
+### Authentication (`/auth`)
 
 #### Register User
 
-- **Endpoint:** `POST /api/v1/auth/register`
+- **Endpoint:** `POST /auth/register`
 - **Description:** Creates a new user account and logs them in, returning user details and tokens.
 - **Request Body:** `multipart/form-data`
     ```jsonc
@@ -138,7 +166,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Login User
 
-- **Endpoint:** `POST /api/v1/auth/login`
+- **Endpoint:** `POST /auth/login`
 - **Description:** Authenticates an existing user, returning user details and tokens.
 - **Request Body:** `application/json`
     ```jsonc
@@ -167,7 +195,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Logout User
 
-- **Endpoint:** `DELETE /api/v1/auth/logout`
+- **Endpoint:** `DELETE /auth/logout`
 - **Description:** Invalidates the current session's refresh token on the server.
 - **Request Cookies:** Requires a valid `refreshToken` HttpOnly cookie to be sent by the browser, and a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
@@ -185,7 +213,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Refresh User's Tokens
 
-- **Endpoint:** `POST /api/v1/auth/refresh`
+- **Endpoint:** `POST /auth/refresh`
 - **Description:** Uses a valid refresh token (sent via cookie) to obtain a new access token.
 - **Request Cookies:** Requires a valid `refreshToken` HttpOnly cookie to be sent by the browser, and a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
@@ -225,7 +253,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Get User's Sessions
 
-- **Endpoint:** `GET /api/v1/auth/sessions`
+- **Endpoint:** `GET /auth/sessions`
 - **Description:** Gets all the sessions of the current user.
 - **Request Cookies:** Requires a valid `refreshToken` HttpOnly cookie to be sent by the browser, and a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
@@ -269,7 +297,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Revoke Specific Session
 
-- **Endpoint:** `DELETE /api/v1/auth/sessions/:sessionId`
+- **Endpoint:** `DELETE /auth/sessions/:sessionId`
 - **Description:** Revoke a specific session of the user.
 - **Request Cookies:** Requires a valid `refreshToken` HttpOnly cookie to be sent by the browser, and a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
@@ -294,7 +322,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Revoke All Other Sessions
 
-- **Endpoint:** `DELETE /api/v1/auth/sessions`
+- **Endpoint:** `DELETE /auth/sessions`
 - **Description:** Revoke all of the user's sessions except the current one.
 - **Request Cookies:** Requires a valid `refreshToken` HttpOnly cookie to be sent by the browser, and a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
@@ -315,11 +343,11 @@ By using this shared package, we ensure that changes to API data structures are 
 
 ---
 
-### Users (`/api/v1/users`)
+### Users (`/users`)
 
 #### Get Users
 
-- **Endpoint:** `GET /api/v1/users`
+- **Endpoint:** `GET /users`
 - **Description:** Gets all the users. This route is Admin only.
 - **Request Cookies:** None.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks.
@@ -359,7 +387,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Edit User (Update Profile Details)
 
-- **Endpoint:** `PATCH /api/v1/users`
+- **Endpoint:** `PATCH /users`
 - **Description:** Update user profile details (except password).
 - **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
@@ -412,7 +440,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Delete User (Admin)
 
-- **Endpoint:** `DELETE /api/v1/users/:username`
+- **Endpoint:** `DELETE /users/:username`
 - **Description:** Delete a user's account. Note that this endpoint is for Admin deleting other users' account.
 - **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
@@ -439,7 +467,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Delete User (Self)
 
-- **Endpoint:** `DELETE /api/v1/users`
+- **Endpoint:** `DELETE /users`
 - **Description:** Delete the account of the logged-in user.
 - **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
@@ -461,7 +489,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Reset Password
 
-- **Endpoint:** `PATCH /api/v1/users/reset-password`
+- **Endpoint:** `PATCH /users/reset-password`
 - **Description:** Reset a user's password.
 - **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
@@ -494,7 +522,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Member Role Update
 
-- **Endpoint:** `PATCH /api/v1/users/role`
+- **Endpoint:** `PATCH /users/role`
 - **Description:** Update the user's role. Allows users to promote themselves to "Member" by providing a valid "secret key".
 - **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
@@ -525,7 +553,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Set Role
 
-- **Endpoint:** `PATCH /api/v1/users/role/:username`
+- **Endpoint:** `PATCH /users/role/:username`
 - **Description:** Update the user's role. Admin only.
 - **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
@@ -556,7 +584,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Upload Avatar
 
-- **Endpoint:** `PATCH /api/v1/users/avatar`
+- **Endpoint:** `PATCH /users/avatar`
 - **Description:** Allows registered users to update their avatar.
 - **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
@@ -598,7 +626,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Delete Avatar
 
-- **Endpoint:** `DELETE /api/v1/users/avatar`
+- **Endpoint:** `DELETE /users/avatar`
 - **Description:** Delete a user's avatar.
 - **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
@@ -623,7 +651,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Get Bookmarks (Admin/Member)
 
-- **Endpoint:** `GET /api/v1/users/bookmarks`
+- **Endpoint:** `GET /users/bookmarks`
 - **Description:** Gets all the messages bookmarked by Admin/Member users.
 - **Request Cookies:** None.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks.
@@ -678,7 +706,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Add Bookmark
 
-- **Endpoint:** `POST /api/v1/users/bookmarks/:messageId`
+- **Endpoint:** `POST /users/bookmarks/:messageId`
 - **Description:** Add logged-in Admin/Member user's bookmark.
 - **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
@@ -714,7 +742,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Remove Bookmark
 
-- **Endpoint:** `DELETE /api/v1/users/bookmarks/:messageId`
+- **Endpoint:** `DELETE /users/bookmarks/:messageId`
 - **Description:** Remove logged-in Admin/Member user's bookmark.
 - **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
@@ -739,11 +767,11 @@ By using this shared package, we ensure that changes to API data structures are 
 
 ---
 
-### Messages (`/api/v1/messages`)
+### Messages (`/messages`)
 
 #### Get All Messages (Unregistered/User)
 
-- **Endpoint:** `GET /api/v1/messages/public`
+- **Endpoint:** `GET /messages/public`
 - **Description:** Gets all the messages without author names.
 - **Request Cookies:** None.
 - **Request Headers**: None.
@@ -782,7 +810,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Get All Messages (Admin/Member)
 
-- **Endpoint:** `GET /api/v1/messages`
+- **Endpoint:** `GET /messages`
 - **Description:** Gets all the messages with author names.
 - **Request Cookies:** None.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks.
@@ -837,7 +865,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Create Message
 
-- **Endpoint:** `POST /api/v1/messages`
+- **Endpoint:** `POST /messages`
 - **Description:** Create/send a new message.
 - **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
@@ -888,7 +916,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Edit Message
 
-- **Endpoint:** `PATCH /api/v1/messages/:messageId`
+- **Endpoint:** `PATCH /messages/:messageId`
 - **Description:** Edit an existing message. Admin can edit any message while Member can only edit their own message. User role does not have access to this privilege.
 - **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
@@ -941,7 +969,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Delete Message
 
-- **Endpoint:** `DELETE /api/v1/messages/:messageId`
+- **Endpoint:** `DELETE /messages/:messageId`
 - **Description:** Delete an existing message. Admin can delete any message while Member and User can only delete their own message.
 - **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
@@ -969,7 +997,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Like Message
 
-- **Endpoint:** `POST /api/v1/messages/:messageId/like`
+- **Endpoint:** `POST /messages/:messageId/like`
 - **Description:** Like a message (Admin/Member only).
 - **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
@@ -1009,7 +1037,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Unlike Message
 
-- **Endpoint:** `DELETE /api/v1/messages/:messageId/like`
+- **Endpoint:** `DELETE /messages/:messageId/like`
 - **Description:** Unlike a message (Admin/Member only).
 - **Request Cookies:** Requires a `csrf-token` cookie for passing CSRF verification checks.
 - **Request Headers**: Requires a valid `access token` in `Authorization` header prefixed with "Bearer " for passing access token verification checks, and a valid `CSRF token` in `x-csrf-token` header for passing CSRF verification checks.
@@ -1034,11 +1062,11 @@ By using this shared package, we ensure that changes to API data structures are 
 
 ---
 
-### Server-Sent Events (`/api/v1/events`)
+### Server-Sent Events (`/events`)
 
 #### Create EventSource Connection (for frontend)
 
-- **Endpoint:** `GET /api/v1/events`
+- **Endpoint:** `GET /events`
 - **Description:** Establishes a server-sent events connection.
 - **Request Body:** None.
 - **Request Parameters:** None.
@@ -1084,7 +1112,7 @@ By using this shared package, we ensure that changes to API data structures are 
 
 #### Dispatch Event to SSE Service (Internal API Endpoint)
 
-- **Endpoint:** `POST /api/v1/events/internal/dispatch`
+- **Endpoint:** `POST /events/internal/dispatch`
 - **Description:** This endpoint is specifically for dispatching events to the SSE service in serverless implementation of this project. This endpoint is unavailable for monolithic implementation of this project.
 - **Request Body:** `application/json`
     ```jsonc
